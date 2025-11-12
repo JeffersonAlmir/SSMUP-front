@@ -1,10 +1,7 @@
-import { Navbar } from "../components/navbar/Navbar";
-
-
 const Inicio = () => {
   return (
     <div>
-        <Navbar/>
+        <h3>Page Inicío</h3>
     </div>
   );
 };
