@@ -10,32 +10,30 @@ import {
 import { Code, Group } from '@mantine/core';
 import { MantineLogo } from '@mantinex/mantine-logo';
 import classes from './Navbar.module.css';
+import { Link, useLocation } from 'react-router-dom';
 
 const data = [
-  { link: '', label: 'Inicio', icon: IconHome },
-  { link: '', label: 'Painel', icon: IconChartHistogram},
-  { link: '', label: 'Empresas', icon: IconBuildings },
-  { link: '', label: 'Alvará', icon: IconFileExport },
-  { link: '', label: 'Configurações', icon: IconSettings },
+  { link: '/', label: 'Inicio', icon: IconHome },
+  { link: '/painel', label: 'Painel', icon: IconChartHistogram},
+  { link: '/empresas', label: 'Empresas', icon: IconBuildings },
+  { link: '/alvara', label: 'Alvará', icon: IconFileExport },
+  { link: '/configuracoes', label: 'Configurações', icon: IconSettings },
 ];
 
 export function Navbar() {
-  const [active, setActive] = useState('Billing');
 
+
+  const {pathname} = useLocation();
   const links = data.map((item) => (
-    <a
+    <Link
       className={classes.link}
-      data-active={item.label === active || undefined}
-      href={item.link}
+      data-active={item.link === pathname || undefined}
+      to={item.link}
       key={item.label}
-      onClick={(event) => {
-        event.preventDefault();
-        setActive(item.label);
-      }}
     >
       <item.icon className={classes.linkIcon} stroke={1.5} />
       <span>{item.label}</span>
-    </a>
+    </Link>
   ));
 
   return (
