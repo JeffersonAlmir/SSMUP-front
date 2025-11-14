@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { type ForwardRefExoticComponent } from 'react';
 import {
   IconBuildings,
   IconChartHistogram,
@@ -6,35 +6,70 @@ import {
   IconHome,
   IconLogout,
   IconSettings,
+  type IconProps,
 } from '@tabler/icons-react';
 import { Code, Group } from '@mantine/core';
 import { MantineLogo } from '@mantinex/mantine-logo';
 import classes from './Navbar.module.css';
 import { Link, useLocation } from 'react-router-dom';
+import { LinksGroup } from './NavbarLinksGroup';
 
-const data = [
+
+
+type TablerIcon = ForwardRefExoticComponent<Omit<IconProps, 'ref'>>;
+
+interface LinkSimples {
+  link: string;
+  label: string;
+  icon: TablerIcon;
+}
+
+interface GrupoDeLinks {
+  label: string;
+  icon: TablerIcon;
+  links: { label: string; link: string }[];
+  initiallyOpened?: boolean;
+}
+type ItemDaNavegacao = LinkSimples | GrupoDeLinks;
+
+const data: ItemDaNavegacao[] = [
   { link: '/', label: 'Inicio', icon: IconHome },
   { link: '/painel', label: 'Painel', icon: IconChartHistogram},
-  { link: '/empresas', label: 'Empresas', icon: IconBuildings },
+  {
+    label: 'Empresas',
+    icon: IconBuildings,
+    initiallyOpened: true,
+    links: [
+      { label: 'Cadastro', link: '/empresas' },
+      { label: 'outros', link: '' },
+      { label: 'outros', link: '' },
+    ],
+  },
   { link: '/alvara', label: 'Alvará', icon: IconFileExport },
   { link: '/configuracoes', label: 'Configurações', icon: IconSettings },
+  
 ];
 
 export function Navbar() {
 
-
-  const {pathname} = useLocation();
-  const links = data.map((item) => (
-    <Link
-      className={classes.link}
-      data-active={item.link === pathname || undefined}
-      to={item.link}
-      key={item.label}
-    >
-      <item.icon className={classes.linkIcon} stroke={1.5} />
-      <span>{item.label}</span>
-    </Link>
-  ));
+  const { pathname } = useLocation();
+  
+  const links = data.map((item) => {
+    if ('links' in item) {
+      return <LinksGroup {...item} key={item.label} />;
+    }
+    return (
+      <Link
+        className={classes.link}
+        data-active={item.link === pathname || undefined}
+        to={item.link!} // Adicione '!' para TypeScript, pois sabemos que 'link' existe aqui
+        key={item.label}
+      >
+        <item.icon className={classes.linkIcon} stroke={1.5} />
+        <span>{item.label}</span>
+      </Link>
+    );
+  });
 
   return (
     <nav className={classes.navbar}>

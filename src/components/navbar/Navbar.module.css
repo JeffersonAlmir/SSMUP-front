@@ -66,3 +66,66 @@
   width: 25px;
   height: 25px;
 }
+
+/* Botão principal que abre o grupo */
+.groupToggle {
+  display: flex;
+  align-items: center;
+  width: 100%; 
+  font-size: var(--mantine-font-size-sm);
+  color: var(--mantine-color-white);
+  padding: var(--mantine-spacing-xs) var(--mantine-spacing-sm);
+  border-radius: var(--mantine-radius-sm);
+  font-weight: 500;
+  cursor: pointer;
+  
+
+  @mixin hover {
+    background-color: var(--mantine-color-blue-7);
+    color: var(--mantine-color-white);
+  }
+}
+
+.iconSeta {
+  color: var(--mantine-color-white);
+  transition: transform 200ms ease;
+  margin-left: calc(var(--mantine-spacing-lg)*4);
+  
+}
+
+.subLink {
+  display: block;
+  text-decoration: none;
+  font-size: var(--mantine-font-size-sm);
+  color: var(--mantine-color-blue-1); 
+  padding: 6px var(--mantine-spacing-sm);
+  margin-left: calc(var(--mantine-spacing-md) * 2);   /* Adiciona indentação para mostrar hierarquia */
+  border-left: 2px solid var(--mantine-color-blue-1); /* 2. A linha lateral  */
+  padding-left: var(--mantine-spacing-md);/* 3. O espaço entre a linha e o texto */
+  border-top-right-radius:var(--mantine-radius-sm) ;
+  border-bottom-right-radius: var(--mantine-radius-sm);
+  font-weight: 500;
+
+
+  @mixin hover {
+    background-color: var(--mantine-color-blue-7);
+    color: var(--mantine-color-white);
+  }
+
+  &[data-active] {
+    &,
+    &:hover {
+      box-shadow: var(--mantine-shadow-sm);
+      background-color: var(--mantine-color-white);
+      color: var(--mantine-color-blue-filled);
+
+      .linkIcon {
+        color: var(--mantine-color-blue-filled);
+      }
+    }
+  }
+}
+
+
+
+
