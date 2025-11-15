@@ -14,6 +14,7 @@ export const empresaSchema = yup.object({
         .max(50)
         .required(),
     cpfCnpj: yup.string()
+        .trim()
         .required("CPF ou CNPJ é obrigatório"),
     inscricaoEstadual:yup.string()
         .trim()
@@ -37,3 +38,5 @@ export const empresaSchema = yup.object({
     responsavel:responsavelSchema
         .required(), 
 })
+
+interface Empresa extends yup.InferType<typeof empresaSchema>{}
