@@ -7,14 +7,15 @@ export const responsavelSchema = yup.object({
         .max(50)
         .required(),
     cpf: yup.string()
-        .trim()
-        .min(11)
-        .max(11)
-        .required(),
+        // .test(
+        //     'test-invalid-cpf',
+        //     'cpf inválido',
+        //     (cpf) =>//  validateCpf(cpf))
+            .required(),
     rg: yup.string()
         .trim()
-        .min(7)
-        .max(7)
+        .min(9)
+        .max(9)
         .required(),
     email: yup.string()
         .trim()
@@ -22,7 +23,8 @@ export const responsavelSchema = yup.object({
         .max(50)
         .required(),
     escolaridade: yup.string()
-        .trim(),
+        .trim()
+        .required(),
     formacao:yup.string()
         .trim(),
     especialidade:yup.string()

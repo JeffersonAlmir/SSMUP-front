@@ -20,6 +20,7 @@
     "mantine-form-yup-resolver": "^2.0.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
+    "react-imask": "^7.6.1",
     "react-router-dom": "^7.9.5",
     "yup": "^1.7.1"
   },

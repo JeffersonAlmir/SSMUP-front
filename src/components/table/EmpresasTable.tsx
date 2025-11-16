@@ -1,4 +1,4 @@
-import { Button, Card, Group, px, Table, TextInput } from '@mantine/core';
+import { Card, Group, Table, TextInput } from '@mantine/core';
 import classes from './Table.module.css';
 import { IconSearch } from '@tabler/icons-react';
 import { useState } from 'react';

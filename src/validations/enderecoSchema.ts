@@ -18,17 +18,19 @@ export const enderecoSchema = yup.object({
         .required(),
     cep:yup.string()
         .trim()
-        .min(8)
-        .max(8)
+        .min(9)
+        .max(9)
         .required(),
     municipio: yup.string()
         .required(),
     uf: yup.string()
-        .required(),
+        .required()
+        .min(2)
+        .max(2),
     telefone:yup.string()
         .trim()
-        .min(11)
-        .max(11)
+        .min(14)
+        .max(14)
         .required()
 })
 

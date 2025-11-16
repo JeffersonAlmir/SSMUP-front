@@ -1,9 +1,11 @@
-import { Button, Modal } from '@mantine/core';
+import { Button, Modal, Title } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
+import { IconXboxX } from '@tabler/icons-react';
+import FormCadastro from '../form/FormCadastroEmpresa';
 
 
- export default function ModalCadastro() {
-   const [opened, { open, close }] = useDisclosure(false);
+export default function ModalCadastro() {
+  const [opened, { open, close }] = useDisclosure(false);
 
   return (
     <>
@@ -11,9 +13,16 @@ import { useDisclosure } from '@mantine/hooks';
         size={"55rem"}
         opened={opened} 
         onClose={close} 
-        title="Authentication"
+        title={
+          <Title order={2} mb="md">
+              Cadastro de Empresa
+          </Title>
+        }
+        closeButtonProps={{
+          icon: <IconXboxX size={20} stroke={1.5} />,
+        }}
       >
-        {/* Modal content */}
+        <FormCadastro/>
       </Modal>
 
       <Button variant="filled" onClick={open}>
