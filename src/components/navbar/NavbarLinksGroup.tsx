@@ -26,7 +26,7 @@ export function LinksGroup( { icon: Icon, label, links, initiallyOpened }: Grupo
   const [opened, setOpened] = useState(initiallyOpened || false);
 
 
-  const subLinks = links.map((link) => (
+  const subLinks = links.map((link,) => (
     <Link
       to={link.link}
       key={link.label}

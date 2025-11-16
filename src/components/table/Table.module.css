@@ -1,0 +1,12 @@
+.card {
+  background-color: var(--mantine-color-body);
+}
+.tableHeader {
+  border-bottom: 1px solid #dee2e6;
+}
+.group {
+  /* border: 1px solid #dee2e6; */
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}

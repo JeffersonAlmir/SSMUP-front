@@ -1,8 +1,8 @@
+import EmpresasTable from "../components/table/EmpresasTable";
+
 const Empresas = () =>{
     return (
-        <div>
-            <h3>Page Empresas</h3>
-        </div>
+        <EmpresasTable/>
     );
 }
 

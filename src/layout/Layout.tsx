@@ -20,6 +20,9 @@ export function Layout() {
         header={{
             height: 60,
         }}
+        footer={{
+          height: 50, 
+        }}
         bg="gray.0" 
     >
       {/* Header */}

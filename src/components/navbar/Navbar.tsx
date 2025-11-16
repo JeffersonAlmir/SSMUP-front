@@ -41,7 +41,7 @@ const data: ItemDaNavegacao[] = [
     initiallyOpened: true,
     links: [
       { label: 'Cadastro', link: '/empresas' },
-      { label: 'outros', link: '' },
+      { label: 'outro', link: '' },
       { label: 'outros', link: '' },
     ],
   },
