@@ -39,4 +39,3 @@ export const empresaSchema = yup.object({
         .required(), 
 })
 
-interface Empresa extends yup.InferType<typeof empresaSchema>{}
