@@ -1,4 +1,5 @@
 import * as yup from 'yup';
+import { checkValidCpf } from '../services/checkValidCpf';
 
 export const responsavelSchema = yup.object({
     nome: yup.string()
@@ -7,11 +8,16 @@ export const responsavelSchema = yup.object({
         .max(50)
         .required(),
     cpf: yup.string()
-        // .test(
-        //     'test-invalid-cpf',
-        //     'cpf inválido',
-        //     (cpf) =>//  validateCpf(cpf))
-            .required(),
+        .required()
+        .test(
+            'cpf-check',
+            'CPF inválido',
+            (value: string) =>{
+                if(!value) return false;
+                return checkValidCpf(value);
+            } 
+        )
+            ,
     rg: yup.string()
         .trim()
         .min(9)

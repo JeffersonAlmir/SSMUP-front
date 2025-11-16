@@ -8,13 +8,13 @@ export const enderecoSchema = yup.object({
         .required(),
     numero:yup.string()
         .trim()
-        .min(5)
+        .min(2)
         .max(5)
         .required(),
     bairro:yup.string()
         .trim()
         .min(5)
-        .max(5)
+        .max(50)
         .required(),
     cep:yup.string()
         .trim()
@@ -29,8 +29,6 @@ export const enderecoSchema = yup.object({
         .max(2),
     telefone:yup.string()
         .trim()
-        .min(14)
-        .max(14)
         .required()
 })
 
