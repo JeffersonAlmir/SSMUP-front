@@ -18,7 +18,11 @@ import { IconChevronDown } from '@tabler/icons-react';
 import { useState, type FocusEvent } from 'react';
 import { getCepInfo } from '../../services/cepService';
 
-export default function FormCadastro() {
+export type FormProps ={
+  close:()=>void
+}
+
+export default function FormCadastro({close}:FormProps) {
   const [isCepLoading, setIsCepLoading] = useState(false);
 
   const form = useForm({
@@ -56,13 +60,13 @@ export default function FormCadastro() {
 
 
   const escolaridadeOptions = [
-    { value: '', label: 'Selecione...' },
-    {value: 'Fundamental incompleto',label: 'Ensino Fundamental Incompleto',},
-    { value: 'Fundamental completo', label: 'Ensino Fundamental Completo' },
-    { value: 'Médio incompleto', label: 'Ensino Médio Incompleto' },
-    { value: 'Médio completo', label: 'Ensino Médio Completo' },
-    { value: 'Superior incompleto', label: 'Ensino Superior Incompleto' },
-    { value: 'Superior completo', label: 'Ensino Superior Completo' },
+    { value: '', label: 'Selecione...' ,key:0},
+    {value: 'Fundamental incompleto',label: 'Ensino Fundamental Incompleto',key:0},
+    { value: 'Fundamental completo', label: 'Ensino Fundamental Completo',key:1 },
+    { value: 'Médio incompleto', label: 'Ensino Médio Incompleto',key:2 },
+    { value: 'Médio completo', label: 'Ensino Médio Completo',key:3 },
+    { value: 'Superior incompleto', label: 'Ensino Superior Incompleto',key:4 },
+    { value: 'Superior completo', label: 'Ensino Superior Completo',key:5 },
   ];
 
   const handleCepBlur = async (event: FocusEvent<HTMLInputElement>) =>{
@@ -310,8 +314,11 @@ export default function FormCadastro() {
             </Grid>
           </Stack>
 
-          {/* Botão de Submissão */}
+          {/* Botão de Submissão e cancelar */}
           <Group justify="flex-end" mt="xl">
+            <Button  size="md" style={{backgroundColor:"#FF4F4F"}} onClick={close}>
+              Cancelar
+            </Button>
             <Button type="submit" size="md">
               Cadastrar Empresa
             </Button>

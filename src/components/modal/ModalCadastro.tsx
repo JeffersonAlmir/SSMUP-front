@@ -22,7 +22,7 @@ export default function ModalCadastro() {
           icon: <IconXboxX size={20} stroke={1.5} />,
         }}
       >
-        <FormCadastro/>
+        <FormCadastro close={close}/>
       </Modal>
 
       <Button variant="filled" onClick={open}>
