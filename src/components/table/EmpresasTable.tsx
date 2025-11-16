@@ -1,32 +1,59 @@
-import { Card, Group, Table, TextInput } from '@mantine/core';
+import { Card, Divider, Group, Pagination, Table, TextInput } from '@mantine/core';
 import classes from './Table.module.css';
 import { IconSearch } from '@tabler/icons-react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import ModalCadastro from '../modal/ModalCadastro';
+import axios from 'axios';
+import type IEmpresa from '../../interface/IEmpresa';
+import type IResponseEmpresa from '../../interface/IResponseEmpresa';
 
-const elements = [
-  { position: 6, mass: 12.011, symbol: 'C', name: 'Carbon' },
-  { position: 7, mass: 14.007, symbol: 'N', name: 'Nitrogen' },
-  { position: 39, mass: 88.906, symbol: 'Y', name: 'Yttrium' },
-  { position: 56, mass: 137.33, symbol: 'Ba', name: 'Barium' },
-  { position: 58, mass: 140.12, symbol: 'Ce', name: 'Cerium' },
-];
 
- export default function EmpresasTable() {
-    const [focused, setFocused] = useState(false);
 
+export default function EmpresasTable() {
+  const [focused, setFocused] = useState(false);
+  const [page, setPage] = useState(0);
+  const [totalPages, setTotalPages] = useState(1);
+  const [data, setData] = useState<IEmpresa[]>([]);
+
+  const getEmpresas = async (pageNumber: number) => {
+    try {
+      const response = await axios.get<IResponseEmpresa>(
+        `http://localhost:8080/v1/api/empresas/pagination?page=${pageNumber}`
+      );
+      
+      if (response.status === 200) {
+        const empresasData = response.data;
+        setData(empresasData.items);
+        setTotalPages(empresasData.totalPages);
+      }
+    } catch (error) {
+      console.error('Erro ao buscar empresas:', error);
+    }
+  };
     
-  const rows = elements.map((element) => (
-    <Table.Tr key={element.name}>
-      <Table.Td>{element.position}</Table.Td>
-      <Table.Td>{element.name}</Table.Td>
-      <Table.Td>{element.symbol}</Table.Td>
-      <Table.Td>{element.mass}</Table.Td>
+  const rows = data.map((empresa) => (
+    <Table.Tr key={empresa.cpfCnpj}>
+      <Table.Td>{empresa.razaoSocial}</Table.Td>
+      <Table.Td>{empresa.nomeFantasia}</Table.Td>
+      <Table.Td>{empresa.cpfCnpj}</Table.Td>
+      <Table.Td>{empresa.endereco.municipio} - {empresa.endereco.uf}</Table.Td>
     </Table.Tr>
   ));
 
+  useEffect(() => {
+    getEmpresas(page);
+  },[page])
+
+  const handlePageChange = (newPage: number) => {
+    setPage(newPage - 1); 
+  }
+
   return (
-    <Card withBorder radius="md" p="xl" className={classes.card}>
+    <Card withBorder
+      radius="md" 
+      p="xl" 
+      className={classes.card}
+    >
         <Group className={classes.group}>
             <ModalCadastro/>
             <TextInput
@@ -39,18 +66,35 @@ const elements = [
                 // onChange={}
             />
         </Group>
-        <Table   highlightOnHover withRowBorders={false} verticalSpacing="md"  >   
-            <Table.Thead >
-                <Table.Tr className={classes.tableHeader}>
-                <Table.Th>Element position</Table.Th>
-                <Table.Th>Element name</Table.Th>
-                <Table.Th>Symbol</Table.Th>
-                <Table.Th>Atomic mass</Table.Th>
-                </Table.Tr>
-            </Table.Thead>
-            <Table.Tbody>{rows}</Table.Tbody>
-            <Table.Caption>Scroll page to see sticky thead</Table.Caption>
-        </Table>
+        <Table highlightOnHover withRowBorders={false} verticalSpacing="md">
+        <Table.Thead>
+          <Table.Tr className={classes.tableHeader}>
+            <Table.Th>Razão Social</Table.Th>
+            <Table.Th>Nome Fantasia</Table.Th>
+            <Table.Th>CNPJ</Table.Th>
+            <Table.Th>Cidade/UF</Table.Th>
+          </Table.Tr>
+        </Table.Thead>
+        <Table.Tbody>
+          {rows.length > 0 ? rows : (
+            <Table.Tr>
+              <Table.Td colSpan={5} style={{ textAlign: 'center' }}>
+                Nenhuma empresa encontrada
+              </Table.Td>
+            </Table.Tr>
+          )}
+        </Table.Tbody>
+      </Table>
+      
+        <Divider my="md" />
+        <Pagination 
+          total={totalPages} 
+          value={page + 1}
+          onChange={handlePageChange}
+          withEdges          
+          withControls 
+          mt="md"     
+        />
     </Card>
   );
 }

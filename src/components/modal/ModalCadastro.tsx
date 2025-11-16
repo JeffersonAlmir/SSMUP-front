@@ -1,4 +1,4 @@
-import { Button, Modal, Title } from '@mantine/core';
+import { Button, Modal, Text } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { IconXboxX } from '@tabler/icons-react';
 import FormCadastro from '../form/FormCadastroEmpresa';
@@ -14,9 +14,9 @@ export default function ModalCadastro() {
         opened={opened} 
         onClose={close} 
         title={
-          <Title order={2} mb="md">
-              Cadastro de Empresa
-          </Title>
+          <Text fw={700} size="xl" mb="md" className="mantine-Modal-title"> 
+            Cadastro de Empresa
+          </Text>
         }
         closeButtonProps={{
           icon: <IconXboxX size={20} stroke={1.5} />,
