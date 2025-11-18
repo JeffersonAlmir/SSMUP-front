@@ -17,13 +17,19 @@ import { IMaskInput } from 'react-imask';
 import { IconChevronDown } from '@tabler/icons-react';
 import { useState, type FocusEvent } from 'react';
 import { getCepInfo } from '../../services/cepService';
+import axios from 'axios';
+import { DateInput } from '@mantine/dates';
+import dayjs from 'dayjs';
+
 
 export type FormProps ={
-  close:()=>void
+  close:()=>void;
+  onSuccessSave: () => void;
 }
 
-export default function FormCadastro({close}:FormProps) {
+export default function FormCadastro({close , onSuccessSave}:FormProps) {
   const [isCepLoading, setIsCepLoading] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const form = useForm({
     mode: 'uncontrolled',
@@ -34,7 +40,7 @@ export default function FormCadastro({close}:FormProps) {
       inscricaoEstadual: '',
       atividadeFirma: '',
       subAtividade: '',
-      dataInicioFuncionamento: '',
+      dataInicioFuncionamento:'',
       endereco: {
         rua: '',
         numero: '',
@@ -94,9 +100,38 @@ export default function FormCadastro({close}:FormProps) {
     }
 
   }
+
+  const handleSubmit = async(values: typeof form.values) =>{
+    console.log("to aqui")
+    setIsSubmitting(true)
+    const dataFormatada = dayjs(values.dataInicioFuncionamento).format('DD/MM/YYYY');
+    console.log(dataFormatada)
+    const newEmpresa = {
+      ...values,
+      dataInicioFuncionamento: dataFormatada
+    }
+    console.log(JSON.stringify(newEmpresa));
+    try {
+      const response = await axios.post(
+        'http://localhost:8080/v1/api/empresas',
+        newEmpresa
+      )
+
+      if(response.status == 201){
+        console.log(response.data)
+        onSuccessSave();
+        form.reset();
+      }
+      
+    } catch (error) {
+      console.log(error)
+    }finally {
+      setIsSubmitting(false);
+    }
+  }
   return (
     <Paper shadow="md" p="xl" radius="md" withBorder>
-      <form onSubmit={form.onSubmit((values) => console.log(values))}>
+      <form onSubmit={form.onSubmit((values) => handleSubmit(values))}>
         <Stack gap="xl">
           {/* Seção 1: Informações da Empresa */}
           <Stack gap="md">
@@ -128,11 +163,13 @@ export default function FormCadastro({close}:FormProps) {
                 />
               </Grid.Col>
               <Grid.Col span={{ base: 12, md: 6 }}>
-                <TextInput
+                <InputBase
                   label="Inscrição Estadual"
-                  placeholder="Inscrição Estadual"
                   required
-                  {...form.getInputProps('inscricaoEstadual')}
+                  placeholder="00000000-0"
+                  component={IMaskInput}
+                  mask="00000000-0"
+                 {...form.getInputProps('inscricaoEstadual')}
                 />
               </Grid.Col>
               <Grid.Col span={{ base: 12, md: 6 }}>
@@ -152,12 +189,16 @@ export default function FormCadastro({close}:FormProps) {
                 />
               </Grid.Col>
               <Grid.Col span={{ base: 12, md: 6 }}>
-                <TextInput
+                <DateInput
                   label="Data Início Funcionamento"
-                  type='date'
-                  placeholder="Custom layout"
-                  inputWrapperOrder={['label', 'error', 'input']}
+                  placeholder="dia/mês/ano"
+                  clearable
                   required
+                  locale="pt-br"
+                  valueFormat="DD/MM/YYYY"
+                  dateParser={(input) => dayjs(input, "DD/MM/YYYY").toDate()}
+                  weekdayFormat="ddd"
+                  maxDate={dayjs().toDate()}
                   {...form.getInputProps('dataInicioFuncionamento')}
                 />
               </Grid.Col>
@@ -277,7 +318,7 @@ export default function FormCadastro({close}:FormProps) {
                   required
                   placeholder="0.000.000"
                   component={IMaskInput}
-                  mask="0.000.000" // Ajuste máscara se necessário
+                  mask="0.000.000" 
                   {...form.getInputProps('responsavel.rg')}
                 />
               </Grid.Col>
@@ -316,10 +357,11 @@ export default function FormCadastro({close}:FormProps) {
 
           {/* Botão de Submissão e cancelar */}
           <Group justify="flex-end" mt="xl">
-            <Button  size="md" style={{backgroundColor:"#FF4F4F"}} onClick={close}>
+            <Button  size="md" variant="filled" color="red" onClick={close} disabled={isSubmitting}>
               Cancelar
             </Button>
-            <Button type="submit" size="md">
+
+            <Button type="submit" size="md" loading={isSubmitting} >
               Cadastrar Empresa
             </Button>
           </Group>
