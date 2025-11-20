@@ -3,9 +3,17 @@ import { useDisclosure } from '@mantine/hooks';
 import { IconXboxX } from '@tabler/icons-react';
 import FormCadastro from '../form/FormCadastroEmpresa';
 
+type ModalCadastroProps = {
+  onSaveSuccess: () => void;
+}
 
-export default function ModalCadastro() {
+export default function ModalCadastro({onSaveSuccess}:ModalCadastroProps) {
   const [opened, { open, close }] = useDisclosure(false);
+
+  const handleFormSuccess = () => {
+    close(); 
+    onSaveSuccess(); 
+  };
 
   return (
     <>
@@ -22,7 +30,7 @@ export default function ModalCadastro() {
           icon: <IconXboxX size={20} stroke={1.5} />,
         }}
       >
-        <FormCadastro close={close}/>
+        <FormCadastro close={close} onSuccessSave={handleFormSuccess}/>
       </Modal>
 
       <Button variant="filled" onClick={open}>

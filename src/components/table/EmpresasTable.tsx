@@ -48,6 +48,11 @@ export default function EmpresasTable() {
     setPage(newPage - 1); 
   }
 
+  const handleSaveSuccess = ()=>{
+    console.log("Atualizando tabela após o cadastro...");
+    getEmpresas(page);
+  }
+
   return (
     <Card withBorder
       radius="md" 
@@ -55,7 +60,7 @@ export default function EmpresasTable() {
       className={classes.card}
     >
         <Group className={classes.group}>
-            <ModalCadastro/>
+            <ModalCadastro onSaveSuccess={handleSaveSuccess }/>
             <TextInput
                 placeholder="Search by any field"
                 leftSection={<IconSearch size={16} stroke={1.5} />}

@@ -4,39 +4,42 @@ import { checkValidCpf } from '../services/checkValidCpf';
 export const responsavelSchema = yup.object({
     nome: yup.string()
         .trim()
-        .min(10)
-        .max(50)
-        .required(),
+        .min(10, 'O nome deve ter no mínimo 10 caracteres')
+        .max(50, 'O nome deve ter no máximo 50 caracteres')
+        .required('O campo nome é obrigatório'),
+
     cpf: yup.string()
-        .required()
+        .trim()
+        .required('O campo CPF é obrigatório')
         .test(
             'cpf-check',
             'CPF inválido',
-            (value: string) =>{
-                if(!value) return false;
+            (value: string) => {
                 return checkValidCpf(value);
-            } 
-        )
-            ,
+            }
+        ),
     rg: yup.string()
         .trim()
-        .min(9)
-        .max(9)
-        .required(),
+        .length(9, 'O RG deve ter exatamente 9 caracteres') 
+        .required('O campo RG é obrigatório'),
     email: yup.string()
         .trim()
-        .min(5)
-        .max(50)
-        .required(),
+        .email('Digite um email válido') 
+        .min(5, 'O email deve ter no mínimo 5 caracteres')
+        .max(50, 'O email deve ter no máximo 50 caracteres')
+        .required('O campo email é obrigatório'),
+
     escolaridade: yup.string()
         .trim()
-        .required(),
-    formacao:yup.string()
+        .required('O campo escolaridade é obrigatório'),
+    formacao: yup.string()
         .trim(),
-    especialidade:yup.string()
-        .trim(),
-    registroConselho:yup.string()
-        .trim(),
-})
 
-interface Responsavel extends yup.InferType<typeof responsavelSchema>{};
+    especialidade: yup.string()
+        .trim(),
+
+    registroConselho: yup.string()
+        .trim(),
+});
+
+interface Responsavel extends yup.InferType<typeof responsavelSchema> { };
