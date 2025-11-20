@@ -91,9 +91,12 @@ export default function FormCadastro({close , onSuccessSave}:FormProps) {
 
       form.clearFieldError('endereco.cep');
     } catch (error) {
-      if (error instanceof Error) { 
-        form.setFieldError('endereco.cep', error.message);
-      }
+      if (error instanceof Error) {
+      
+      form.setFieldError('endereco.cep', error.message);
+    } else {
+      form.setFieldError('endereco.cep', 'Erro inesperado ao buscar CEP.');
+    }
     } finally {
      
       setIsCepLoading(false);

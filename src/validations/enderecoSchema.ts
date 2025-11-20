@@ -21,7 +21,6 @@ export const enderecoSchema = yup.object({
 
     cep: yup.string()
         .trim()
-        .length(9, 'O CEP deve ter 9 caracteres (ex: 12345-678)') 
         .required('O campo CEP é obrigatório'),
 
     municipio: yup.string()
