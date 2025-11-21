@@ -20,6 +20,7 @@ import { getCepInfo } from '../../services/cepService';
 import axios from 'axios';
 import { DateInput } from '@mantine/dates';
 import dayjs from 'dayjs';
+import { notifications } from '@mantine/notifications';
 
 
 export type FormProps ={
@@ -128,13 +129,26 @@ export default function FormCadastro({close , onSuccessSave}:FormProps) {
       
     } catch (error) {
       console.log(error)
+      notifications.show({
+        title: 'Erro',
+        message: 'Erro de conexão ao cadastrar empresa.',
+        color: 'red',
+      });
     }finally {
       setIsSubmitting(false);
     }
   }
+
+  const handleSubmitError = () => {
+    notifications.show({
+      title: 'Formulário Incompleto',
+      message: 'Por favor, verifique os campos em vermelho.',
+      color: 'red',
+    });
+  }
   return (
     <Paper shadow="md" p="xl" radius="md" withBorder>
-      <form onSubmit={form.onSubmit((values) => handleSubmit(values))}>
+      <form onSubmit={form.onSubmit(handleSubmit, handleSubmitError)}>
         <Stack gap="xl">
           {/* Seção 1: Informações da Empresa */}
           <Stack gap="md">
