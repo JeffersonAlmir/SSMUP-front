@@ -120,8 +120,6 @@ export default function FormEmpresaWizard() {
           color: 'green',
         });
       }
-      // Simulando delay de rede para você ver o efeito
-      // await new Promise(resolve => setTimeout(resolve, 2000)); 
       
       console.log("Sucesso:",newEmpresa);
 

@@ -6,6 +6,7 @@ import ModalCadastro from '../modal/ModalCadastro';
 import axios from 'axios';
 import type IEmpresa from '../../interface/IEmpresa';
 import type IResponseEmpresa from '../../interface/IResponseEmpresa';
+import type IResponseItens from '../../interface/IResponseItens';
 
 
 
@@ -13,7 +14,7 @@ export default function EmpresasTable() {
   const [focused, setFocused] = useState(false);
   const [page, setPage] = useState(0);
   const [totalPages, setTotalPages] = useState(1);
-  const [data, setData] = useState<IEmpresa[]>([]);
+  const [data, setData] = useState<IResponseItens[]>([]);
 
   const getEmpresas = async (pageNumber: number) => {
     try {
@@ -31,12 +32,12 @@ export default function EmpresasTable() {
     }
   };
     
-  const rows = data.map((empresa) => (
-    <Table.Tr key={empresa.cpfCnpj}>
-      <Table.Td>{empresa.razaoSocial}</Table.Td>
-      <Table.Td>{empresa.nomeFantasia}</Table.Td>
-      <Table.Td>{empresa.cpfCnpj}</Table.Td>
-      <Table.Td>{empresa.endereco.municipio} - {empresa.endereco.uf}</Table.Td>
+  const rows = data.map((item) => (
+    <Table.Tr key={item.empresa.cpfCnpj}>
+      <Table.Td>{item.empresa.razaoSocial}</Table.Td>
+      <Table.Td>{item.empresa.nomeFantasia}</Table.Td>
+      <Table.Td>{item.empresa.cpfCnpj}</Table.Td>
+      <Table.Td>{item.endereco.municipio} - {item.endereco.uf}</Table.Td>
     </Table.Tr>
   ));
 
