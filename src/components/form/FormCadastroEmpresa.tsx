@@ -1,38 +1,30 @@
-import { useForm } from '@mantine/form';
-import { yupResolver } from 'mantine-form-yup-resolver';
-import { empresaSchema } from '../../validations/empresaSchema';
-import {
-  InputBase,
-  TextInput,
-  Button,
-  Grid,
-  Stack,
-  Paper,
-  Divider,
-  Select,
-  Group,
-  Loader,
-} from '@mantine/core';
-import { IMaskInput } from 'react-imask';
-import { IconChevronDown } from '@tabler/icons-react';
-import { useState, type FocusEvent } from 'react';
-import { getCepInfo } from '../../services/cepService';
-import axios from 'axios';
-import { DateInput } from '@mantine/dates';
-import dayjs from 'dayjs';
+import { Button, Divider, Grid, Group, Paper, Stack, Stepper, rem } from "@mantine/core";
+import { yupResolver } from "mantine-form-yup-resolver";
+import { useForm } from "@mantine/form";
+import { useState } from "react";
+import { notifications } from "@mantine/notifications";
+import SubmitOverlay from "../loader/SubmitOverlay";
+import dayjs from "dayjs";
+import axios from "axios";
+
+import { responsavelSchema } from "../../validations/responsavelSchema";
+import { enderecoSchema } from "../../validations/enderecoSchema";
+import { empresaSchema } from "../../validations/empresaSchema";
+
+import FormEndereco from "./FormEndereco";
+import FormEmpresa from "./FormEmpresa";
+import FormResponsavel from "./FormulaResponsavel";
+
+import type IEndereco from "../../interface/IEndereco";
+import type IResponsavel from "../../interface/IResponsavel";
+import type IEmpresa from "../../interface/IEmpresa";
 
 
-export type FormProps ={
-  close:()=>void;
-  onSuccessSave: () => void;
-}
+export default function FormEmpresaWizard() {
+  const [active, setActive] = useState<number>(0);
+  const [loading, setLoading] = useState(false);
 
-export default function FormCadastro({close , onSuccessSave}:FormProps) {
-  const [isCepLoading, setIsCepLoading] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-
-  const form = useForm({
-    mode: 'uncontrolled',
+  const formEmpresa = useForm<IEmpresa>({
     initialValues: {
       razaoSocial: '',
       nomeFantasia: '',
@@ -40,333 +32,218 @@ export default function FormCadastro({close , onSuccessSave}:FormProps) {
       inscricaoEstadual: '',
       atividadeFirma: '',
       subAtividade: '',
-      dataInicioFuncionamento:'',
-      endereco: {
-        rua: '',
-        numero: '',
-        bairro: '',
-        cep: '',
-        municipio: '',
-        uf: '',
-        telefone: '',
-      },
-      responsavel: {
-        nome: '',
-        cpf: '',
-        rg: '',
-        email: '',
-        escolaridade: '',
-        formacao: '',
-        especialidade: '',
-        registroConselho: '',
-      },
+      dataInicioFuncionamento:undefined as unknown as Date,
     },
     validate: yupResolver(empresaSchema),
   });
 
+  const formEndereco = useForm<IEndereco>({
+    initialValues: {
+      rua: '',
+      numero: '',
+      bairro: '',
+      cep: '',
+      municipio: '',
+      uf: '',
+      telefone: '',
+    },
+    validate: yupResolver(enderecoSchema),
+  });
 
-  const escolaridadeOptions = [
-    { value: '', label: 'Selecione...' ,key:0},
-    {value: 'Fundamental incompleto',label: 'Ensino Fundamental Incompleto',key:0},
-    { value: 'Fundamental completo', label: 'Ensino Fundamental Completo',key:1 },
-    { value: 'Médio incompleto', label: 'Ensino Médio Incompleto',key:2 },
-    { value: 'Médio completo', label: 'Ensino Médio Completo',key:3 },
-    { value: 'Superior incompleto', label: 'Ensino Superior Incompleto',key:4 },
-    { value: 'Superior completo', label: 'Ensino Superior Completo',key:5 },
-  ];
+  const formResponsavel = useForm<IResponsavel>({ 
+    initialValues: {
+      nome: '',
+      cpf: '',
+      rg: '',
+      email: '',
+      escolaridade: '',
+      formacao: '',
+      especialidade: '',
+      registroConselho: '',
+    },
+    validate: yupResolver(responsavelSchema),
+  });
 
-  const handleCepBlur = async (event: FocusEvent<HTMLInputElement>) =>{
-    form.getInputProps('endereco.cep').onBlur(event);
-    const cep = event.currentTarget.value;
 
-    if(cep.replace(/\D/g, '').length !==8){
-      return;
+  const handleNextStep = () => {
+   
+    if (active === 0) {
+      const validation = formEmpresa.validate();
+      if (validation.hasErrors) return; 
+      setActive(1);
     }
-    setIsCepLoading(true);
-
-    try {
-      const data = await getCepInfo(cep);
-      form.setFieldValue('endereco.municipio', data.localidade);
-      form.setFieldValue('endereco.uf', data.uf);
-
-      form.clearFieldError('endereco.cep');
-    } catch (error) {
-      if (error instanceof Error) { 
-        form.setFieldError('endereco.cep', error.message);
-      }
-    } finally {
-     
-      setIsCepLoading(false);
+    else if (active === 1) {
+      const validation = formEndereco.validate();
+      if (validation.hasErrors) return;
+      setActive(2);
     }
-
-  }
-
-  const handleSubmit = async(values: typeof form.values) =>{
-    console.log("to aqui")
-    setIsSubmitting(true)
-    const dataFormatada = dayjs(values.dataInicioFuncionamento).format('DD/MM/YYYY');
-    console.log(dataFormatada)
-    const newEmpresa = {
-      ...values,
-      dataInicioFuncionamento: dataFormatada
+    else if (active === 2) {
+      const validation = formResponsavel.validate();
+      if (validation.hasErrors) return;
+      setActive(3); 
     }
-    console.log(JSON.stringify(newEmpresa));
+  };
+  
+  const handlePrevStep = () => setActive((current) => (current > 0 ? current - 1 : current));
+
+  const handleSubmit = async () => {
+    
+    const dateFormated = dayjs(formEmpresa.getValues().dataInicioFuncionamento).format('DD/MM/YYYY');
+    const dataEmpresa={
+      ...formEmpresa.getValues(),
+      dataInicioFuncionamento:dateFormated
+    };
+
+    const newEmpresa= {
+        ...dataEmpresa,
+        responsavel: formResponsavel.getValues(),
+        endereco: formEndereco.getValues(),
+    };
+
+    setLoading(true);
+
     try {
       const response = await axios.post(
         'http://localhost:8080/v1/api/empresas',
         newEmpresa
       )
-
-      if(response.status == 201){
-        console.log(response.data)
-        onSuccessSave();
-        form.reset();
-      }
       
+      if(response.status == 201){
+        formEmpresa.reset();
+        formEndereco.reset();
+        formResponsavel.reset();
+        setActive(0);
+        
+        notifications.show({
+          title: 'Sucesso!',
+          message: 'A empresa foi cadastrada corretamente.',
+          color: 'green',
+        });
+      }
+      // Simulando delay de rede para você ver o efeito
+      // await new Promise(resolve => setTimeout(resolve, 2000)); 
+      
+      console.log("Sucesso:",newEmpresa);
+
     } catch (error) {
-      console.log(error)
-    }finally {
-      setIsSubmitting(false);
+    
+      console.error("Erro ao enviar:", error);
+      notifications.show({
+        title: 'Erro',
+        message: 'Não foi possível realizar o cadastro. Tente novamente.',
+        color: 'red',
+      });
+    } finally {
+      setLoading(false);
     }
-  }
+  };
+
   return (
-    <Paper shadow="md" p="xl" radius="md" withBorder>
-      <form onSubmit={form.onSubmit((values) => handleSubmit(values))}>
-        <Stack gap="xl">
-          {/* Seção 1: Informações da Empresa */}
-          <Stack gap="md">
-            <Divider label="Informações da Empresa" labelPosition="center" fw={700} size={'sm'}/>
-            <Grid>
-              <Grid.Col span={{ base: 12, md: 6 }}>
-                <TextInput
-                  data-autofocus
-                  label="Razão Social"
-                  placeholder="Razão Social LTDA"
-                  required
-                  {...form.getInputProps('razaoSocial')}
-                />
-              </Grid.Col>
-              <Grid.Col span={{ base: 12, md: 6 }}>
-                <TextInput
-                  label="Nome Fantasia"
-                  placeholder="Nome de fachada"
-                  required
-                  {...form.getInputProps('nomeFantasia')}
-                />
-              </Grid.Col>
-              <Grid.Col span={{ base: 12, md: 6 }}>
-                <InputBase
-                  label="CPF/CNPJ"
-                  placeholder=""
-                  required
-                  {...form.getInputProps('cpfCnpj')}
-                />
-              </Grid.Col>
-              <Grid.Col span={{ base: 12, md: 6 }}>
-                <InputBase
-                  label="Inscrição Estadual"
-                  required
-                  placeholder="00000000-0"
-                  component={IMaskInput}
-                  mask="00000000-0"
-                 {...form.getInputProps('inscricaoEstadual')}
-                />
-              </Grid.Col>
-              <Grid.Col span={{ base: 12, md: 6 }}>
-                <TextInput
-                  label="Atividade da Firma"
-                  placeholder="Atividade principal"
-                  required
-                  {...form.getInputProps('atividadeFirma')}
-                />
-              </Grid.Col>
-              <Grid.Col span={{ base: 12, md: 6 }}>
-                <TextInput
-                  label="Sub-Atividade"
-                  placeholder="Atividade secundária"
-                  required
-                  {...form.getInputProps('subAtividade')}
-                />
-              </Grid.Col>
-              <Grid.Col span={{ base: 12, md: 6 }}>
-                <DateInput
-                  label="Data Início Funcionamento"
-                  placeholder="dia/mês/ano"
-                  clearable
-                  required
-                  locale="pt-br"
-                  valueFormat="DD/MM/YYYY"
-                  dateParser={(input) => dayjs(input, "DD/MM/YYYY").toDate()}
-                  weekdayFormat="ddd"
-                  maxDate={dayjs().toDate()}
-                  {...form.getInputProps('dataInicioFuncionamento')}
-                />
-              </Grid.Col>
-            </Grid>
-          </Stack>
+    <>
 
-          <Divider label="Endereço" labelPosition="center" fw={700} size={'sm'}/>
+      <Paper shadow="md" p="xl" radius="md" withBorder  mx="auto" mt="xl">
+        {loading && (
+        <SubmitOverlay/>
+      )}
+        <Stepper active={active} onStepClick={setActive} allowNextStepsSelect={false}>
+          <Stepper.Step label="Empresa" description="Informações da empresa">
+            <FormEmpresa form={formEmpresa} />
+          </Stepper.Step>
 
-          {/* Seção 2: Endereço */}
-          <Stack gap="md">
-            <Grid>
-              <Grid.Col span={{ base: 12, md: 8 }}>
-                <TextInput
-                  label="Rua"
-                  placeholder="Av. Principal"
-                  required
-                  {...form.getInputProps('endereco.rua')}
-                />
-              </Grid.Col>
-              <Grid.Col span={{ base: 12, md: 4 }}>
-                <TextInput
-                  label="Número"
-                  placeholder="123"
-                  type='number'
-                  maxLength={5}
-                  required
-                  {...form.getInputProps('endereco.numero')}
-                />
-              </Grid.Col>
-              <Grid.Col span={{ base: 12, md: 6 }}>
-                <TextInput
-                  label="Bairro"
-                  placeholder="Centro"
-                  required
-                  {...form.getInputProps('endereco.bairro')}
-                />
-              </Grid.Col>
-              <Grid.Col span={{ base: 12, md: 6 }}>
-                <InputBase
-                  label="CEP"
-                  placeholder="00000-000"
-                  required
-                  component={IMaskInput}
-                  mask="00000-000"
-                  {...form.getInputProps('endereco.cep')}
-                  rightSection={isCepLoading ? <Loader size ="xs"/> : null}
-                  onBlur={handleCepBlur}
-                />
-              </Grid.Col>
-              <Grid.Col span={{ base: 12, md: 6 }}>
-                <TextInput
-                  label="Município"
-                  placeholder="Sua cidade"
-                  disabled={isCepLoading }
-                  required
-                  {...form.getInputProps('endereco.municipio')}
-                />
-              </Grid.Col>
-              <Grid.Col span={{ base: 12, md: 3 }}>
-                <TextInput
-                  label="Estado (UF)"
-                  placeholder="PB"
-                  disabled={isCepLoading}
-                  maxLength={2}
-                  required
-                  {...form.getInputProps('endereco.uf')}
-                />
-              </Grid.Col>
-              <Grid.Col span={{ base: 12, md: 3 }}>
-                <InputBase
-                  label="Telefone"
-                  required
-                  placeholder="(00) 00000-0000"
-                  component={IMaskInput}
-                  mask="(00) 00000-0000"
-                  {...form.getInputProps('endereco.telefone')}
-                />
-              </Grid.Col>
-            </Grid>
-          </Stack>
+          <Stepper.Step label="Endereço" description="Endereço da empresa">
+            <FormEndereco form={formEndereco} />
+          </Stepper.Step>
 
-          <Divider label="Responsável" labelPosition="center" fw={700} size={'sm'}/>
+          <Stepper.Step label="Responsável" description="Responsável pela empresa">
+            <FormResponsavel form={formResponsavel} />
+          </Stepper.Step>
 
-          {/* Seção 3: Responsável */}
-          <Stack gap="md">
-            <Grid>
-              <Grid.Col span={{ base: 12, md: 6 }}>
-                <TextInput
-                  label="Nome do Responsável"
-                  placeholder="Nome completo"
-                  required
-                  {...form.getInputProps('responsavel.nome')}
-                />
-              </Grid.Col>
-              <Grid.Col span={{ base: 12, md: 6 }}>
-                <TextInput
-                  label="Email"
-                  type="email"
-                  placeholder="exemplo@email.com"
-                  required
-                  {...form.getInputProps('responsavel.email')}
-                />
-              </Grid.Col>
-              <Grid.Col span={{ base: 12, md: 6 }}>
-                <InputBase
-                  label="CPF"
-                  required
-                  placeholder="000.000.000-00"
-                  component={IMaskInput}
-                  mask="000.000.000-00"
-                  {...form.getInputProps('responsavel.cpf')}
-                />
-              </Grid.Col>
-              <Grid.Col span={{ base: 12, md: 6 }}>
-                <InputBase
-                  label="RG"
-                  required
-                  placeholder="0.000.000"
-                  component={IMaskInput}
-                  mask="0.000.000" 
-                  {...form.getInputProps('responsavel.rg')}
-                />
-              </Grid.Col>
-              <Grid.Col span={{ base: 12, md: 6 }}>
-                <Select
-                  label="Escolaridade"
-                  data={escolaridadeOptions}
-                  required
-                  rightSection={<IconChevronDown size={16} stroke={1.5} />}
-                  {...form.getInputProps('responsavel.escolaridade')}
-                />
-              </Grid.Col>
-              <Grid.Col span={{ base: 12, md: 6 }}>
-                <TextInput
-                  label="Formação"
-                  placeholder="Ex: Ciência da Computação"
-                  {...form.getInputProps('responsavel.formacao')}
-                />
-              </Grid.Col>
-              <Grid.Col span={{ base: 12, md: 6 }}>
-                <TextInput
-                  label="Especialidade"
-                  placeholder="Ex: Engenharia de Software"
-                  {...form.getInputProps('responsavel.especialidade')}
-                />
-              </Grid.Col>
-              <Grid.Col span={{ base: 12, md: 6 }}>
-                <TextInput
-                  label="Registro no Conselho"
-                  placeholder="Ex: CREA 12345"
-                  {...form.getInputProps('responsavel.registroConselho')}
-                />
-              </Grid.Col>
-            </Grid>
-          </Stack>
+          <Stepper.Completed>
+            <Stack align="stretch" gap="lg">
+              <Divider label="Confirmação dos Dados" labelPosition="center" />
 
-          {/* Botão de Submissão e cancelar */}
+              {/* BLOCO DA EMPRESA */}
+              <Paper withBorder p="md" radius="md">
+                <strong style={{ fontSize: rem(16) }}>Empresa</strong>
+                <Divider my="sm" />
+
+                <Grid gutter="xs">
+                  <Grid.Col span={6}><b>Razão Social:</b> {formEmpresa.getValues().razaoSocial}</Grid.Col>
+                  <Grid.Col span={6}><b>Nome Fantasia:</b> {formEmpresa.getValues().nomeFantasia}</Grid.Col>
+
+                  <Grid.Col span={6}><b>CPF/CNPJ:</b> {formEmpresa.getValues().cpfCnpj}</Grid.Col>
+                  <Grid.Col span={6}><b>Inscrição Estadual:</b> {formEmpresa.getValues().inscricaoEstadual || "-"}</Grid.Col>
+
+                  <Grid.Col span={6}><b>Atividade:</b> {formEmpresa.getValues().atividadeFirma}</Grid.Col>
+                  <Grid.Col span={6}><b>Subatividade:</b> {formEmpresa.getValues().subAtividade || "-"}</Grid.Col>
+
+                  <Grid.Col span={6}>
+                    <b>Data de Início:</b>{" "}
+                    {formEmpresa.getValues().dataInicioFuncionamento
+                      ? dayjs(formEmpresa.getValues().dataInicioFuncionamento).format('DD/MM/YYYY')
+                      : "-"}
+                  </Grid.Col>
+                </Grid>
+              </Paper>
+
+              {/* BLOCO DO ENDEREÇO */}
+              <Paper withBorder p="md" radius="md">
+                <strong style={{ fontSize: rem(16) }}>Endereço</strong>
+                <Divider my="sm" />
+
+                <Grid gutter="xs">
+                  <Grid.Col span={6}><b>Rua:</b> {formEndereco.getValues().rua}</Grid.Col>
+                  <Grid.Col span={3}><b>Número:</b> {formEndereco.getValues().numero}</Grid.Col>
+                  <Grid.Col span={3}><b>Bairro:</b> {formEndereco.getValues().bairro}</Grid.Col>
+
+                  <Grid.Col span={4}><b>CEP:</b> {formEndereco.getValues().cep}</Grid.Col>
+                  <Grid.Col span={4}><b>Município:</b> {formEndereco.getValues().municipio}</Grid.Col>
+                  <Grid.Col span={4}><b>UF:</b> {formEndereco.getValues().uf}</Grid.Col>
+
+                  <Grid.Col span={6}><b>Telefone:</b> {formEndereco.getValues().telefone || "-"}</Grid.Col>
+                </Grid>
+              </Paper>
+
+              {/* BLOCO DO RESPONSÁVEL */}
+              <Paper withBorder p="md" radius="md">
+                <strong style={{ fontSize: rem(16) }}>Responsável</strong>
+                <Divider my="sm" />
+
+                <Grid gutter="xs">
+                  <Grid.Col span={6}><b>Nome:</b> {formResponsavel.getValues().nome}</Grid.Col>
+                  <Grid.Col span={6}><b>Email:</b> {formResponsavel.getValues().email}</Grid.Col>
+
+                  <Grid.Col span={6}><b>CPF:</b> {formResponsavel.getValues().cpf}</Grid.Col>
+                  <Grid.Col span={6}><b>RG:</b> {formResponsavel.getValues().rg || "-"}</Grid.Col>
+
+                  <Grid.Col span={6}><b>Escolaridade:</b> {formResponsavel.getValues().escolaridade || "-"}</Grid.Col>
+
+                  <Grid.Col span={6}><b>Formação:</b> {formResponsavel.getValues().formacao || "-"}</Grid.Col>
+                  <Grid.Col span={6}><b>Especialidade:</b> {formResponsavel.getValues().especialidade || "-"}</Grid.Col>
+
+                  <Grid.Col span={6}><b>Registro Conselho:</b> {formResponsavel.getValues().registroConselho || "-"}</Grid.Col>
+                </Grid>
+              </Paper>
+
+              {/* BOTÕES */}
+              <Group mt="md" justify="flex-end">
+                <Button variant="default" onClick={() => setActive(2)} disabled={loading}>Voltar</Button>
+                <Button color="green"  onClick={handleSubmit} loading={loading}>Confirmar e Salvar</Button>
+              </Group>
+            </Stack>
+          </Stepper.Completed>
+        </Stepper>
+        {active < 3 && (
           <Group justify="flex-end" mt="xl">
-            <Button  size="md" variant="filled" color="red" onClick={close} disabled={isSubmitting}>
-              Cancelar
-            </Button>
-
-            <Button type="submit" size="md" loading={isSubmitting} >
-              Cadastrar Empresa
-            </Button>
+              <Button variant="default" onClick={handlePrevStep} disabled={active === 0}>
+                  Voltar
+              </Button>
+              <Button onClick={handleNextStep}>
+                  Próximo
+              </Button>
           </Group>
-        </Stack>
-      </form>
-    </Paper>
+        )}
+      </Paper>
+    </>
   );
 }

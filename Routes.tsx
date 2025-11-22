@@ -9,6 +9,7 @@ import Configuracoes from "./src/pages/Configuracoes";
 export default function AppRoutes() {
   return (
     <BrowserRouter>
+    
       <Routes>
         <Route element ={<Layout/>}>
             <Route path="/" element={<Inicio />} />

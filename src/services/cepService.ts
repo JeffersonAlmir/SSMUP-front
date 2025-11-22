@@ -6,27 +6,31 @@ import axios from "axios";
  * @returns {Promise<object>} Os dados do endereço
  * @throws {Error} Se o CEP for inválido, não encontrado ou houver erro na rede.
  */
-export const getCepInfo = async (cep:string) =>{
+export const getCepInfo = async (cep: string) => {
+  const cleanCep = cep.replace(/\D/g, '');
 
-    const cleanCep = cep.replace(/\D/g,'');
+  if (cleanCep.length !== 8) {
+    throw new Error('Formato de CEP inválido.');
+  }
 
-    if(cleanCep.length !== 8){
-        throw new Error('Formato de CEP inválido.')
+  try {
+    const response = await axios.get(`https://viacep.com.br/ws/${cleanCep}/json/`);
+
+    if (response.status !== 200) {
+      throw new Error('Erro ao buscar o CEP. Tente novamente.');
     }
-    try {
-        const response = await axios.get(`https://viacep.com.br/ws/${cleanCep}/json/`);
-        
-        if(!(response.status == 200)){
-            throw new Error('Erro ao buscar o CEP. Tente novamente.')
-        }
 
-        const data = await response.data;
-        return data;
-        
-    } catch (error) {
-        if(error instanceof TypeError){
-            throw new Error('Erro de conexão ao buscar o CEP.')
-        }
-        throw error;
+    const data = response.data;
+
+    if (data.erro) {
+      throw new Error('CEP não encontrado. Verifique o número.');
     }
-}
+
+    return data;
+  } catch (error) {
+    if (error instanceof Error) {
+      throw error;
+    }
+    throw new Error('Erro inesperado ao buscar CEP.');
+  }
+};
