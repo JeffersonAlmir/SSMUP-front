@@ -16,7 +16,6 @@ function App() {
       <Notifications 
         position="top-right" 
         autoClose={2000}
-        // Isso resolve o problema do modal
       />  
        <AppRoutes>
         
