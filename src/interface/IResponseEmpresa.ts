@@ -1,7 +1,7 @@
-import type IEmpresa from "./IEmpresa";
+import type IResponseItens from "./IResponseItens";
 
 export default interface IResponseEmpresa {
-  items: IEmpresa[];
+  items: IResponseItens[];
   page: number;
   size: number;
   totalElements: number;

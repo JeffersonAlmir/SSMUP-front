@@ -16,7 +16,7 @@ function App() {
       <Notifications 
         position="top-right" 
         autoClose={2000}
-      /> 
+      />  
       <AppRoutes></AppRoutes>
     </MantineProvider>
     </>

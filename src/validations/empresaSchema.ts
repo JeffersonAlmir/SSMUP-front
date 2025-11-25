@@ -1,6 +1,5 @@
 import * as yup from 'yup';
-import { responsavelSchema } from './responsavelSchema';
-import { enderecoSchema } from './enderecoSchema';
+
 
 export const empresaSchema = yup.object({
     razaoSocial: yup.string()
@@ -39,9 +38,4 @@ export const empresaSchema = yup.object({
         .typeError('Por favor, insira uma data válida')
         .required('A data de início é obrigatória'),
 
-    responsavel: responsavelSchema
-        .required('Os dados do responsável são obrigatórios'),
-
-    endereco: enderecoSchema
-        .required('Os dados de endereço são obrigatórios'),
 })

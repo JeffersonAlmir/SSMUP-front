@@ -42,4 +42,3 @@ export const responsavelSchema = yup.object({
         .trim(),
 });
 
-interface Responsavel extends yup.InferType<typeof responsavelSchema> { };

@@ -1,8 +1,11 @@
-import EmpresasTable from "../components/table/EmpresasTable";
+
+import FormEmpresaWizard from "../components/form/FormCadastroEmpresa";
+
 
 const Empresas = () =>{
     return (
-        <EmpresasTable/>
+        
+       <FormEmpresaWizard/>
     );
 }
 

@@ -40,8 +40,8 @@ const data: ItemDaNavegacao[] = [
     icon: IconBuildings,
     initiallyOpened: true,
     links: [
-      { label: 'Cadastro', link: '/empresas' },
-      { label: 'outro', link: '' },
+      { label: 'Cadastro', link: '/cadastro' },
+      { label: 'Lista de Empresas', link: '/Lista' },
       { label: 'outros', link: '' },
     ],
   },

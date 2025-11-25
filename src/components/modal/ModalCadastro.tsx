@@ -1,7 +1,8 @@
 import { Button, Modal, Text } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { IconXboxX } from '@tabler/icons-react';
-import FormCadastro from '../form/FormCadastroEmpresa';
+import FormCadastro from '../form/FormCadastroteste';
+
 
 type ModalCadastroProps = {
   onSaveSuccess: () => void;

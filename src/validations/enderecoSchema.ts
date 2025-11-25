@@ -35,4 +35,3 @@ export const enderecoSchema = yup.object({
         .required('O telefone é obrigatório')
 });
 
-interface Endereco extends yup.InferType<typeof enderecoSchema> { };
