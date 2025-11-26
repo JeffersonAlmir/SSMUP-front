@@ -24,7 +24,7 @@ export default function EmpresasTable() {
       
       if (response.status === 200) {
         const empresasData = response.data;
-        setData(empresasData.items);
+        setData(empresasData.content);
         setTotalPages(empresasData.totalPages);
       }
     } catch (error) {
