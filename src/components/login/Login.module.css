@@ -1,17 +1,16 @@
 .wrapper {
-  min-height: 900px;
+  min-height: 100vh; 
   background-size: cover;
   background-image: url(https://static.vecteezy.com/system/resources/previews/003/689/228/non_2x/online-registration-or-sign-up-login-for-account-on-smartphone-app-user-interface-with-secure-password-mobile-application-for-ui-web-banner-access-cartoon-people-illustration-vector.jpg);
 }
 
 .form {
   border-right: 1px solid light-dark(var(--mantine-color-gray-3), var(--mantine-color-dark-7));
-  min-height: 900px;
+  min-height: 100vh;
   max-width: 450px;
   padding: 30px;
   padding-top: 80px;
   border-radius: 0;
-
   @media (max-width: mantine-breakpoint-sm) {
     max-width: 100%;
   }
@@ -26,30 +25,7 @@
   margin-bottom: 50px;
 }
 
-/* LOGO + TEXTO */
-.logoArea {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  margin-bottom: 20px;
-}
-
 .logo {
   width: 80px;
   height: auto;
-}
-
-.logoText {
-  font-family: Outfit, var(--mantine-font-family);
-  font-size: 50px;
-  font-weight: 600;
-  color: #000000; /* azul da sua aplicação */
-}
-
-.googleBtn {
-  width: 100%;
-  height: 48px;
-  font-size: 16px;
-  font-weight: 500;
 }

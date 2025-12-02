@@ -2,6 +2,7 @@ import {
   Button,
   Checkbox,
   Divider,
+  Group,
   Paper,
   PasswordInput,
   TextInput,
@@ -18,10 +19,10 @@ export default function LoginPage() {
         <div className={classes.wrapper}>
             <Paper className={classes.form}>
 
-                <div className={classes.logoArea}>
+                <Group justify="center">
                     <img src={logoVisa} alt="Visa logo" className={classes.logo} />
-                    <span className={classes.logoText}>SSMUP</span>
-                </div>
+                    <Title>SSMUP</Title>
+                </Group>
 
                 <Title order={2} className={classes.title}>Login</Title>
 
@@ -35,11 +36,16 @@ export default function LoginPage() {
                 <GoogleButton 
                     radius="xl" 
                     className={classes.googleBtn}
+                    style={{
+                        width: "100%",
+                        height: "48px",
+                        fontSize: "16px",
+                        fontWeight: 500
+                    }}
                     //onClick={() => {window.location.href = "http://localhost:8080/oauth2/authorization/google";}}
                 >
                     Google
-                </GoogleButton>
-                
+                </GoogleButton>                
             </Paper>
         </div>
   );
