@@ -5,7 +5,7 @@ export default interface IResponseItens{
     id: number;
     razaoSocial: string;
     nomeFantasia: string;
-    cpfCnpj: string;
+    cnpj: string;
     inscricaoEstadual: string;
     atividadeFirma: string;
     subAtividade: string;

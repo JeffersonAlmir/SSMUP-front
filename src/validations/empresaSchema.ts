@@ -14,7 +14,7 @@ export const empresaSchema = yup.object({
         .max(50, 'O nome fantasia deve ter no máximo 50 caracteres')
         .required('O campo nome fantasia é obrigatório'),
 
-    cpfCnpj: yup.string()
+    cnpj: yup.string()
         .trim()
         .required("CPF ou CNPJ é obrigatório"),
 
@@ -37,5 +37,12 @@ export const empresaSchema = yup.object({
     dataInicioFuncionamento: yup.date()
         .typeError('Por favor, insira uma data válida')
         .required('A data de início é obrigatória'),
+
+    email: yup.string()
+            .trim()
+            .email('Digite um email válido') 
+            .min(5, 'O email deve ter no mínimo 5 caracteres')
+            .max(50, 'O email deve ter no máximo 50 caracteres')
+            .required('O campo email é obrigatório'),
 
 })

@@ -34,15 +34,6 @@ export default function FormResponsavel({ form }: FormResponsavelProps) {
             />
           </Grid.Col>
           <Grid.Col span={{ base: 12, md: 6 }}>
-            <TextInput
-              label="Email"
-              type="email"
-              placeholder="exemplo@email.com"
-              required
-              {...form.getInputProps('email')}
-            />
-          </Grid.Col>
-          <Grid.Col span={{ base: 12, md: 6 }}>
             <InputBase
               label="CPF"
               required

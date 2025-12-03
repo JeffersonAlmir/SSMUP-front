@@ -22,12 +22,6 @@ export const responsavelSchema = yup.object({
         .trim()
         .length(9, 'O RG deve ter exatamente 9 caracteres') 
         .required('O campo RG é obrigatório'),
-    email: yup.string()
-        .trim()
-        .email('Digite um email válido') 
-        .min(5, 'O email deve ter no mínimo 5 caracteres')
-        .max(50, 'O email deve ter no máximo 50 caracteres')
-        .required('O campo email é obrigatório'),
 
     escolaridade: yup.string()
         .trim()

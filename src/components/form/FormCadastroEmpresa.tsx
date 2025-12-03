@@ -28,11 +28,12 @@ export default function FormEmpresaWizard() {
     initialValues: {
       razaoSocial: '',
       nomeFantasia: '',
-      cpfCnpj: '',
+      cnpj: '',
       inscricaoEstadual: '',
       atividadeFirma: '',
       subAtividade: '',
       dataInicioFuncionamento:undefined as unknown as Date,
+      email:'',
     },
     validate: yupResolver(empresaSchema),
   });
@@ -55,7 +56,6 @@ export default function FormEmpresaWizard() {
       nome: '',
       cpf: '',
       rg: '',
-      email: '',
       escolaridade: '',
       formacao: '',
       especialidade: '',
@@ -99,7 +99,7 @@ export default function FormEmpresaWizard() {
         responsavel: formResponsavel.getValues(),
         endereco: formEndereco.getValues(),
     };
-
+    console.log(newEmpresa)
     setLoading(true);
 
     try {
@@ -169,7 +169,7 @@ export default function FormEmpresaWizard() {
                   <Grid.Col span={6}><b>Razão Social:</b> {formEmpresa.getValues().razaoSocial}</Grid.Col>
                   <Grid.Col span={6}><b>Nome Fantasia:</b> {formEmpresa.getValues().nomeFantasia}</Grid.Col>
 
-                  <Grid.Col span={6}><b>CPF/CNPJ:</b> {formEmpresa.getValues().cpfCnpj}</Grid.Col>
+                  <Grid.Col span={6}><b>CNPJ:</b> {formEmpresa.getValues().cnpj}</Grid.Col>
                   <Grid.Col span={6}><b>Inscrição Estadual:</b> {formEmpresa.getValues().inscricaoEstadual || "-"}</Grid.Col>
 
                   <Grid.Col span={6}><b>Atividade:</b> {formEmpresa.getValues().atividadeFirma}</Grid.Col>
@@ -209,7 +209,6 @@ export default function FormEmpresaWizard() {
 
                 <Grid gutter="xs">
                   <Grid.Col span={6}><b>Nome:</b> {formResponsavel.getValues().nome}</Grid.Col>
-                  <Grid.Col span={6}><b>Email:</b> {formResponsavel.getValues().email}</Grid.Col>
 
                   <Grid.Col span={6}><b>CPF:</b> {formResponsavel.getValues().cpf}</Grid.Col>
                   <Grid.Col span={6}><b>RG:</b> {formResponsavel.getValues().rg || "-"}</Grid.Col>

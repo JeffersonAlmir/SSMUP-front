@@ -33,10 +33,10 @@ export default function EmpresasTable() {
   };
     
   const rows = data.map((item) => (
-    <Table.Tr key={item.cpfCnpj}>
+    <Table.Tr key={item.cnpj}>
       <Table.Td>{item.razaoSocial}</Table.Td>
       <Table.Td>{item.nomeFantasia}</Table.Td>
-      <Table.Td>{item.cpfCnpj}</Table.Td>
+      <Table.Td>{item.cnpj}</Table.Td>
       <Table.Td>{item?.endereco?.municipio} - {item.endereco.uf}</Table.Td>
     </Table.Tr>
   ));

@@ -34,10 +34,12 @@ export default function FormEmpresa({ form }:  FormEmpresaProps) {
         </Grid.Col>
         <Grid.Col span={{ base: 12, md: 6 }}>
           <InputBase
-            label="CPF/CNPJ"
-            placeholder=""
+            label="CNPJ"
+            placeholder="00.000.000/0000-00"
+            component={IMaskInput}
+            mask="00.000.000/0000-00"
             required
-            {...form.getInputProps('cpfCnpj')}
+            {...form.getInputProps('cnpj')}
           />
         </Grid.Col>
         <Grid.Col span={{ base: 12, md: 6 }}>
@@ -79,6 +81,15 @@ export default function FormEmpresa({ form }:  FormEmpresaProps) {
             maxDate={dayjs().toDate()}
             {...form.getInputProps('dataInicioFuncionamento')}
           />
+        </Grid.Col>
+        <Grid.Col span={{ base: 12, md: 6 }}>
+            <TextInput
+              label="Email"
+              type="email"
+              placeholder="exemplo@email.com"
+              required
+              {...form.getInputProps('email')}
+            />
         </Grid.Col>
       </Grid>
     </Stack>
