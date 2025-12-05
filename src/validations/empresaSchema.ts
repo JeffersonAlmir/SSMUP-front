@@ -1,4 +1,5 @@
 import * as yup from 'yup';
+import { checkValidCnpj } from '../services/checkValidCnpj';
 
 
 export const empresaSchema = yup.object({
@@ -16,7 +17,14 @@ export const empresaSchema = yup.object({
 
     cnpj: yup.string()
         .trim()
-        .required("CPF ou CNPJ é obrigatório"),
+        .required("CNPJ é obrigatório")
+        .test(
+            'cnpj-check',
+            'CNPJ inválido',
+            (value: string) => {
+                return checkValidCnpj(value)
+            }
+        ),
 
     inscricaoEstadual: yup.string()
         .trim()
