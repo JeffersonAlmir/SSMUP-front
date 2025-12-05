@@ -17,12 +17,13 @@ export const empresaSchema = yup.object({
 
     cnpj: yup.string()
         .trim()
-        .required("CNPJ é obrigatório")
+        .required("O campo CNPJ é obrigatório")
         .test(
             'cnpj-check',
             'CNPJ inválido',
             (value: string) => {
-                return checkValidCnpj(value)
+                if (!value) return true;
+                return checkValidCnpj(value);
             }
         ),
 

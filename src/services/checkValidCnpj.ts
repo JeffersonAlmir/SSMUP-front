@@ -11,12 +11,12 @@ export const checkValidCnpj = (cnpj: string): boolean =>{
     }
 
     function calcularDigito(cnpjClear: string, fatorInical: number, arrayPeso:Array<number>): number  {
-        let valorTotal = cnpjClear.slice(0, fatorInical).split("")
+        let resultado = cnpjClear.slice(0, fatorInical).split("")
             .reduce((acumulador,valorAtual, indice) => {
                 return acumulador + Number(valorAtual) * arrayPeso[indice + (fatorInical === 12 ? 1 : 0)]
             },0)
         
-        let resto = valorTotal % 11
+        let resto = resultado % 11
 
         if (resto < 2){
             return 0;
