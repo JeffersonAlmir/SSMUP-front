@@ -2,6 +2,7 @@ import { type ForwardRefExoticComponent } from 'react';
 import {
   IconBuildings,
   IconChartHistogram,
+  IconFileCertificate,
   IconFileExport,
   IconHome,
   IconLogout,
@@ -45,7 +46,7 @@ const data: ItemDaNavegacao[] = [
       { label: 'outros', link: '' },
     ],
   },
-  { link: '/alvara', label: 'Alvará', icon: IconFileExport },
+  { link: '/alvara', label: 'Alvará', icon: IconFileCertificate },
   { link: '/configuracoes', label: 'Configurações', icon: IconSettings },
   
 ];
