@@ -2,7 +2,7 @@ import type IEndereco from "./IEndereco"
 import type IResponsavel from "./IResponsavel";
 
 export default interface IResponseItens{
-    id: number;
+    id?: number;
     razaoSocial: string;
     nomeFantasia: string;
     cnpj: string;
@@ -10,7 +10,8 @@ export default interface IResponseItens{
     atividadeFirma: string;
     subAtividade: string;
     dataInicioFuncionamento: string;
-    ativo: boolean;
+    ativo?: boolean;
+    email: string;
     responsavel: IResponsavel,
     endereco: IEndereco,
 }
