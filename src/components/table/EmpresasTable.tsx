@@ -1,4 +1,4 @@
-import { Card, Divider, Group, Pagination, Table, TextInput } from '@mantine/core';
+import { Button, Card, Divider, Group, Pagination, Table, TextInput } from '@mantine/core';
 import classes from './Table.module.css';
 import { IconSearch } from '@tabler/icons-react';
 import { useEffect, useState } from 'react';
@@ -7,6 +7,7 @@ import axios from 'axios';
 // import type IEmpresa from '../../interface/IEmpresa';
 import type IResponseEmpresa from '../../interface/IResponseEmpresa';
 import type IResponseItens from '../../interface/IResponseItens';
+import { useNavigate } from 'react-router-dom';
 
 
 
@@ -15,6 +16,7 @@ export default function EmpresasTable() {
   const [page, setPage] = useState(0);
   const [totalPages, setTotalPages] = useState(1);
   const [data, setData] = useState<IResponseItens[]>([]);
+  const navigate =  useNavigate();
 
   const getEmpresas = async (pageNumber: number) => {
     try {
@@ -37,7 +39,15 @@ export default function EmpresasTable() {
       <Table.Td>{item.razaoSocial}</Table.Td>
       <Table.Td>{item.nomeFantasia}</Table.Td>
       <Table.Td>{item.cnpj}</Table.Td>
-      <Table.Td>{item?.endereco?.municipio} - {item.endereco.uf}</Table.Td>
+      <Table.Td>{item.endereco.municipio} - {item.endereco.uf}</Table.Td>
+        <Table.Td>
+          <Button 
+            variant="primary"
+            onClick={() => navigate(`/detalhes/${item.cnpj.replace(/\D/g,"")}`, { state: { item } })}
+          >
+            Detalhes
+          </Button>
+        </Table.Td>
     </Table.Tr>
   ));
 
@@ -79,6 +89,7 @@ export default function EmpresasTable() {
             <Table.Th>Nome Fantasia</Table.Th>
             <Table.Th>CNPJ</Table.Th>
             <Table.Th>Cidade/UF</Table.Th>
+             <Table.Th>Ações</Table.Th>
           </Table.Tr>
         </Table.Thead>
         <Table.Tbody>
