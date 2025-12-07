@@ -15,6 +15,7 @@ export const responsavelSchema = yup.object({
             'cpf-check',
             'CPF inválido',
             (value: string) => {
+                if(!value) return true;
                 return checkValidCpf(value);
             }
         ),

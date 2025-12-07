@@ -18,6 +18,8 @@ import FormResponsavel from "./FormulaResponsavel";
 import type IEndereco from "../../interface/IEndereco";
 import type IResponsavel from "../../interface/IResponsavel";
 import type IEmpresa from "../../interface/IEmpresa";
+import type IResponseItens from "../../interface/IResponseItens";
+import DetailsEmpresa from "../details/DetailsEmpresa";
 
 
 export default function FormEmpresaWizard() {
@@ -94,7 +96,7 @@ export default function FormEmpresaWizard() {
       dataInicioFuncionamento:dateFormated
     };
 
-    const newEmpresa= {
+    const newEmpresa : IResponseItens = {
         ...dataEmpresa,
         responsavel: formResponsavel.getValues(),
         endereco: formEndereco.getValues(),
@@ -136,13 +138,29 @@ export default function FormEmpresaWizard() {
     }
   };
 
+  const dataEmpresa = () => {
+
+    const dateFormated = dayjs(formEmpresa.getValues().dataInicioFuncionamento).format('DD/MM/YYYY');
+    const dataEmpresa={
+      ...formEmpresa.getValues(),
+      dataInicioFuncionamento:dateFormated
+    };
+    const newEmpresa : IResponseItens = {
+         ...dataEmpresa,
+         responsavel: formResponsavel.getValues(),
+         endereco: formEndereco.getValues(),
+    };
+    
+    return newEmpresa
+  }
+  
   return (
     <>
 
       <Paper shadow="md" p="xl" radius="md" withBorder  mx="auto" mt="xl">
         {loading && (
         <SubmitOverlay/>
-      )}
+        )}
         <Stepper active={active} onStepClick={setActive} allowNextStepsSelect={false}>
           <Stepper.Step label="Empresa" description="Informações da empresa">
             <FormEmpresa form={formEmpresa} />
@@ -160,67 +178,7 @@ export default function FormEmpresaWizard() {
             <Stack align="stretch" gap="lg">
               <Divider label="Confirmação dos Dados" labelPosition="center" />
 
-              {/* BLOCO DA EMPRESA */}
-              <Paper withBorder p="md" radius="md">
-                <strong style={{ fontSize: rem(16) }}>Empresa</strong>
-                <Divider my="sm" />
-
-                <Grid gutter="xs">
-                  <Grid.Col span={6}><b>Razão Social:</b> {formEmpresa.getValues().razaoSocial}</Grid.Col>
-                  <Grid.Col span={6}><b>Nome Fantasia:</b> {formEmpresa.getValues().nomeFantasia}</Grid.Col>
-
-                  <Grid.Col span={6}><b>CNPJ:</b> {formEmpresa.getValues().cnpj}</Grid.Col>
-                  <Grid.Col span={6}><b>Inscrição Estadual:</b> {formEmpresa.getValues().inscricaoEstadual || "-"}</Grid.Col>
-
-                  <Grid.Col span={6}><b>Atividade:</b> {formEmpresa.getValues().atividadeFirma}</Grid.Col>
-                  <Grid.Col span={6}><b>Subatividade:</b> {formEmpresa.getValues().subAtividade || "-"}</Grid.Col>
-
-                  <Grid.Col span={6}>
-                    <b>Data de Início:</b>{" "}
-                    {formEmpresa.getValues().dataInicioFuncionamento
-                      ? dayjs(formEmpresa.getValues().dataInicioFuncionamento).format('DD/MM/YYYY')
-                      : "-"}
-                  </Grid.Col>
-                </Grid>
-              </Paper>
-
-              {/* BLOCO DO ENDEREÇO */}
-              <Paper withBorder p="md" radius="md">
-                <strong style={{ fontSize: rem(16) }}>Endereço</strong>
-                <Divider my="sm" />
-
-                <Grid gutter="xs">
-                  <Grid.Col span={6}><b>Rua:</b> {formEndereco.getValues().rua}</Grid.Col>
-                  <Grid.Col span={3}><b>Número:</b> {formEndereco.getValues().numero}</Grid.Col>
-                  <Grid.Col span={3}><b>Bairro:</b> {formEndereco.getValues().bairro}</Grid.Col>
-
-                  <Grid.Col span={4}><b>CEP:</b> {formEndereco.getValues().cep}</Grid.Col>
-                  <Grid.Col span={4}><b>Município:</b> {formEndereco.getValues().municipio}</Grid.Col>
-                  <Grid.Col span={4}><b>UF:</b> {formEndereco.getValues().uf}</Grid.Col>
-
-                  <Grid.Col span={6}><b>Telefone:</b> {formEndereco.getValues().telefone || "-"}</Grid.Col>
-                </Grid>
-              </Paper>
-
-              {/* BLOCO DO RESPONSÁVEL */}
-              <Paper withBorder p="md" radius="md">
-                <strong style={{ fontSize: rem(16) }}>Responsável</strong>
-                <Divider my="sm" />
-
-                <Grid gutter="xs">
-                  <Grid.Col span={6}><b>Nome:</b> {formResponsavel.getValues().nome}</Grid.Col>
-
-                  <Grid.Col span={6}><b>CPF:</b> {formResponsavel.getValues().cpf}</Grid.Col>
-                  <Grid.Col span={6}><b>RG:</b> {formResponsavel.getValues().rg || "-"}</Grid.Col>
-
-                  <Grid.Col span={6}><b>Escolaridade:</b> {formResponsavel.getValues().escolaridade || "-"}</Grid.Col>
-
-                  <Grid.Col span={6}><b>Formação:</b> {formResponsavel.getValues().formacao || "-"}</Grid.Col>
-                  <Grid.Col span={6}><b>Especialidade:</b> {formResponsavel.getValues().especialidade || "-"}</Grid.Col>
-
-                  <Grid.Col span={6}><b>Registro Conselho:</b> {formResponsavel.getValues().registroConselho || "-"}</Grid.Col>
-                </Grid>
-              </Paper>
+              <DetailsEmpresa item={dataEmpresa()}/>
 
               {/* BOTÕES */}
               <Group mt="md" justify="flex-end">
