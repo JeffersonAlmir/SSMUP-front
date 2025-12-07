@@ -3,6 +3,7 @@ import { type UseFormReturnType } from "@mantine/form";
 import { IconChevronDown } from "@tabler/icons-react";
 import { IMaskInput } from "react-imask";
 import type IResponsavel from "../../interface/IResponsavel";
+import { escolaridadeOptions } from "../../constants/escolaridade";
 
 
 export type FormResponsavelProps = {
@@ -10,15 +11,6 @@ export type FormResponsavelProps = {
 }
 
 export default function FormResponsavel({ form }: FormResponsavelProps) {
-  const escolaridadeOptions = [
-    { value: '', label: 'Selecione...', key: 0 },
-    { value: 'Fundamental incompleto', label: 'Ensino Fundamental Incompleto', key: 1 },
-    { value: 'Fundamental completo', label: 'Ensino Fundamental Completo', key: 2 },
-    { value: 'Médio incompleto', label: 'Ensino Médio Incompleto', key: 3 },
-    { value: 'Médio completo', label: 'Ensino Médio Completo', key: 4 },
-    { value: 'Superior incompleto', label: 'Ensino Superior Incompleto', key: 5 },
-    { value: 'Superior completo', label: 'Ensino Superior Completo', key: 6 },
-  ];
 
   return (
     <form onSubmit={form.onSubmit(() => {})}>
@@ -57,6 +49,7 @@ export default function FormResponsavel({ form }: FormResponsavelProps) {
             <Select
               label="Escolaridade"
               data={escolaridadeOptions}
+              placeholder="Selecione..."
               required
               rightSection={<IconChevronDown size={16} stroke={1.5} />}
               {...form.getInputProps('escolaridade')}
