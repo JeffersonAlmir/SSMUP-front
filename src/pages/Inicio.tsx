@@ -45,6 +45,7 @@ const Inicio = () => {
             icon={IconSearch} 
             title="Pesquisar Empresa" 
             description="Busque por empresas já cadastradas na base de dados." 
+            onClick={() => navigate("/lista")}
           />
             <ActionCard 
             icon={IconSearch} 
