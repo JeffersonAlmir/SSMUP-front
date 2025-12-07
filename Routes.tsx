@@ -7,6 +7,7 @@ import Configuracoes from "./src/pages/Configuracoes";
 import Cadastro from "./src/pages/Cadastro";
 import ListEmpresas from "./src/pages/ListEmpresa";
 import Login from "./src/pages/Login";
+import DetailsPage from "./src/pages/DetailsPage";
 
 export default function AppRoutes() {
   return (
@@ -20,6 +21,7 @@ export default function AppRoutes() {
             <Route path="/lista" element={<ListEmpresas/>} />
             <Route path="/alvara" element={<Alvara/>} />
             <Route path="/configuracoes" element={<Configuracoes/>} />        
+            <Route path="/detalhes/:cnpj" element={<DetailsPage/>} />        
         </Route>
         <Route path="/login" element={<Login/>} />
       </Routes>
