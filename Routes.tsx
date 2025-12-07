@@ -8,6 +8,7 @@ import Cadastro from "./src/pages/Cadastro";
 import ListEmpresas from "./src/pages/ListEmpresa";
 import Login from "./src/pages/Login";
 import DetailsPage from "./src/pages/DetailsPage";
+import UpdateEmpresaProvider from "./src/contexts/UpdateEmpresaContext";
 
 export default function AppRoutes() {
   return (
@@ -21,7 +22,7 @@ export default function AppRoutes() {
             <Route path="/lista" element={<ListEmpresas/>} />
             <Route path="/alvara" element={<Alvara/>} />
             <Route path="/configuracoes" element={<Configuracoes/>} />        
-            <Route path="/detalhes/:cnpj" element={<DetailsPage/>} />        
+            <Route path="/detalhes/:cnpj" element={<UpdateEmpresaProvider> <DetailsPage/> </UpdateEmpresaProvider>} />        
         </Route>
         <Route path="/login" element={<Login/>} />
       </Routes>
