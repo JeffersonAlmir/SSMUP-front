@@ -1,19 +1,17 @@
 import { Button, Card, Container, Divider, Group, Paper, Text, Title } from "@mantine/core";
 import { IconArrowLeft } from "@tabler/icons-react";
-import { useLocation, useNavigate } from "react-router-dom";
-import type IResponseItens from "../interface/IResponseItens";
+import { useNavigate } from "react-router-dom";
 import DetailsEmpresa from "../components/details/DetailsEmpresa";
 import ModalEdit from "../components/modal/ModalEdit";
-import UpdateEmpresaProvider from "../contexts/UpdateEmpresaContext";
+import { useUpdateEmpresaContext } from "../hooks/useUpdateEmpresaContext";
 
 
 const DetailsPage = () => {
+    const {dataEmpresa} = useUpdateEmpresaContext()
     const navigate = useNavigate();
-    const location = useLocation();
 
-    const item = location.state?.item as IResponseItens;
  
-    if (!item) {
+    if (!dataEmpresa) {
         return (
         <Container size="sm" mt="xl">
             <Paper p="xl" withBorder style={{ textAlign: 'center' }}>
@@ -27,28 +25,26 @@ const DetailsPage = () => {
     }
 
   return (
-    <UpdateEmpresaProvider>
-        <Container  fluid size="lg">
-            <Card withBorder radius="md" p="xl" mt="md" shadow="sm">
-                <Group justify="space-between" mb="lg">
-                    <Group>
-                        <Button 
-                        variant="subtle" 
-                        color="gray" 
-                        onClick={() => navigate(-1)}
-                        leftSection={<IconArrowLeft size={18} />}
-                        >
-                        Voltar
-                        </Button>
-                        <Title order={3}>Detalhes da Empresa</Title>
-                    </Group>
-                    <ModalEdit/>
+    <Container  fluid size="lg">
+        <Card withBorder radius="md" p="xl" mt="md" shadow="sm">
+            <Group justify="space-between" mb="lg">
+                <Group>
+                    <Button 
+                    variant="subtle" 
+                    color="gray" 
+                    onClick={() => navigate(-1)}
+                    leftSection={<IconArrowLeft size={18} />}
+                    >
+                    Voltar
+                    </Button>
+                    <Title order={3}>Detalhes da Empresa</Title>
                 </Group>
-                <Divider mb="xl" />
-                <DetailsEmpresa/>
-            </Card>
-        </Container>
-    </UpdateEmpresaProvider>
+                <ModalEdit/>
+            </Group>
+            <Divider mb="xl" />
+            <DetailsEmpresa/>
+        </Card>
+    </Container>  
   )
 }
 
