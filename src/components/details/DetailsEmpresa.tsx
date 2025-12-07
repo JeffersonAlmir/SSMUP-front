@@ -1,18 +1,15 @@
 import { Grid, Group, Paper, Text } from "@mantine/core";
-import type IResponseItens from "../../interface/IResponseItens";
 import { IconBuildingSkyscraper, IconMapPin, IconUser } from "@tabler/icons-react";
+import { useUpdateEmpresaContext } from "../../hooks/useUpdateEmpresaContext";
 
-export type DetailsEmpresaProps = {
-    item: IResponseItens
-}
 
-export default function DetailsEmpresa ({item}:DetailsEmpresaProps){
+
+export default function DetailsEmpresa (){
+    const {dataEmpresa} = useUpdateEmpresaContext();
 
   return (
 
     <>
-    
-    
         <Group mb="sm">
             <IconBuildingSkyscraper size={20} color="gray" />
             <Text fw={700} size="lg">Empresa</Text>
@@ -22,45 +19,45 @@ export default function DetailsEmpresa ({item}:DetailsEmpresaProps){
             <Grid>
                 <Grid.Col span={{ base: 12, md: 4 }}>
                     <Text c="dimmed" size="xs" tt="uppercase" fw={700}>Razão Social</Text>
-                    <Text size="md">{item.razaoSocial}</Text>
+                    <Text size="md">{dataEmpresa.razaoSocial}</Text>
                 </Grid.Col>
                 
                 <Grid.Col span={{ base: 12, md: 4 }}>
                     <Text c="dimmed" size="xs" tt="uppercase" fw={700}>Nome Fantasia</Text>
-                    <Text size="md">{item.nomeFantasia }</Text>
+                    <Text size="md">{dataEmpresa.nomeFantasia }</Text>
                 </Grid.Col>
 
                 <Grid.Col span={{ base: 12, md: 4 }}>
                     <Text c="dimmed" size="xs" tt="uppercase" fw={700}>CNPJ</Text>
-                    <Text size="md">{item.cnpj}</Text>
+                    <Text size="md">{dataEmpresa.cnpj}</Text>
                 </Grid.Col>
                 <Grid.Col span={{ base: 12, md: 4 }}>
                     <Text c="dimmed" size="xs" tt="uppercase" fw={700}>Inscrição Estadual</Text>
-                    <Text size="md">{item.inscricaoEstadual}</Text>
+                    <Text size="md">{dataEmpresa.inscricaoEstadual}</Text>
                 </Grid.Col>
                 
                 <Grid.Col span={{ base: 12, md: 4 }}>
                     <Text c="dimmed" size="xs" tt="uppercase" fw={700}>Atividade da Firma</Text>
-                    <Text size="md">{item.atividadeFirma}</Text>
+                    <Text size="md">{dataEmpresa.atividadeFirma}</Text>
                 </Grid.Col>
                 
                 <Grid.Col span={{ base: 12, md: 4 }}>
                     <Text c="dimmed" size="xs" tt="uppercase" fw={700}>Atividade Secundária</Text>
-                    <Text size="md">{item.subAtividade}</Text>
+                    <Text size="md">{dataEmpresa.subAtividade}</Text>
                 </Grid.Col>
                 <Grid.Col span={{ base: 12, md: 4 }}>
                     <Text c="dimmed" size="xs" tt="uppercase" fw={700}>Email</Text>
-                    <Text size="md">{item.email}</Text>
+                    <Text size="md">{dataEmpresa.email}</Text>
                 </Grid.Col>
                 
                 <Grid.Col span={{ base: 12, md: 4 }}>
                     <Text c="dimmed" size="xs" tt="uppercase" fw={700}>Início de Funcionamento</Text>
-                    <Text size="md">{item.dataInicioFuncionamento}</Text>
+                    <Text size="md">{dataEmpresa.dataInicioFuncionamento}</Text>
                 </Grid.Col>
                 
                 <Grid.Col span={{ base: 12, md: 4 }}>
                     <Text c="dimmed" size="xs" tt="uppercase" fw={700}>Ativo</Text>
-                    <Text size="md">{item.ativo ? "Sim" : "Não"}</Text>
+                    <Text size="md">{dataEmpresa.ativo ? "Sim" : "Não"}</Text>
                 </Grid.Col>
             </Grid>
         </Paper>
@@ -74,27 +71,27 @@ export default function DetailsEmpresa ({item}:DetailsEmpresaProps){
             <Grid>
                 <Grid.Col span={{ base: 12, md: 4 }}>
                     <Text c="dimmed" size="xs" tt="uppercase" fw={700}>Rua</Text>
-                    <Text>{item.endereco.rua}</Text>
+                    <Text>{dataEmpresa.endereco.rua}</Text>
                 </Grid.Col>
                 <Grid.Col span={{ base: 12, md: 4 }}>
                     <Text c="dimmed" size="xs" tt="uppercase" fw={700}>Número</Text>
-                    <Text>{item.endereco.numero}</Text>
+                    <Text>{dataEmpresa.endereco.numero}</Text>
                 </Grid.Col>
                 <Grid.Col span={{ base: 12, md: 4 }}>
                     <Text c="dimmed" size="xs" tt="uppercase" fw={700}>Bairro</Text>
-                    <Text>{item.endereco.bairro}</Text>
+                    <Text>{dataEmpresa.endereco.bairro}</Text>
                 </Grid.Col>
                 <Grid.Col span={{ base: 12, md: 4 }}>
                     <Text c="dimmed" size="xs" tt="uppercase" fw={700}>CEP</Text>
-                    <Text>{item.endereco.cep}</Text>
+                    <Text>{dataEmpresa.endereco.cep}</Text>
                 </Grid.Col>
                 <Grid.Col span={{ base: 12, md: 4 }}>
                     <Text c="dimmed" size="xs" tt="uppercase" fw={700}>Município</Text>
-                    <Text>{item.endereco.municipio} - {item.endereco.uf}</Text>
+                    <Text>{dataEmpresa.endereco.municipio} - {dataEmpresa.endereco.uf}</Text>
                 </Grid.Col>
                 <Grid.Col span={{ base: 12, md: 4 }}>
                     <Text c="dimmed" size="xs" tt="uppercase" fw={700}>Telefone</Text>
-                    <Text>{item.endereco.telefone}</Text>
+                    <Text>{dataEmpresa.endereco.telefone}</Text>
                 </Grid.Col>
             </Grid>
         </Paper>
@@ -108,31 +105,31 @@ export default function DetailsEmpresa ({item}:DetailsEmpresaProps){
             <Grid>
                 <Grid.Col span={{ base: 12, md: 4 }}>
                     <Text c="dimmed" size="xs" tt="uppercase" fw={700}>Nome</Text>
-                    <Text>{item.responsavel.nome}</Text>
+                    <Text>{dataEmpresa.responsavel.nome}</Text>
                 </Grid.Col>
                 <Grid.Col span={{ base: 12, md: 4 }}>
                     <Text c="dimmed" size="xs" tt="uppercase" fw={700}>CPF</Text>
-                    <Text>{item.responsavel.cpf}</Text>
+                    <Text>{dataEmpresa.responsavel.cpf}</Text>
                 </Grid.Col>
                 <Grid.Col span={{ base: 12, md: 4 }}>
                     <Text c="dimmed" size="xs" tt="uppercase" fw={700}>RG</Text>
-                    <Text>{item.responsavel.rg}</Text>
+                    <Text>{dataEmpresa.responsavel.rg}</Text>
                 </Grid.Col>
                 <Grid.Col span={{ base: 12, md: 4 }}>
                     <Text c="dimmed" size="xs" tt="uppercase" fw={700}>Escolaridade</Text>
-                    <Text>{item.responsavel.escolaridade}</Text>
+                    <Text>{dataEmpresa.responsavel.escolaridade}</Text>
                 </Grid.Col>
                 <Grid.Col span={{ base: 12, md: 4 }}>
                     <Text c="dimmed" size="xs" tt="uppercase" fw={700}>Formação</Text>
-                    <Text>{item.responsavel.formacao || "-"}</Text>
+                    <Text>{dataEmpresa.responsavel.formacao || "-"}</Text>
                 </Grid.Col>
                 <Grid.Col span={{ base: 12, md: 4 }}>
                     <Text c="dimmed" size="xs" tt="uppercase" fw={700}>Especialidade</Text>
-                    <Text>{item.responsavel.especialidade || "-"}</Text>
+                    <Text>{dataEmpresa.responsavel.especialidade || "-"}</Text>
                 </Grid.Col>
                 <Grid.Col span={{ base: 12, md: 4 }}>
                     <Text c="dimmed" size="xs" tt="uppercase" fw={700}>Registro em Conselho</Text>
-                    <Text>{item.responsavel.registroConselho || "-"}</Text>
+                    <Text>{dataEmpresa.responsavel.registroConselho || "-"}</Text>
                 </Grid.Col>
             
             </Grid>

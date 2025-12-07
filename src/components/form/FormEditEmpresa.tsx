@@ -1,6 +1,7 @@
 import { useForm } from '@mantine/form';
+import { notifications } from '@mantine/notifications';
+import { DateInput } from '@mantine/dates';
 import { yupResolver } from 'mantine-form-yup-resolver';
-import { empresaSchema } from '../../validations/empresaSchema';
 import {
   InputBase,
   TextInput,
@@ -16,65 +17,33 @@ import {
 import { IMaskInput } from 'react-imask';
 import { IconChevronDown } from '@tabler/icons-react';
 import { useState, type FocusEvent } from 'react';
-import { getCepInfo } from '../../services/cepService';
 import axios from 'axios';
-import { DateInput } from '@mantine/dates';
 import dayjs from 'dayjs';
-import { notifications } from '@mantine/notifications';
+import { getCepInfo } from '../../services/cepService';
+import { escolaridadeOptions } from '../../constants/escolaridade';
+
+import { empresaUpdateSchema } from '../../validations/empresaUpdateSchema';
+import { useUpdateEmpresaContext } from '../../hooks/useUpdateEmpresaContext';
 
 
 export type FormProps ={
   close:()=>void;
-  onSuccessSave: () => void;
 }
 
-export default function FormCadastro({close , onSuccessSave}:FormProps) {
+export default function FormEditEmpresa({ close}:FormProps) {
   const [isCepLoading, setIsCepLoading] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const {dataEmpresa, setDataEmpresa} = useUpdateEmpresaContext();
+  
 
   const form = useForm({
     mode: 'uncontrolled',
     initialValues: {
-      razaoSocial: '',
-      nomeFantasia: '',
-      cpfCnpj: '',
-      inscricaoEstadual: '',
-      atividadeFirma: '',
-      subAtividade: '',
-      dataInicioFuncionamento:'',
-      endereco: {
-        rua: '',
-        numero: '',
-        bairro: '',
-        cep: '',
-        municipio: '',
-        uf: '',
-        telefone: '',
-      },
-      responsavel: {
-        nome: '',
-        cpf: '',
-        rg: '',
-        email: '',
-        escolaridade: '',
-        formacao: '',
-        especialidade: '',
-        registroConselho: '',
-      },
+      ...dataEmpresa
     },
-    validate: yupResolver(empresaSchema),
+    validate: yupResolver(empresaUpdateSchema),
   });
 
-
-  const escolaridadeOptions = [
-    { value: '', label: 'Selecione...' ,key:0},
-    {value: 'Fundamental incompleto',label: 'Ensino Fundamental Incompleto',key:0},
-    { value: 'Fundamental completo', label: 'Ensino Fundamental Completo',key:1 },
-    { value: 'Médio incompleto', label: 'Ensino Médio Incompleto',key:2 },
-    { value: 'Médio completo', label: 'Ensino Médio Completo',key:3 },
-    { value: 'Superior incompleto', label: 'Ensino Superior Incompleto',key:4 },
-    { value: 'Superior completo', label: 'Ensino Superior Completo',key:5 },
-  ];
 
   const handleCepBlur = async (event: FocusEvent<HTMLInputElement>) =>{
     form.getInputProps('endereco.cep').onBlur(event);
@@ -105,33 +74,50 @@ export default function FormCadastro({close , onSuccessSave}:FormProps) {
 
   }
 
-  const handleSubmit = async(values: typeof form.values) =>{
-    console.log("to aqui")
+  const handleUpdateSubmit = async(values: typeof form.values) =>{
     setIsSubmitting(true)
     const dataFormatada = dayjs(values.dataInicioFuncionamento).format('DD/MM/YYYY');
-    console.log(dataFormatada)
-    const newEmpresa = {
-      ...values,
-      dataInicioFuncionamento: dataFormatada
-    }
-    console.log(JSON.stringify(newEmpresa));
-    try {
-      const response = await axios.post(
-        'http://localhost:8080/v1/api/empresas',
-        newEmpresa
-      )
 
-      if(response.status == 201){
-        console.log(response.data)
-        onSuccessSave();
-        form.reset();
+    const updateEmpresa = {
+      razaoSocial: values.razaoSocial,
+      nomeFantasia: values.nomeFantasia,
+      cnpj: values.cnpj,
+      inscricaoEstadual: values.inscricaoEstadual,
+      atividadeFirma: values.atividadeFirma,
+      subAtividade: values.subAtividade,
+      dataInicioFuncionamento: dataFormatada, 
+      email: values.email
+    }
+
+    const updateEndereco = {
+      endereco: values.endereco
+    }
+
+    const updateResponsavel = {
+      responsavel: values.responsavel
+    }
+    
+    try {
+      const [empresaResponse, enderecoResponse, reponsavelResponse ] = await Promise.all([
+        axios.put(`http://localhost:8080/v1/api/empresas/${dataEmpresa.id}`,updateEmpresa),
+        axios.put(`http://localhost:8080/v1/api/empresas/${dataEmpresa.id}/enderecos`, updateEndereco ),
+        axios.put(`http://localhost:8080/v1/api/empresas/${dataEmpresa.id}/responsaveis`, updateResponsavel)
+      ])
+
+      if(empresaResponse.status == 200 && enderecoResponse.status == 200  && reponsavelResponse.status == 200 ){
+        setDataEmpresa({
+          ...updateEmpresa,
+          endereco: values.endereco,
+          responsavel: values.responsavel
+        });
+        close();
       }
       
     } catch (error) {
       console.log(error)
       notifications.show({
         title: 'Erro',
-        message: 'Erro de conexão ao cadastrar empresa.',
+        message: 'Erro de conexão ao editar empresa.',
         color: 'red',
       });
     }finally {
@@ -148,7 +134,7 @@ export default function FormCadastro({close , onSuccessSave}:FormProps) {
   }
   return (
     <Paper shadow="md" p="xl" radius="md" withBorder>
-      <form onSubmit={form.onSubmit(handleSubmit, handleSubmitError)}>
+      <form onSubmit={form.onSubmit(handleUpdateSubmit, handleSubmitError)}>
         <Stack gap="xl">
           {/* Seção 1: Informações da Empresa */}
           <Stack gap="md">
@@ -173,10 +159,10 @@ export default function FormCadastro({close , onSuccessSave}:FormProps) {
               </Grid.Col>
               <Grid.Col span={{ base: 12, md: 6 }}>
                 <InputBase
-                  label="CPF/CNPJ"
+                  label="CNPJ"
                   placeholder=""
                   required
-                  {...form.getInputProps('cpfCnpj')}
+                  {...form.getInputProps('cnpj')}
                 />
               </Grid.Col>
               <Grid.Col span={{ base: 12, md: 6 }}>
@@ -217,6 +203,15 @@ export default function FormCadastro({close , onSuccessSave}:FormProps) {
                   weekdayFormat="ddd"
                   maxDate={dayjs().toDate()}
                   {...form.getInputProps('dataInicioFuncionamento')}
+                />
+              </Grid.Col>
+              <Grid.Col span={{ base: 12, md: 6 }}>
+                <TextInput
+                  label="Email"
+                  type="email"
+                  placeholder="exemplo@email.com"
+                  required
+                  {...form.getInputProps('email')}
                 />
               </Grid.Col>
             </Grid>
@@ -311,15 +306,6 @@ export default function FormCadastro({close , onSuccessSave}:FormProps) {
                 />
               </Grid.Col>
               <Grid.Col span={{ base: 12, md: 6 }}>
-                <TextInput
-                  label="Email"
-                  type="email"
-                  placeholder="exemplo@email.com"
-                  required
-                  {...form.getInputProps('responsavel.email')}
-                />
-              </Grid.Col>
-              <Grid.Col span={{ base: 12, md: 6 }}>
                 <InputBase
                   label="CPF"
                   required
@@ -343,6 +329,7 @@ export default function FormCadastro({close , onSuccessSave}:FormProps) {
                 <Select
                   label="Escolaridade"
                   data={escolaridadeOptions}
+                  placeholder='Selecione...'
                   required
                   rightSection={<IconChevronDown size={16} stroke={1.5} />}
                   {...form.getInputProps('responsavel.escolaridade')}
@@ -379,7 +366,7 @@ export default function FormCadastro({close , onSuccessSave}:FormProps) {
             </Button>
 
             <Button type="submit" size="md" loading={isSubmitting} >
-              Cadastrar Empresa
+              Confirmar
             </Button>
           </Group>
         </Stack>
