@@ -19,22 +19,21 @@ export type ChildrenProps = {
 export default function UpdateEmpresaProvider({ children }: ChildrenProps){
     const location = useLocation();
     const item = location.state?.item as IResponseItens;
-    const [dataEmpresa, setDataEmpresa] = useState<IResponseItens>(item);
+    const [dataEmpresa, setDataEmpresa] = useState<IResponseItens>(item || {} as IResponseItens);
 
     useEffect(() => {
-        const fetchEmpresa = async () => {
-            try {
-                const response = await axios.get(`http://localhost:8080/v1/api/empresas/${item.id}`);
-                setDataEmpresa(response.data); 
-            } catch (error) {
-                console.error("Erro ao buscar dados iniciais", error);
-            } finally {
-                
-            }
-        };
-
-        fetchEmpresa();
-    }, []);
+        if (item?.id) {
+            const fetchEmpresa = async () => {
+                try {
+                    const response = await axios.get(`http://localhost:8080/v1/api/empresas/${item.id}`);
+                    setDataEmpresa(response.data); 
+                } catch (error) {
+                    console.error("Erro ao buscar dados iniciais", error);
+                }
+            };
+            fetchEmpresa();
+        }
+    }, [item?.id]);
 
     return(
         <UpdateEmpresaContext.Provider value={{dataEmpresa, setDataEmpresa}}>
