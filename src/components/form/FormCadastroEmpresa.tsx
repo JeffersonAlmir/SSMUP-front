@@ -1,4 +1,4 @@
-import { Button, Divider, Grid, Group, Paper, Stack, Stepper, rem } from "@mantine/core";
+import { Button, Divider, Group, Paper, Stack, Stepper} from "@mantine/core";
 import { yupResolver } from "mantine-form-yup-resolver";
 import { useForm } from "@mantine/form";
 import { useState } from "react";
@@ -138,21 +138,21 @@ export default function FormEmpresaWizard() {
     }
   };
 
-  const dataEmpresa = () => {
+  // const dataEmpresa = () => {
 
-    const dateFormated = dayjs(formEmpresa.getValues().dataInicioFuncionamento).format('DD/MM/YYYY');
-    const dataEmpresa={
-      ...formEmpresa.getValues(),
-      dataInicioFuncionamento:dateFormated
-    };
-    const newEmpresa : IResponseItens = {
-         ...dataEmpresa,
-         responsavel: formResponsavel.getValues(),
-         endereco: formEndereco.getValues(),
-    };
+  //   const dateFormated = dayjs(formEmpresa.getValues().dataInicioFuncionamento).format('DD/MM/YYYY');
+  //   const dataEmpresa={
+  //     ...formEmpresa.getValues(),
+  //     dataInicioFuncionamento:dateFormated
+  //   };
+  //   const newEmpresa : IResponseItens = {
+  //        ...dataEmpresa,
+  //        responsavel: formResponsavel.getValues(),
+  //        endereco: formEndereco.getValues(),
+  //   };
     
-    return newEmpresa
-  }
+  //   return newEmpresa
+  // }
   
   return (
     <>
@@ -178,7 +178,7 @@ export default function FormEmpresaWizard() {
             <Stack align="stretch" gap="lg">
               <Divider label="Confirmação dos Dados" labelPosition="center" />
 
-              <DetailsEmpresa item={dataEmpresa()}/>
+              <DetailsEmpresa/>
 
               {/* BOTÕES */}
               <Group mt="md" justify="flex-end">

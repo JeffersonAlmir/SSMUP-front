@@ -12,7 +12,7 @@ import { useNavigate } from 'react-router-dom';
 
 
 export default function EmpresasTable() {
-  const [focused, setFocused] = useState(false);
+  // const [focused, setFocused] = useState(false);
   const [page, setPage] = useState(0);
   const [totalPages, setTotalPages] = useState(1);
   const [data, setData] = useState<IResponseItens[]>([]);
@@ -75,8 +75,8 @@ export default function EmpresasTable() {
             <TextInput
                 placeholder="Pesquise a empresa pelo nome"
                 leftSection={<IconSearch size={16} stroke={1.5} />}
-                onFocus={() => setFocused(true)}
-                onBlur={() => setFocused(false)}
+                // onFocus={() => setFocused(true)}
+                // onBlur={() => setFocused(false)}
                 style={{ width: "500px" }}
                 // value={}
                 // onChange={}

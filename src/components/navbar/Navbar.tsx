@@ -3,7 +3,6 @@ import {
   IconBuildings,
   IconChartHistogram,
   IconFileCertificate,
-  IconFileExport,
   IconHome,
   IconLogout,
   IconSettings,
