@@ -1,11 +1,11 @@
-import { Button, Divider, Grid, Group, Paper, Stack, Stepper, rem } from "@mantine/core";
+import { Button, Divider, Group, Paper, Stack, Stepper} from "@mantine/core";
 import { yupResolver } from "mantine-form-yup-resolver";
 import { useForm } from "@mantine/form";
 import { useState } from "react";
 import { notifications } from "@mantine/notifications";
 import SubmitOverlay from "../loader/SubmitOverlay";
 import dayjs from "dayjs";
-import axios from "axios";
+
 
 import { responsavelSchema } from "../../validations/responsavelSchema";
 import { enderecoSchema } from "../../validations/enderecoSchema";
@@ -20,6 +20,7 @@ import type IResponsavel from "../../interface/IResponsavel";
 import type IEmpresa from "../../interface/IEmpresa";
 import type IResponseItens from "../../interface/IResponseItens";
 import DetailsEmpresa from "../details/DetailsEmpresa";
+import apiBackend from "../../services/apiBackend";
 
 
 export default function FormEmpresaWizard() {
@@ -105,9 +106,7 @@ export default function FormEmpresaWizard() {
     setLoading(true);
 
     try {
-      const response = await axios.post(
-        'http://localhost:8080/v1/api/empresas',
-        newEmpresa
+      const response = await apiBackend.post('/empresas',newEmpresa
       )
       
       if(response.status == 201){
@@ -138,21 +137,21 @@ export default function FormEmpresaWizard() {
     }
   };
 
-  const dataEmpresa = () => {
+  // const dataEmpresa = () => {
 
-    const dateFormated = dayjs(formEmpresa.getValues().dataInicioFuncionamento).format('DD/MM/YYYY');
-    const dataEmpresa={
-      ...formEmpresa.getValues(),
-      dataInicioFuncionamento:dateFormated
-    };
-    const newEmpresa : IResponseItens = {
-         ...dataEmpresa,
-         responsavel: formResponsavel.getValues(),
-         endereco: formEndereco.getValues(),
-    };
+  //   const dateFormated = dayjs(formEmpresa.getValues().dataInicioFuncionamento).format('DD/MM/YYYY');
+  //   const dataEmpresa={
+  //     ...formEmpresa.getValues(),
+  //     dataInicioFuncionamento:dateFormated
+  //   };
+  //   const newEmpresa : IResponseItens = {
+  //        ...dataEmpresa,
+  //        responsavel: formResponsavel.getValues(),
+  //        endereco: formEndereco.getValues(),
+  //   };
     
-    return newEmpresa
-  }
+  //   return newEmpresa
+  // }
   
   return (
     <>
@@ -178,7 +177,7 @@ export default function FormEmpresaWizard() {
             <Stack align="stretch" gap="lg">
               <Divider label="Confirmação dos Dados" labelPosition="center" />
 
-              <DetailsEmpresa item={dataEmpresa()}/>
+              <DetailsEmpresa/>
 
               {/* BOTÕES */}
               <Group mt="md" justify="flex-end">
