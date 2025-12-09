@@ -17,12 +17,12 @@ import {
 import { IMaskInput } from 'react-imask';
 import { IconChevronDown } from '@tabler/icons-react';
 import { useState, type FocusEvent } from 'react';
-import axios from 'axios';
 import dayjs from 'dayjs';
 import { getCepInfo } from '../../services/cepService';
 import { escolaridadeOptions } from '../../constants/escolaridade';
 import { empresaUpdateSchema } from '../../validations/empresaUpdateSchema';
 import { useUpdateEmpresaContext } from '../../hooks/useUpdateEmpresaContext';
+import apiBackend from '../../services/apiBackend';
 
 
 
@@ -104,9 +104,9 @@ export default function FormEditEmpresa({ close}:FormProps) {
     const ativo = dataEmpresa.ativo
     try {
       const [empresaResponse, enderecoResponse, reponsavelResponse ] = await Promise.all([
-        axios.put(`http://localhost:8080/v1/api/empresas/${id}`,updateEmpresa),
-        axios.put(`http://localhost:8080/v1/api/empresas/${id}/enderecos`, updateEndereco ),
-        axios.put(`http://localhost:8080/v1/api/empresas/${id}/responsaveis`, updateResponsavel)
+        apiBackend.put(`/empresas/${id}`,updateEmpresa),
+        apiBackend.put(`/empresas/${id}/enderecos`, updateEndereco ),
+        apiBackend.put(`/empresas/${id}/responsaveis`, updateResponsavel)
       ])
 
       if(empresaResponse.status == 200 && enderecoResponse.status == 200  && reponsavelResponse.status == 200 ){

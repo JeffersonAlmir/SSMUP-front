@@ -3,11 +3,11 @@ import classes from './Table.module.css';
 import { IconSearch } from '@tabler/icons-react';
 import { useEffect, useState } from 'react';
 // import ModalCadastro from '../modal/ModalCadastro';
-import axios from 'axios';
 // import type IEmpresa from '../../interface/IEmpresa';
 import type IResponseEmpresa from '../../interface/IResponseEmpresa';
 import type IResponseItens from '../../interface/IResponseItens';
 import { useNavigate } from 'react-router-dom';
+import apiBackend from '../../services/apiBackend';
 
 
 
@@ -20,9 +20,7 @@ export default function EmpresasTable() {
 
   const getEmpresas = async (pageNumber: number) => {
     try {
-      const response = await axios.get<IResponseEmpresa>(
-        `http://localhost:8080/v1/api/empresas/pagination?page=${pageNumber}`
-      );
+      const response = await apiBackend.get<IResponseEmpresa>(`/empresas/pagination?page=${pageNumber}`);
       
       if (response.status === 200) {
         const empresasData = response.data;

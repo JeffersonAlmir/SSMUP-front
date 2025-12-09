@@ -5,7 +5,7 @@ import { useState } from "react";
 import { notifications } from "@mantine/notifications";
 import SubmitOverlay from "../loader/SubmitOverlay";
 import dayjs from "dayjs";
-import axios from "axios";
+
 
 import { responsavelSchema } from "../../validations/responsavelSchema";
 import { enderecoSchema } from "../../validations/enderecoSchema";
@@ -20,6 +20,7 @@ import type IResponsavel from "../../interface/IResponsavel";
 import type IEmpresa from "../../interface/IEmpresa";
 import type IResponseItens from "../../interface/IResponseItens";
 import DetailsEmpresa from "../details/DetailsEmpresa";
+import apiBackend from "../../services/apiBackend";
 
 
 export default function FormEmpresaWizard() {
@@ -105,9 +106,7 @@ export default function FormEmpresaWizard() {
     setLoading(true);
 
     try {
-      const response = await axios.post(
-        'http://localhost:8080/v1/api/empresas',
-        newEmpresa
+      const response = await apiBackend.post('/empresas',newEmpresa
       )
       
       if(response.status == 201){
