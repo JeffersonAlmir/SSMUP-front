@@ -1,0 +1,9 @@
+version: '3.8'
+services:
+  web: 
+    image: nginx:1.29.3-alpine
+    ports:
+      - "5000:80"
+    volumes:
+      - ./nginx:/etc/nginx/conf.d
+      - ./dist:/usr/share/nginx/html
