@@ -20,6 +20,7 @@ export default function UpdateEmpresaProvider({ children }: ChildrenProps){
     const location = useLocation();
     const item = location.state?.item as IResponseItens;
     const [dataEmpresa, setDataEmpresa] = useState<IResponseItens>(item || {} as IResponseItens);
+    
 
     useEffect(() => {
         if (item?.id) {

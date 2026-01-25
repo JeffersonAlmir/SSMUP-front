@@ -53,5 +53,8 @@ export const empresaSchema = yup.object({
             .min(5, 'O email deve ter no mínimo 5 caracteres')
             .max(50, 'O email deve ter no máximo 50 caracteres')
             .required('O campo email é obrigatório'),
+    cnaeCodigo: yup.string()
+            .trim()
+            .required('O campo Cnae é obrigatório'),
 
 })

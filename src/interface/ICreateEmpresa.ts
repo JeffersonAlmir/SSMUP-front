@@ -1,8 +1,7 @@
-import type ICnae from "./ICnae";
 import type IEndereco from "./IEndereco"
 import type IResponsavel from "./IResponsavel";
 
-export default interface IResponseItens{
+export default interface ICreateEmpresa{
     id?: number;
     razaoSocial: string;
     nomeFantasia: string;
@@ -13,7 +12,7 @@ export default interface IResponseItens{
     dataInicioFuncionamento: string;
     ativo?: boolean;
     email: string;
-    cnae: ICnae ;
+    cnaeCodigo: String ;
     responsavel: IResponsavel,
     endereco: IEndereco,
 }

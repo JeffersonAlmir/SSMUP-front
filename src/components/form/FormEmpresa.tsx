@@ -1,9 +1,13 @@
-import { Divider, Grid, InputBase, Stack, TextInput } from "@mantine/core";
+import { Divider, Grid, InputBase, Select, Stack, TextInput } from "@mantine/core";
 import { DateInput } from "@mantine/dates";
 import { type UseFormReturnType } from "@mantine/form";
 import { IMaskInput } from "react-imask";
 import dayjs from "dayjs";
 import type IEmpresa from "../../interface/IEmpresa";
+import { IconChevronDown } from "@tabler/icons-react";
+import {  useEffect, useState } from "react";
+import {getCodigoCnaes} from "../../services/cnaeService"
+import type ICnae from "../../interface/ICnae";
 
 
 export type FormEmpresaProps = {
@@ -11,6 +15,13 @@ export type FormEmpresaProps = {
 }
 
 export default function FormEmpresa({ form }:  FormEmpresaProps) {
+  const [codigoCnae, setCodigoCnae] = useState<ICnae[]>([]);
+
+  useEffect(() => {
+    getCodigoCnaes().then((dados)=> {
+      setCodigoCnae(dados)
+    })
+  },[])
   return (
     <Stack gap="xl">
       <Divider label="Informações da Empresa" labelPosition="center" />
@@ -52,6 +63,21 @@ export default function FormEmpresa({ form }:  FormEmpresaProps) {
             {...form.getInputProps('inscricaoEstadual')}
           />
         </Grid.Col>
+        <Grid.Col span={{ base: 12, md: 12 }}>
+            <Select
+              label="Código CNAE"
+              data={
+                codigoCnae.map(c => ({ 
+                  value: c.codigo, 
+                  label: `${c.codigo} - ${c.descricao}` 
+                }))
+              }
+              placeholder={codigoCnae.length > 0 ? "Selecione...":"Nenhum código diponível"}
+              required
+              rightSection={<IconChevronDown size={16} stroke={1.5} />}
+              {...form.getInputProps('cnaeCodigo')}
+            />
+          </Grid.Col>
         <Grid.Col span={{ base: 12, md: 6 }}>
           <TextInput
             label="Atividade da Firma"
