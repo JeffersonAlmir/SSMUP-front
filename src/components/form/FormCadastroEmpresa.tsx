@@ -18,9 +18,9 @@ import FormResponsavel from "./FormulaResponsavel";
 import type IEndereco from "../../interface/IEndereco";
 import type IResponsavel from "../../interface/IResponsavel";
 import type IEmpresa from "../../interface/IEmpresa";
-import type IResponseItens from "../../interface/IResponseItens";
-import DetailsEmpresa from "../details/DetailsEmpresa";
 import apiBackend from "../../services/apiBackend";
+import type ICreateEmpresa from "../../interface/ICreateEmpresa";
+import DetailsCreateEmpresa from "../details/DetailsCreateEmpresa";
 
 
 export default function FormEmpresaWizard() {
@@ -37,6 +37,7 @@ export default function FormEmpresaWizard() {
       subAtividade: '',
       dataInicioFuncionamento:undefined as unknown as Date,
       email:'',
+      cnaeCodigo:''
     },
     validate: yupResolver(empresaSchema),
   });
@@ -97,7 +98,7 @@ export default function FormEmpresaWizard() {
       dataInicioFuncionamento:dateFormated
     };
 
-    const newEmpresa : IResponseItens = {
+    const newEmpresa : ICreateEmpresa = {
         ...dataEmpresa,
         responsavel: formResponsavel.getValues(),
         endereco: formEndereco.getValues(),
@@ -177,7 +178,11 @@ export default function FormEmpresaWizard() {
             <Stack align="stretch" gap="lg">
               <Divider label="Confirmação dos Dados" labelPosition="center" />
 
-              <DetailsEmpresa/>
+              <DetailsCreateEmpresa
+                dataEmpresa={formEmpresa.getValues()}
+                dataEndereco={formEndereco.getValues()}
+                dataResponsavel={formResponsavel.getValues()}
+              />
 
               {/* BOTÕES */}
               <Group mt="md" justify="flex-end">

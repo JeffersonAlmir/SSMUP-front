@@ -40,7 +40,8 @@ export default function FormEditEmpresa({ close}:FormProps) {
   const form = useForm({
     mode: 'controlled',
     initialValues: {
-      ...dataEmpresa
+      ...dataEmpresa,
+      cnaeCodigo: dataEmpresa?.cnae?.codigo
     },
     validate: yupResolver(empresaUpdateSchema),
   });
@@ -89,7 +90,9 @@ export default function FormEditEmpresa({ close}:FormProps) {
       atividadeFirma: values.atividadeFirma,
       subAtividade: values.subAtividade,
       dataInicioFuncionamento: dataFormatada, 
-      email: values.email
+      email: values.email,
+      cnaeCodigo: values.cnae.codigo,
+      
     }
 
     const updateEndereco = {
@@ -112,10 +115,28 @@ export default function FormEditEmpresa({ close}:FormProps) {
       if(empresaResponse.status == 200 && enderecoResponse.status == 200  && reponsavelResponse.status == 200 ){
         setDataEmpresa({
           id:id,
-          ...updateEmpresa,
+          razaoSocial: values.razaoSocial,
+          nomeFantasia: values.nomeFantasia,
+          cnpj: values.cnpj,
+          inscricaoEstadual: values.inscricaoEstadual,
+          atividadeFirma: values.atividadeFirma,
+          subAtividade: values.subAtividade,
+          dataInicioFuncionamento: dataFormatada, 
+          email: values.email,
+          cnae: {
+            codigo: values.cnae.codigo,
+            descricao: values.cnae.descricao,
+            risco: values.cnae.risco,
+          },
           ativo,
           endereco: values.endereco,
           responsavel: values.responsavel
+        });
+
+        notifications.show({
+          title: 'Sucesso!',
+          message: 'Os dados da empresa foram editados corretamente.',
+          color: 'green',
         });
         close();
       }
@@ -132,13 +153,16 @@ export default function FormEditEmpresa({ close}:FormProps) {
     }
   }
 
-  const handleSubmitError = () => {
+  const handleSubmitError = (errors: typeof form.errors) => {
+    console.log("Erros de validação encontrados:", errors);
+    
     notifications.show({
       title: 'Formulário Incompleto',
       message: 'Por favor, verifique os campos em vermelho.',
       color: 'red',
     });
-  }
+  };
+
   return (
     <Paper shadow="md" p="xl" radius="md" withBorder>
       <form onSubmit={form.onSubmit(handleUpdateSubmit, handleSubmitError)}>
@@ -180,6 +204,14 @@ export default function FormEditEmpresa({ close}:FormProps) {
                   component={IMaskInput}
                   mask="00000000-0"
                  {...form.getInputProps('inscricaoEstadual')}
+                />
+              </Grid.Col>
+              <Grid.Col span={{ base: 12, md: 6 }}>
+                <TextInput
+                  label="Código CNAE"
+                  placeholder= "Código CNAE"
+                  disabled
+                  {...form.getInputProps('cnae.codigo')}
                 />
               </Grid.Col>
               <Grid.Col span={{ base: 12, md: 6 }}>
