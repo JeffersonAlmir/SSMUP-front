@@ -1,52 +1,147 @@
 import {
-  Button,
-  Checkbox,
-  Divider,
-  Group,
   Paper,
-  PasswordInput,
   TextInput,
+  PasswordInput,
+  Button,
   Title,
+  Text,
+  Divider,
+  Stack,
+  Container,
+  Box,
+  rem,
 } from '@mantine/core';
+import { useForm } from '@mantine/form';
+import { IconAt, IconLock } from '@tabler/icons-react';
+import { yupResolver } from 'mantine-form-yup-resolver';
 import { GoogleButton } from '../buttons/GoogleButton';
-
-import classes from './Login.module.css'
-import logoVisa from "../../assets/logo-visa.png";
-
+import { loginSchema } from '../../validations/loginSchema';
 
 export default function LoginPage() {
-    return (
-        <div className={classes.wrapper}>
-            <Paper className={classes.form}>
+  const form = useForm({
+    initialValues: {
+      email: '',
+      password: '',
+    },
+    validate: yupResolver(loginSchema),
+  });
 
-                <Group justify="center">
-                    <img src={logoVisa} alt="Visa logo" className={classes.logo} />
-                    <Title>SSMUP</Title>
-                </Group>
+  const handleLogin = (values: typeof form.values) => {
+    console.log('Dados de login:', values);
+  };
 
-                <Title order={2} className={classes.title}>Login</Title>
+  return (
+    <Box
+      style={{
+        background: 'radial-gradient(circle at top left, var(--mantine-color-blue-4), var(--mantine-color-blue-8))',
+        minHeight: '100vh',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        position: 'relative',
+        overflow: 'hidden',
+      }}
+    >
+      <Box
+        style={{
+          position: 'absolute',
+          width: '40vw',
+          height: '40vw',
+          background: 'var(--mantine-color-blue-6)',
+          filter: 'blur(100px)',
+          borderRadius: '100%',
+          top: '-10%',
+          right: '-5%',
+          opacity: 0.2,
+        }}
+      />
 
-                <TextInput label="Usuário" size="md" radius="md" />
-                <PasswordInput label="Senha" mt="md" size="md" radius="md" />
-                <Checkbox label="Remember me" mt="xl" size="md" />
-                <Button fullWidth mt="xl" size="md" radius="md">Login</Button>
+      <Container size={420} style={{ zIndex: 1 }}>
+        <Stack align="center" mb={40}>
+          <Title 
+            order={1} 
+            fw={900} 
+            c="white" 
+            style={{ 
+              letterSpacing: rem(-2), 
+              fontSize: rem(48),
+              textShadow: '0 4px 12px rgba(0,0,0,0.1)' 
+            }}
+          >
+            SaniMup
+          </Title>
+          <Text c="blue.0" size="md" ta="center" fw={400} style={{ opacity: 0.9 }}>
+            Sistema Sanitário Municipal Unificado de Processos
+          </Text>
+        </Stack>
 
-                <Divider label="Or continue with" labelPosition="center" my="lg" color="gray"/>
+        <Paper 
+          radius="24px" 
+          p={40} 
+          style={{ 
+            backgroundColor: 'rgba(255, 255, 255, 0.95)',
+            backdropFilter: 'blur(10px)',
+            boxShadow: '0 20px 40px rgba(0,0,0,0.2)',
+            border: '1px solid rgba(255,255,255,0.3)'
+          }}
+        >
+          <Text size="xl" fw={700} mb={25} ta="center" c="blue.9">
+            Bem-vindo de volta
+          </Text>
 
-                <GoogleButton 
-                    radius="xl" 
-                    className={classes.googleBtn}
-                    style={{
-                        width: "100%",
-                        height: "48px",
-                        fontSize: "16px",
-                        fontWeight: 500
-                    }}
-                    //onClick={() => {window.location.href = "http://localhost:8080/oauth2/authorization/google";}}
-                >
-                    Google
-                </GoogleButton>                
-            </Paper>
-        </div>
+          <Stack gap="md">
+            <GoogleButton radius="md" variant="outline">
+              Entrar com Google
+            </GoogleButton>
+
+            <Divider 
+              label="ou continue com e-mail" 
+              labelPosition="center" 
+              my="sm" 
+              styles={{ label: { color: 'var(--mantine-color-gray-5)' }}}
+            />
+
+            <form onSubmit={form.onSubmit(handleLogin)}>
+              <Stack gap="sm">
+                <TextInput
+                  label="E-mail"
+                  placeholder="seu@email.com"
+                  variant="filled" 
+                  leftSection={<IconAt size={18} stroke={1.5} />}
+                  {...form.getInputProps('email')}
+                  radius="md"
+                />
+
+                <PasswordInput
+                  label="Senha"
+                  placeholder="Sua senha"
+                  variant="filled"
+                  leftSection={<IconLock size={18} stroke={1.5} />}
+                  {...form.getInputProps('password')}
+                  radius="md"
+                />
+              </Stack>
+
+              <Button 
+                type="submit" 
+                fullWidth 
+                mt={30} 
+                size="md" 
+                radius="md"
+                variant="gradient"
+                gradient={{ from: 'blue.6', to: 'blue.8', deg: 135 }}
+                style={{ boxShadow: '0 4px 15px rgba(34, 139, 230, 0.3)' }}
+              >
+                Acessar Painel
+              </Button>
+            </form>
+          </Stack>
+        </Paper>
+
+        <Text ta="center" mt={30} size="xs" c="blue.1" style={{ opacity: 0.7 }}>
+          © {new Date().getFullYear()} — Desenvolvido para eficiência municipal.
+        </Text>
+      </Container>
+    </Box>
   );
 }

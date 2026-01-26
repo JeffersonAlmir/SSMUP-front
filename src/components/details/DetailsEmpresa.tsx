@@ -1,6 +1,7 @@
 import { Grid, Group, Paper, Text } from "@mantine/core";
 import { IconBuildingSkyscraper, IconMapPin, IconUser } from "@tabler/icons-react";
 import { useUpdateEmpresaContext } from "../../hooks/useUpdateEmpresaContext";
+import { getTipoRisco, type tipoRiscoKey} from "../../constants/tipoRisco";
 
 
 
@@ -41,7 +42,7 @@ export default function DetailsEmpresa (){
                 
                 <Grid.Col span={{ base: 12, md: 4 }}>
                     <Text c="dimmed" size="xs" tt="uppercase" fw={700}>Risco</Text>
-                    <Text size="md">{dataEmpresa?.cnae.risco}</Text>
+                    <Text size="md">{dataEmpresa?.cnae?.risco ? getTipoRisco(dataEmpresa.cnae.risco as tipoRiscoKey) : "Risco não definido"}</Text>
                 </Grid.Col>
                 
                 <Grid.Col span={{ base: 12, md: 4 }}>

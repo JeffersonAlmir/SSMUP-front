@@ -15,7 +15,7 @@ import {
   Loader,
 } from '@mantine/core';
 import { IMaskInput } from 'react-imask';
-import { IconChevronDown } from '@tabler/icons-react';
+import { IconCheck, IconChevronDown, IconX } from '@tabler/icons-react';
 import { useState, type FocusEvent } from 'react';
 import dayjs from 'dayjs';
 import { getCepInfo } from '../../services/cepService';
@@ -137,6 +137,7 @@ export default function FormEditEmpresa({ close}:FormProps) {
           title: 'Sucesso!',
           message: 'Os dados da empresa foram editados corretamente.',
           color: 'green',
+          icon: <IconCheck size={18} />
         });
         close();
       }
@@ -147,6 +148,7 @@ export default function FormEditEmpresa({ close}:FormProps) {
         title: 'Erro',
         message: 'Erro de conexão ao editar empresa.',
         color: 'red',
+        icon: <IconX size={18} />
       });
     }finally {
       setIsSubmitting(false);
