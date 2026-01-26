@@ -21,6 +21,7 @@ import type IEmpresa from "../../interface/IEmpresa";
 import apiBackend from "../../services/apiBackend";
 import type ICreateEmpresa from "../../interface/ICreateEmpresa";
 import DetailsCreateEmpresa from "../details/DetailsCreateEmpresa";
+import { IconCheck, IconX } from "@tabler/icons-react";
 
 
 export default function FormEmpresaWizard() {
@@ -107,8 +108,7 @@ export default function FormEmpresaWizard() {
     setLoading(true);
 
     try {
-      const response = await apiBackend.post('/empresas',newEmpresa
-      )
+      const response = await apiBackend.post('/empresas',newEmpresa)
       
       if(response.status == 201){
         formEmpresa.reset();
@@ -120,6 +120,7 @@ export default function FormEmpresaWizard() {
           title: 'Sucesso!',
           message: 'A empresa foi cadastrada corretamente.',
           color: 'green',
+          icon: <IconCheck size={18} />
         });
       }
       
@@ -132,6 +133,7 @@ export default function FormEmpresaWizard() {
         title: 'Erro',
         message: 'Não foi possível realizar o cadastro. Tente novamente.',
         color: 'red',
+        icon: <IconX size={18} />
       });
     } finally {
       setLoading(false);
