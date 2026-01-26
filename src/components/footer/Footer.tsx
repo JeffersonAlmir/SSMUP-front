@@ -11,7 +11,7 @@ export function Footer() {
     <div className={classes.footer}>
       <div className={classes.inner}>
         <Text c="dimmed" size="sm" className={classes.copyright}>
-          © {new Date().getFullYear()} SSMUP. All rights reserved.
+          © {new Date().getFullYear()} SSMUP. Todos os direitos reservados.
         </Text>
       </div>
 
