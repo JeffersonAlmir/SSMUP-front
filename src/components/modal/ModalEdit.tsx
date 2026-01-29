@@ -3,9 +3,11 @@ import { useDisclosure } from '@mantine/hooks';
 import { IconPencil, IconXboxX } from '@tabler/icons-react';
 import FormEditEmpresa from '../form/FormEditEmpresa';
 
+export type ModalEditProps = {
+  botaoDisable: boolean
+}
 
-
-export default function ModalEdit() {
+export default function ModalEdit({botaoDisable}: ModalEditProps) {
   const [opened, { open, close }] = useDisclosure(false);
 
   return (
@@ -29,6 +31,7 @@ export default function ModalEdit() {
       <Button 
         leftSection={<IconPencil size={18} />} 
         onClick={open}
+        disabled={botaoDisable}
       >
         Editar
       </Button>
