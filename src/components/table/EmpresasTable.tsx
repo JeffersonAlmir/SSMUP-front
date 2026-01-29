@@ -1,18 +1,14 @@
-import { Button, Card, Divider, Group, Pagination, Table, TextInput } from '@mantine/core';
+import { Badge, Button, Card, Divider, Group, Pagination, Table} from '@mantine/core';
 import classes from './Table.module.css';
-import { IconSearch } from '@tabler/icons-react';
 import { useEffect, useState } from 'react';
-// import ModalCadastro from '../modal/ModalCadastro';
-// import type IEmpresa from '../../interface/IEmpresa';
 import type IResponseEmpresa from '../../interface/IResponseEmpresa';
 import type IResponseItens from '../../interface/IResponseItens';
 import { useNavigate } from 'react-router-dom';
 import apiBackend from '../../services/apiBackend';
-
+import { SearchableSelect } from '../searchebleSelect/SearchebleSelect';
 
 
 export default function EmpresasTable() {
-  // const [focused, setFocused] = useState(false);
   const [page, setPage] = useState(0);
   const [totalPages, setTotalPages] = useState(1);
   const [data, setData] = useState<IResponseItens[]>([]);
@@ -38,6 +34,17 @@ export default function EmpresasTable() {
       <Table.Td>{item.nomeFantasia}</Table.Td>
       <Table.Td>{item.cnpj}</Table.Td>
       <Table.Td>{item.endereco.municipio} - {item.endereco.uf}</Table.Td>
+      <Table.Td>
+        {item.ativo ? (
+          <Badge color="green" variant="light" radius="sm">
+            Sim
+          </Badge>
+        ) : (
+          <Badge color="red" variant="light" radius="sm">
+            Não
+          </Badge>
+        )}
+      </Table.Td>
         <Table.Td>
           <Button 
             variant="primary"
@@ -69,16 +76,8 @@ export default function EmpresasTable() {
       className={classes.card}
     >
         <Group className={classes.group}>
-            {/* <ModalCadastro onSaveSuccess={handleSaveSuccess }/> */}
-            <TextInput
-                placeholder="Pesquise a empresa pelo nome"
-                leftSection={<IconSearch size={16} stroke={1.5} />}
-                // onFocus={() => setFocused(true)}
-                // onBlur={() => setFocused(false)}
-                style={{ width: "500px" }}
-                // value={}
-                // onChange={}
-            />
+
+          <SearchableSelect/>
         </Group>
         <Table highlightOnHover withRowBorders={false} verticalSpacing="md">
         <Table.Thead>
@@ -87,6 +86,7 @@ export default function EmpresasTable() {
             <Table.Th>Nome Fantasia</Table.Th>
             <Table.Th>CNPJ</Table.Th>
             <Table.Th>Cidade/UF</Table.Th>
+            <Table.Th>Ativo</Table.Th>
              <Table.Th>Ações</Table.Th>
           </Table.Tr>
         </Table.Thead>
