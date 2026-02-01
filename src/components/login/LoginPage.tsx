@@ -1,33 +1,83 @@
 import {
   Paper,
-  TextInput,
-  PasswordInput,
-  Button,
+  // TextInput,
+  // PasswordInput,
+  // Button,
   Title,
   Text,
-  Divider,
+  // Divider,
   Stack,
   Container,
   Box,
   rem,
+  Center,
+  Loader,
 } from '@mantine/core';
-import { useForm } from '@mantine/form';
-import { IconAt, IconLock } from '@tabler/icons-react';
-import { yupResolver } from 'mantine-form-yup-resolver';
-import { GoogleButton } from '../buttons/GoogleButton';
-import { loginSchema } from '../../validations/loginSchema';
+//import { useForm } from '@mantine/form';
+//import { IconAt, IconLock } from '@tabler/icons-react';
+//import { yupResolver } from 'mantine-form-yup-resolver';
+//import { GoogleButton } from '../buttons/GoogleButton';
+//import { loginSchema } from '../../validations/loginSchema';
+import {useState} from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../contexts/AuthContext';
+import apiBackend from '../../services/apiBackend';
+import type IAuthResponse from '../../interface/IAuthResponse'
+import { notifications } from '@mantine/notifications';
+import { GoogleLogin } from '@react-oauth/google';
+
 
 export default function LoginPage() {
-  const form = useForm({
-    initialValues: {
-      email: '',
-      password: '',
-    },
-    validate: yupResolver(loginSchema),
-  });
+  // const form = useForm({
+  //   initialValues: {
+  //     email: '',
+  //     password: '',
+  //   },
+  //   validate: yupResolver(loginSchema),
+  // });
 
-  const handleLogin = (values: typeof form.values) => {
-    console.log('Dados de login:', values);
+  // const handleLogin = (values: typeof form.values) => {
+  //   console.log('Dados de login:', values);
+  // };
+
+  const navigate = useNavigate();
+  const { login } = useAuth();
+  const [isAuthenticating, setIsAuthenticating] = useState(false);
+
+  const handleGoogleSuccess = async (credentialResponse: any) => {
+
+    setIsAuthenticating(true);
+
+    try {
+
+      console.log("Enviando token Google para o Backend...");
+      
+      const response = await apiBackend.post<IAuthResponse>('/auth/google', {
+        token: credentialResponse.credential
+      });
+
+      const authData = response.data;
+
+      login(authData);
+
+      notifications.show({
+        title: 'Acesso Permitido',
+        message: 'Bem-vindo ao SaniMup!',
+        color: 'green',
+      });
+      
+      navigate('/painel');
+
+    } catch (error: any) {
+      console.error(error);
+      notifications.show({
+        title: 'Erro de Login',
+        message: error.response?.data?.error || 'Verifique se seu e-mail está cadastrado.',
+        color: 'red',
+      });
+    } finally {
+      setIsAuthenticating(false);
+    }
   };
 
   return (
@@ -90,11 +140,28 @@ export default function LoginPage() {
           </Text>
 
           <Stack gap="md">
-            <GoogleButton radius="md" variant="outline">
-              Entrar com Google
-            </GoogleButton>
+            {isAuthenticating ? (
+                <Center p="xl">
+                    <Stack align='center'>
+                        <Loader />
+                        <Text size="sm" c="dimmed">Validando credenciais...</Text>
+                    </Stack>
+                </Center>
+            ) : (
+                <Center>
+                    <GoogleLogin
+                        onSuccess={handleGoogleSuccess}
+                        onError={() => notifications.show({ message: 'Falha Google', color: 'red' })}
+                        useOneTap
+                        size="large"
+                        width="300"
+                        shape="pill"
+                        theme="outline"
+                    />
+                </Center>
+            )}
 
-            <Divider 
+            {/* <Divider 
               label="ou continue com e-mail" 
               labelPosition="center" 
               my="sm" 
@@ -134,7 +201,7 @@ export default function LoginPage() {
               >
                 Acessar Painel
               </Button>
-            </form>
+            </form> */}
           </Stack>
         </Paper>
 
