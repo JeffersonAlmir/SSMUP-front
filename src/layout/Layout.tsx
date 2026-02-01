@@ -1,9 +1,9 @@
 import { AppShell, Group, Burger } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
-import { MantineLogo } from '@mantinex/mantine-logo';
 import { Footer } from '../components/footer/Footer';
 import { Navbar } from '../components/navbar/Navbar';
 import { Outlet } from 'react-router-dom';
+import Logo from '../components/logo/Logo';
 
 export function Layout() {
   const [opened, { toggle }] = useDisclosure();
@@ -34,7 +34,7 @@ export function Layout() {
             hiddenFrom="sm" 
             size="sm" 
           />
-          <MantineLogo size={25} />
+        <Logo/>
         </Group>
       </AppShell.Header>
 
@@ -44,7 +44,7 @@ export function Layout() {
       </AppShell.Navbar>
 
       {/* Main Content */}
-      <AppShell.Main>
+      <AppShell.Main >
         <Outlet />
       </AppShell.Main>
 
