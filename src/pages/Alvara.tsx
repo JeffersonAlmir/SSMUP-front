@@ -1,7 +1,9 @@
+import ModalInspecao from "../components/modal/ModalInspecao";
+
 const Alvara = () =>{
     return(
         <div>
-            <h3>Page Alvara</h3>
+            <ModalInspecao botaoDisable={false}/>
         </div>
     );
 }
