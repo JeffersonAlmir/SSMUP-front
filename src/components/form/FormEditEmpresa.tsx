@@ -167,7 +167,7 @@ export default function FormEditEmpresa({ close}:FormProps) {
 
   return (
     <Paper shadow="md" p="xl" radius="md" withBorder>
-      <form onSubmit={form.onSubmit(handleUpdateSubmit, handleSubmitError)}>
+      <form onSubmit={form.onSubmit(handleUpdateSubmit, handleSubmitError)} noValidate>
         <Stack gap="xl">
           {/* Seção 1: Informações da Empresa */}
           <Stack gap="md">
@@ -406,7 +406,7 @@ export default function FormEditEmpresa({ close}:FormProps) {
               Cancelar
             </Button>
 
-            <Button type="submit" size="md" loading={isSubmitting} disabled={isCepLoading} >
+            <Button type="submit" size="md"  bg="blue.6" loading={isSubmitting} disabled={isCepLoading} >
               Confirmar
             </Button>
           </Group>
