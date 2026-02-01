@@ -8,7 +8,7 @@ import {
   IconSettings,
   type IconProps,
 } from '@tabler/icons-react';
-import { Code, Group, rem, Text, Title } from '@mantine/core';
+import { Code, Group, rem, Title } from '@mantine/core';
 import classes from './Navbar.module.css';
 import { Link, useLocation } from 'react-router-dom';
 import { LinksGroup } from './NavbarLinksGroup';
@@ -41,7 +41,6 @@ const data: ItemDaNavegacao[] = [
     links: [
       { label: 'Cadastro', link: '/cadastro' },
       { label: 'Lista de Empresas', link: '/Lista' },
-      { label: 'outros', link: '' },
     ],
   },
   { link: '/alvara', label: 'Alvará', icon: IconFileCertificate },
