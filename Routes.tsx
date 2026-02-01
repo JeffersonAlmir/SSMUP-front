@@ -9,20 +9,23 @@ import ListEmpresas from "./src/pages/ListEmpresa";
 import Login from "./src/pages/Login";
 import DetailsPage from "./src/pages/DetailsPage";
 import UpdateEmpresaProvider from "./src/contexts/UpdateEmpresaContext";
+import { PrivateRoute } from "./src/components/login/PrivateRoute";
 
 export default function AppRoutes() {
   return (
     <BrowserRouter>
     
       <Routes>
-        <Route element ={<Layout/>}>
-            <Route path="/" element={<Inicio />} />
-            <Route path="/painel" element = {<Painel/>} />
-            <Route path="/cadastro" element={<Cadastro/>} />
-            <Route path="/lista" element={<ListEmpresas/>} />
-            <Route path="/alvara" element={<Alvara/>} />
-            <Route path="/configuracoes" element={<Configuracoes/>} />        
-            <Route path="/detalhes/:cnpj" element={<UpdateEmpresaProvider> <DetailsPage/> </UpdateEmpresaProvider>} />        
+        <Route element={<PrivateRoute/>}>
+          <Route element ={<Layout/>}>
+              <Route path="/" element={<Inicio />} />
+              <Route path="/painel" element = {<Painel/>} />
+              <Route path="/cadastro" element={<Cadastro/>} />
+              <Route path="/lista" element={<ListEmpresas/>} />
+              <Route path="/alvara" element={<Alvara/>} />
+              <Route path="/configuracoes" element={<Configuracoes/>} />        
+              <Route path="/detalhes/:cnpj" element={<UpdateEmpresaProvider> <DetailsPage/> </UpdateEmpresaProvider>} />        
+          </Route>
         </Route>
         <Route path="/login" element={<Login/>} />
       </Routes>

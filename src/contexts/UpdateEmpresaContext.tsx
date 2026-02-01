@@ -1,5 +1,6 @@
 import { createContext, useEffect, useState } from "react";
 import type IResponseItens from "../interface/IResponseItens";
+//import axios from "axios";
 import { useLocation } from "react-router-dom";
 import apiBackend from "../services/apiBackend";
 
@@ -20,7 +21,6 @@ export default function UpdateEmpresaProvider({ children }: ChildrenProps){
     const location = useLocation();
     const item = location.state?.item as IResponseItens;
     const [dataEmpresa, setDataEmpresa] = useState<IResponseItens>(item || {} as IResponseItens);
-    
 
     useEffect(() => {
         if (item?.id) {
