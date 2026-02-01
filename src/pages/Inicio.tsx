@@ -3,61 +3,81 @@ import {
   Container, 
   SimpleGrid, 
   Text, 
-  Title 
+  Title,
+  Grid,
+  Stack,
+  rem
 } from "@mantine/core";
 import { 
   IconBuildingSkyscraper, 
-  IconFilePlus, 
-  IconSearch 
+  IconSearch,
 } from "@tabler/icons-react";
 import { ActionCard } from "../components/card/ActionCard";
 import AtualizacaoCard from "../components/card/AtualizacaoCard";
 import HelpCard from "../components/card/HelpCard";
-import { useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import Calendario from "../components/calendar/Calendario";
+
 
 
 const Inicio = () => {
   const navigate = useNavigate();
-  
+
   return (
-      <Container fluid>          
-        <Box mb={30}>
-          <Title order={2} c="dark.8">Olá! Bem-vindo(a) ao sistema SSMUP.</Title>
-          <Text c="dimmed" mt="xs">
-            Gerencie cadastros de empresas, responsáveis e licenças sanitárias de forma simples e organizada.
-          </Text>
-        </Box>
-        <Title order={4} mb="md" c="dark.7">Ações Rápidas</Title>
-        <SimpleGrid cols={{ base: 1, sm: 2, lg: 4 }} spacing="md" mb={40}>
-          <ActionCard 
-            icon={IconBuildingSkyscraper} 
-            title="Cadastrar Nova Empresa" 
-            description="Adicione um novo estabelecimento ao sistema." 
-            onClick={() => navigate("/cadastro")}
-          />
-          <ActionCard 
-            icon={IconFilePlus} 
-            title="Criar Nova Licença" 
-            description="Emita uma nova licença sanitária para uma empresa." 
-            onClick={() => navigate("/alvara")}
-          />
-          <ActionCard 
-            icon={IconSearch} 
-            title="Pesquisar Empresa" 
-            description="Busque por empresas já cadastradas na base de dados." 
-            onClick={() => navigate("/lista")}
-          />
-            <ActionCard 
-            icon={IconSearch} 
-            title="Pesquisar Licença" 
-            description="Consulte o status e a validade de licenças sanitárias." 
-          />
-        </SimpleGrid>
-        <SimpleGrid cols={{ base: 1, md: 2 }} spacing="md">  
-          <AtualizacaoCard/>
-          <HelpCard/>
-        </SimpleGrid>
-      </Container>
+    <Container size="xl">
+  
+      <Box mb={40}>
+        <Title order={2} fw={800} c="blue.9" fz={rem(30)}>
+          Olá! Bem-vindo(a) ao sistema SSMUP.
+        </Title>
+        <Text c="dimmed" fz="lg">
+          Painel administrativo de vigilância sanitária.
+        </Text>
+      </Box>
+
+      <Grid gutter={40} align="flex-start">  
+
+        <Grid.Col span={{ base: 12, md: 8 }}>
+          <Stack gap="32px">
+            
+            <Box>
+              <Title order={4} mb="lg" c="gray.7" fw={600}>
+                Ações Rápidas
+              </Title>
+              <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="md">
+                <ActionCard 
+                  icon={IconBuildingSkyscraper} 
+                  title="Cadastrar Empresa" 
+                  description="Novo estabelecimento" 
+                  onClick={() => navigate("/cadastro")}
+                />
+                <ActionCard 
+                  icon={IconSearch} 
+                  title="Pesquisar Empresa" 
+                  description="Base de dados completa" 
+                  onClick={() => navigate("/lista")}
+                />
+              </SimpleGrid>
+            </Box>
+
+            <Box>
+              <Title order={4} mb="lg" c="gray.7" fw={600}>
+                Histórico e Suporte
+              </Title>
+              <Stack gap="md">
+                <AtualizacaoCard />
+                <HelpCard />
+              </Stack>
+            </Box>
+            
+          </Stack>
+        </Grid.Col>
+  
+        <Grid.Col span={{ base: 12, md: 4 }}>
+          <Calendario/>
+        </Grid.Col>
+      </Grid>
+    </Container>
   );
 };
 
