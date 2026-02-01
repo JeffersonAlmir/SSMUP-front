@@ -1,7 +1,7 @@
 import { createContext, useEffect, useState } from "react";
 import type IResponseItens from "../interface/IResponseItens";
-import axios from "axios";
 import { useLocation } from "react-router-dom";
+import apiBackend from "../services/apiBackend";
 
 type UpdateContextProps = {
     dataEmpresa: IResponseItens;
@@ -26,7 +26,7 @@ export default function UpdateEmpresaProvider({ children }: ChildrenProps){
         if (item?.id) {
             const fetchEmpresa = async () => {
                 try {
-                    const response = await axios.get(`http://localhost:8080/v1/api/empresas/${item.id}`);
+                    const response = await apiBackend.get(`/empresas/${item.id}`);
                     setDataEmpresa(response.data); 
                 } catch (error) {
                     console.error("Erro ao buscar dados iniciais", error);
