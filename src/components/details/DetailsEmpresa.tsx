@@ -68,6 +68,15 @@ export default function DetailsEmpresa (){
                     <Text c="dimmed" size="xs" tt="uppercase" fw={700}>Ativo</Text>
                     <Text size="md">{dataEmpresa?.ativo ? "Sim" : "Não"}</Text>
                 </Grid.Col>
+                {dataEmpresa.cnae.risco ==="RISCO_I_BAIXO"?
+                (null):
+                (
+                    <Grid.Col span={{ base: 12, md: 4 }}>
+                        <Text c="dimmed" size="xs" tt="uppercase" fw={700}>Inspecão Realizada</Text>
+                        <Text size="md">{dataEmpresa?.inspecao ? "Sim" : "Não"}</Text>
+                    </Grid.Col>
+                )
+                }
             </Grid>
         </Paper>
 

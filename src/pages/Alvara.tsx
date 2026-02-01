@@ -1,7 +1,10 @@
+import ModalInspecao from "../components/modal/ModalInspecao";
+
 const Alvara = () =>{
     return(
         <div>
-            <h3>Page Alvara</h3>
+            <ModalInspecao botaoDisable={false}/>
+            <h1>Uma tabela com lista de empresas para realizar a inspecao</h1>
         </div>
     );
 }

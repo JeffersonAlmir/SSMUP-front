@@ -11,8 +11,7 @@ import { AuthProvider } from './contexts/AuthContext';
 
 
 function App() {
-  const googleClientId = "690914641866-so78ac62ua11t47ibur3a0tp9pnjjr3s.apps.googleusercontent.com";
-
+  const googleClientId = import.meta.env.VITE_API_GOOGLE_CLIENTE;
   return (
     <>
     <GoogleOAuthProvider clientId={googleClientId}>

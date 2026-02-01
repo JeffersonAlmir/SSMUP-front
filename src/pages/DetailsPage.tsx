@@ -1,12 +1,12 @@
 import { Button, Card, Container, Divider, Group, Paper, Text, Title } from "@mantine/core";
-import { IconArrowLeft, IconBan, IconCheck, IconFileCertificate, IconX } from "@tabler/icons-react";
+import { IconArrowLeft, IconCheck, IconX } from "@tabler/icons-react";
 import { useNavigate } from "react-router-dom";
 import DetailsEmpresa from "../components/details/DetailsEmpresa";
-import ModalEdit from "../components/modal/ModalEdit";
 import { useUpdateEmpresaContext } from "../hooks/useUpdateEmpresaContext";
 import { useEffect, useState } from "react";
 import apiBackend from "../services/apiBackend";
 import { notifications } from "@mantine/notifications";
+import EmpresaActionButton from "../components/buttons/EmpresaActionsButton";
 
 
 const DetailsPage = () => {
@@ -15,7 +15,7 @@ const DetailsPage = () => {
     const {dataEmpresa, setDataEmpresa} = useUpdateEmpresaContext()
     const navigate = useNavigate();
 
-    const handleSubmit = async() =>{
+    const handleDownloadPDF = async() =>{
         setLoading(true)
         try {
            const response = await apiBackend.post(`/licensas/emitir/${dataEmpresa.id}`,{},{
@@ -27,7 +27,7 @@ const DetailsPage = () => {
         
                 const link = document.createElement('a');
                 link.href = url;
-                link.setAttribute('download', `licenca-empresa-${dataEmpresa.id}.pdf`); 
+                link.setAttribute('download', `licenca-empresa-${dataEmpresa.razaoSocial}.pdf`); 
                 document.body.appendChild(link);
                 link.click();
 
@@ -107,8 +107,6 @@ const DetailsPage = () => {
             if (dataEmpresa.cnae.risco === "RISCO_III_ALTO"){
                 setIsDisabled(true);
             }
-            // colocar um if(dataEmpresa.cnae.risco === "RISCO_III_ALTO" && uma variável que vai verificar se a inspeção foi feita, com tipo bollean )
-            // empresa com risco baixo e medio, tem a inicializao desse atributo como true
         }
         fechDisableButtom();
     },[dataEmpresa])
@@ -132,54 +130,26 @@ const DetailsPage = () => {
             <Group justify="space-between" mb="lg">
                 <Group>
                     <Button 
-                    variant="subtle" 
-                    color="gray" 
-                    onClick={() => navigate(-1)}
-                    leftSection={<IconArrowLeft size={18} />}
+                        variant="subtle" 
+                        color="gray" 
+                        onClick={() => navigate(-1)}
+                        leftSection={<IconArrowLeft size={18} />}
                     >
                     Voltar
                     </Button>
                     <Title order={3}>Detalhes da Empresa</Title>
                 </Group>
                 <Group> 
-                    {dataEmpresa.ativo ?(
-                        <>
-                            <Button 
-                                disabled={isDisabled}
-                                loading={loading}
-                                variant="filled" 
-                                color="green" 
-                                onClick={handleSubmit}
-                                leftSection={<IconFileCertificate size={18} />}
-                            >
-                                Gerar licença
-                            </Button>
-                            <ModalEdit
-                                botaoDisable={loading}
-                            />
-                            
-                            <Button 
-                                disabled={loading}
-                                variant="filled" 
-                                color="red" 
-                                onClick={handleInativar}
-                                leftSection={<IconBan size={18} />}
-                            >
-                                Inativar cadastro
-                            </Button>
-                        </>
-                    ):(
-                        <Button 
-                            loading={loading}
-                            variant="filled" 
-                            color="blue" 
-                            onClick={handleAtivar}
-                        >
-                            Ativar Cadastro
-                        </Button>
-                )}
-                    {/* colocar botão que jogue para outra pagina se o risco for III */}
 
+                    <EmpresaActionButton
+                        dataEmpresa={dataEmpresa}
+                        loading={loading}
+                        isDisabled={isDisabled}
+                        handleSubmit={handleDownloadPDF}
+                        handleInativar={handleInativar}
+                        handleAtivar={handleAtivar}
+                    />
+                  
                 </Group>
             </Group>
             <Divider mb="xl" />

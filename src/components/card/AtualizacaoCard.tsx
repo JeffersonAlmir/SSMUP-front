@@ -15,7 +15,6 @@ export default function AtualizacaoCard () {
             }>
             <List.Item>Lançamento inicial do sistema de gerenciamento.</List.Item>
             <List.Item>Módulos de cadastro de Empresas e Responsáveis.</List.Item>
-            <List.Item>Implementação da visualização de Licenças Sanitárias.</List.Item>
             <List.Item>Painel de controle com visualização de dados.</List.Item>
             </List>
         </Paper>
