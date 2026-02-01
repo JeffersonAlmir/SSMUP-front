@@ -20,7 +20,7 @@ import {
 //import { loginSchema } from '../../validations/loginSchema';
 import {useState} from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../../contexts/AuthContext';
+import { useAuth } from '../../hooks/useAuth';
 import apiBackend from '../../services/apiBackend';
 import type IAuthResponse from '../../interface/IAuthResponse'
 import { notifications } from '@mantine/notifications';
@@ -66,13 +66,13 @@ export default function LoginPage() {
         color: 'green',
       });
       
-      navigate('/painel');
+      navigate('/');
 
     } catch (error: any) {
       console.error(error);
       notifications.show({
         title: 'Erro de Login',
-        message: error.response?.data?.error || 'Verifique se seu e-mail está cadastrado.',
+        message: 'Verifique se seu e-mail está cadastrado.',
         color: 'red',
       });
     } finally {

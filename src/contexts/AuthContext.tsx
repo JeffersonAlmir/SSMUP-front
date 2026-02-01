@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useEffect } from 'react';
+import { createContext, useState, useEffect } from 'react';
 import { jwtDecode } from "jwt-decode";
 import type IUserPayload from '../interface/IUserPayload'
 import type IAuthResponse from '../interface/IAuthResponse';
@@ -12,7 +12,7 @@ interface AuthContextType {
     isLoading: boolean;
 }
 
-const AuthContext = createContext<AuthContextType | undefined>(undefined);
+export const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
 
@@ -25,7 +25,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         if (token) {
             try {
                 const decoded = jwtDecode<IUserPayload>(token);
-
+                console.log(decoded.cargo);
+                console.log(decoded.nome);
+                console.log(decoded.role);
+                console.log(decoded);
+                
+                
+                
+                
                 const currentTime = Date.now() / 1000;
 
                 if (decoded.exp > currentTime) {
@@ -37,10 +44,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             } catch (error) {
                 localStorage.removeItem('ssmup_token');
                 setUser(null);
-            }
-            
-        }else {
-            console.log("⚪ Nenhum token encontrado.");
+            } 
         }
         setIsLoading(false);
     }, []);
@@ -61,12 +65,4 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             {children}
         </AuthContext.Provider>
     );
-}
-
-export function useAuth() {
-  const context = useContext(AuthContext);
-  if (!context) {
-    throw new Error('useAuth deve ser usado dentro de um AuthProvider');
-  }
-  return context;
 }

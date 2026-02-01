@@ -14,7 +14,7 @@ import classes from './Navbar.module.css';
 import { Link, useLocation } from 'react-router-dom';
 import { LinksGroup } from './NavbarLinksGroup';
 
-import { useAuth } from '../../contexts/AuthContext';
+import { useAuth } from '../../hooks/useAuth';
 
 type TablerIcon = ForwardRefExoticComponent<Omit<IconProps, 'ref'>>;
 
