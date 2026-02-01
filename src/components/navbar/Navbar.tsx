@@ -14,7 +14,7 @@ import classes from './Navbar.module.css';
 import { Link, useLocation } from 'react-router-dom';
 import { LinksGroup } from './NavbarLinksGroup';
 
-
+import { useAuth } from '../../contexts/AuthContext';
 
 type TablerIcon = ForwardRefExoticComponent<Omit<IconProps, 'ref'>>;
 
@@ -53,7 +53,8 @@ const data: ItemDaNavegacao[] = [
 export function Navbar() {
 
   const { pathname } = useLocation();
-  
+  const { logout } = useAuth();
+
   const links = data.map((item) => {
     if ('links' in item) {
       return <LinksGroup {...item} key={item.label} />;
@@ -71,6 +72,11 @@ export function Navbar() {
     );
   });
 
+  const handleLogout = (event: React.MouseEvent<HTMLAnchorElement>) => {
+    event.preventDefault();
+    logout();
+  };
+
   return (
     <nav className={classes.navbar}>
       <div className={classes.navbarMain}>
@@ -84,7 +90,7 @@ export function Navbar() {
       </div>
 
       <div className={classes.footer}>
-        <a href="#" className={classes.link} onClick={(event) => event.preventDefault()}>
+        <a href="#" className={classes.link} onClick={handleLogout}>
           <IconLogout className={classes.linkIcon} stroke={1.5} />
           <span>Sair</span>
         </a>
