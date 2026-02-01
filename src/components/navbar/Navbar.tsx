@@ -8,8 +8,7 @@ import {
   IconSettings,
   type IconProps,
 } from '@tabler/icons-react';
-import { Code, Group } from '@mantine/core';
-import { MantineLogo } from '@mantinex/mantine-logo';
+import { Code, Group, rem, Text, Title } from '@mantine/core';
 import classes from './Navbar.module.css';
 import { Link, useLocation } from 'react-router-dom';
 import { LinksGroup } from './NavbarLinksGroup';
@@ -75,7 +74,9 @@ export function Navbar() {
     <nav className={classes.navbar}>
       <div className={classes.navbarMain}>
         <Group className={classes.header} justify="space-between">
-          <MantineLogo size={28} inverted style={{ color: 'white' }} />
+          <Title order={2} fw={800} c="gray.1" fz={rem(20)}>
+            SaniMup
+          </Title>
           <Code fw={700} className={classes.version}>
             v1.0.0
           </Code>
