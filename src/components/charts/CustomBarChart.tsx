@@ -1,6 +1,9 @@
 import { BarChart } from "@mantine/charts";
 import { Group, Paper, Title } from "@mantine/core";
 
+export type TitleChartProps  = {
+  title: string;
+}
 const data = [
   { month: 'January', Smartphones: 120, Laptops: 90, Tablets: 200 },
   { month: 'February', Smartphones: 190, Laptops: 120, Tablets: 40 },
@@ -10,10 +13,10 @@ const data = [
   { month: 'June', Smartphones: 75, Laptops: 60, Tablets: 100 },
 ];
 
-export default function CustomBarChart () {
+export default function CustomBarChart ({title}:TitleChartProps) {
   return(
       <Paper withBorder p="md" radius="md">
-        <Title order={4} mb="lg">passar titulo via props</Title>
+        <Title order={4} mb="lg">{title}</Title>
         <Group justify="center">
           <BarChart
             h={300}

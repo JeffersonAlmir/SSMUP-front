@@ -9,9 +9,9 @@ const Painel = () =>{
         <>
         <SimpleGrid cols={{ base: 1, sm: 2, lg: 2 }} spacing="md" mb={40}>
 
-            <CustomDonutChart/>
-            <CustomBarChart/>
-            <CustomPieChart/>
+            <CustomDonutChart title="Quantidade de empresas Ativas e Inativas"/>
+            <CustomBarChart title="Quantidade de empresas Ativas e Inativas"/>
+            <CustomPieChart title="Quantidade de empresas Ativas e Inativas"/>
         </SimpleGrid>
         </>
     );
