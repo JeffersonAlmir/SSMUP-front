@@ -1,4 +1,4 @@
-import { Badge, Button, Card, Divider, Group, Pagination, Table} from '@mantine/core';
+import { Badge, Button, Card, Divider, Group, Pagination, Table, VisuallyHidden} from '@mantine/core';
 import classes from './Table.module.css';
 import { useEffect, useState } from 'react';
 import type IResponseEmpresa from '../../interface/IResponseEmpresa';
@@ -87,7 +87,7 @@ export default function EmpresasTable() {
             <Table.Th>CNPJ</Table.Th>
             <Table.Th>Cidade/UF</Table.Th>
             <Table.Th>Ativo</Table.Th>
-             <Table.Th>Ações</Table.Th>
+             <Table.Th><VisuallyHidden>Ações</VisuallyHidden></Table.Th>
           </Table.Tr>
         </Table.Thead>
         <Table.Tbody>

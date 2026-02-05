@@ -14,7 +14,7 @@ export default interface IResponseItens{
     ativo?: boolean;
     email: string;
     cnae: ICnae ;
-    inspecao:boolean;
+    inspecao?:boolean;
     responsavel: IResponsavel,
     endereco: IEndereco,
 }

@@ -1,18 +1,18 @@
-import { DonutChart } from "@mantine/charts";
+import { DonutChart, type DonutChartCell } from "@mantine/charts";
 import { ColorSwatch, Group, Paper, Text, Title } from "@mantine/core";
 
+export type TitleChartProps  = {
+    title: string;
+    data:DonutChartCell[]
 
-const data = [
-  { name: 'Ensino Médio', value: 15, color: 'blue' },
-  { name: 'Graduação', value: 45, color: 'teal' },
-  { name: 'Pós-Graduação', value: 25, color: 'indigo' },
-  { name: 'Mestrado/Doutorado', value: 15, color: 'grape' },
-];
-export default function CustomDonutChart () {
+}
+
+
+export default function CustomDonutChart ({title , data}:TitleChartProps) {
     return(
 
         <Paper withBorder p="md" radius="md">
-            <Title order={4} mb="lg">Escolaridade dos Responsáveis</Title>
+            <Title order={4} mb="lg">{title}</Title>
           
             <Group justify="center">
                 <DonutChart 
