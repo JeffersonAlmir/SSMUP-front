@@ -5,7 +5,8 @@ import {
   IconFileCertificate,
   IconHome,
   IconLogout,
-  IconSettings,
+  // IconSettings,
+  IconUsersGroup,
   type IconProps,
 } from '@tabler/icons-react';
 import { Code, Group, rem, Title } from '@mantine/core';
@@ -44,7 +45,8 @@ const data: ItemDaNavegacao[] = [
     ],
   },
   { link: '/alvara', label: 'Alvará', icon: IconFileCertificate },
-  { link: '/configuracoes', label: 'Configurações', icon: IconSettings },
+  { link: '/membros', label: 'Membros', icon: IconUsersGroup },
+    // { link: '/configuracoes', label: 'Configurações', icon: IconSettings },
   
 ];
 
