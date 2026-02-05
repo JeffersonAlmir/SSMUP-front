@@ -1,15 +1,14 @@
-import { DonutChart } from "@mantine/charts";
+import { DonutChart, type DonutChartCell } from "@mantine/charts";
 import { ColorSwatch, Group, Paper, Text, Title } from "@mantine/core";
 
 export type TitleChartProps  = {
     title: string;
-}
-const data = [
-    { name: 'Ativo', value: 45, color: 'teal' },
-    { name: 'Inativo', value: 15, color: 'red' },
-];
+    data:DonutChartCell[]
 
-export default function CustomDonutChart ({title}:TitleChartProps) {
+}
+
+
+export default function CustomDonutChart ({title , data}:TitleChartProps) {
     return(
 
         <Paper withBorder p="md" radius="md">
