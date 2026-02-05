@@ -11,12 +11,13 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@mantine/charts": "^8.3.13",
-    "@mantine/core": "^8.3.13",
-    "@mantine/dates": "^8.3.13",
+    "@mantine/charts": "^8.3.14",
+    "@mantine/core": "^8.3.14",
+    "@mantine/dates": "^8.3.14",
     "@mantine/form": "^8.3.7",
     "@mantine/hooks": "^8.3.13",
-    "@mantine/notifications": "^8.3.13",
+    "@mantine/modals": "^8.3.14",
+    "@mantine/notifications": "^8.3.14",
     "@mantinex/mantine-logo": "^2.0.0",
     "@react-oauth/google": "^0.13.4",
     "@tabler/icons-react": "^3.36.1",
