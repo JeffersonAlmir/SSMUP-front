@@ -28,7 +28,7 @@ const Inicio = () => {
   
       <Box mb={40}>
         <Title order={2} fw={800} c="blue.9" fz={rem(30)}>
-          Olá! Bem-vindo(a) ao sistema SSMUP.
+          Olá! Bem-vindo(a) ao sistema.
         </Title>
         <Text c="dimmed" fz="lg">
           Painel administrativo de vigilância sanitária.
