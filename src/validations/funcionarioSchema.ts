@@ -18,7 +18,7 @@ export const funcionarioSchema = yup.object({
         .required('O campo nome é obrigatório'),
     matricula: yup.string()
         .trim()
-        .min(10, 'A matrícula deve ter no mínimo 10 caracteres')
-        .max(20, 'A matrícula deve ter no máximo 20 caracteres')
+        .min(6, 'A matrícula deve ter no mínimo 6 caracteres')
+        .max(10, 'A matrícula deve ter no máximo 10 caracteres')
         .required('O campo matrícula é obrigatório'),
 })

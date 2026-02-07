@@ -11,6 +11,7 @@ import DetailsPage from "./src/pages/DetailsPage";
 import UpdateEmpresaProvider from "./src/contexts/UpdateEmpresaContext";
 import { PrivateRoute } from "./src/components/login/PrivateRoute";
 import MembrosPage from "./src/pages/MembrosPage";
+import MembrosPageProvider from "./src/contexts/MembrosPageContext";
 
 export default function AppRoutes() {
   return (
@@ -25,8 +26,22 @@ export default function AppRoutes() {
               <Route path="/lista" element={<ListEmpresas/>} />
               <Route path="/alvara" element={<Alvara/>} />
               <Route path="/configuracoes" element={<Configuracoes/>} />        
-              <Route path="/membros" element={<MembrosPage/>} />        
-              <Route path="/detalhes/:cnpj" element={<UpdateEmpresaProvider> <DetailsPage/> </UpdateEmpresaProvider>} />        
+              <Route 
+                path="/membros" 
+                element={ 
+                  <MembrosPageProvider> 
+                    <MembrosPage/>
+                  </MembrosPageProvider> 
+                } 
+              />        
+              <Route 
+                path="/detalhes/:cnpj"
+                element={
+                  <UpdateEmpresaProvider> 
+                    <DetailsPage/> 
+                  </UpdateEmpresaProvider>
+                } 
+              />        
           </Route>
         </Route>
         <Route path="/login" element={<Login/>} />

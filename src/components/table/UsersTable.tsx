@@ -1,4 +1,3 @@
-import { useState, useEffect } from 'react';
 import {
   ActionIcon,
   Anchor,
@@ -16,10 +15,12 @@ import {
   Button
 } from '@mantine/core';
 import { modals } from '@mantine/modals'; 
-import { IconCheck, IconPencil, IconTrash, IconX, IconUsers } from '@tabler/icons-react';
+import {  IconCheck, IconPencil, IconTrash, IconUsers, IconX } from '@tabler/icons-react';
 import { notifications } from '@mantine/notifications';
-import apiBackend from '../../services/apiBackend';
+import { useMembrosPageContext } from '../../hooks/useMembrosPageContext';
+import FormCadastroFuncionario from '../form/FormCadastroFuncionario';
 import type IUsuariosResponse from '../../interface/IUsuariosResponse';
+import apiBackend from '../../services/apiBackend';
 
 const jobColors: Record<string, string> = {
   coordenador: 'cyan',
@@ -27,99 +28,73 @@ const jobColors: Record<string, string> = {
 };
 
 export function UsersTable() {
-  const [usuariosData, setUsuariosData] = useState<IUsuariosResponse[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [filtroStatus, setFiltroStatus] = useState<string>('true'); 
+  const {
+    usuariosData,
+    filtroStatus, 
+    setFiltroStatus, 
+    loading, 
+    handleAtivar, 
+    handleInativar,
+    getUsuarios
+  } = useMembrosPageContext();
 
-  const getUsuarios = async () => {
+  const handleUpdate =async (funcionario:IUsuariosResponse) =>{
     try {
-      setLoading(true);
-      const response = await apiBackend.get(`/usuarios/filter?ativo=${filtroStatus}`);
-      if (response.status === 200) {
-        setUsuariosData(response.data);
+      const response = await apiBackend.put(`/usuarios/${funcionario.id}`, funcionario);
+      
+      if(response.status === 200){
+        console.log("ok")
+        notifications.show({
+          title: 'Sucesso!',
+          message: 'O funcionário foi atualizado com sucesso.',
+          color: 'green',
+          icon: <IconCheck size={18} />
+        });
       }
+      getUsuarios();
+      modals.closeAll();
     } catch (error) {
       console.error(error);
       notifications.show({
-        title: 'Erro de conexão',
-        message: 'Não foi possível carregar a lista de funcionários.',
-        color: 'red',
+            title: 'Erro',
+            message: 'Não foi possível realizar atualizar os dados Funcionario.',
+            color: 'red',
+            icon: <IconX size={18} />
       });
-    } finally {
-      setLoading(false);
-    }
-  };
+    } 
+  }
 
-  const handleInativar = async (id: number) => {
-    try {
-      const response = await apiBackend.delete(`/usuarios/${id}/inativar`);
-
-      if (response.status === 204) {
-        setUsuariosData((current) => current.filter((item) => item.id !== id));
-
-        notifications.show({
-          title: 'Sucesso!',
-          message: 'O funcionário foi inativado.',
-          color: 'green',
-          icon: <IconCheck size={18} />
-        });
-      }
-    } catch (error) {
-      notifications.show({
-        title: 'Erro',
-        message: 'Não foi possível realizar a inativação.',
-        color: 'red',
-        icon: <IconX size={18} />
-      });
-    }
-  };
+  const openUpdateModal = (funcionario:IUsuariosResponse) =>{
+    modals.open({
+      size: 'xl',
+      children: (
+        <FormCadastroFuncionario 
+          textoTitulo='Atualizar Cadastro do Funcionário' 
+          loading={loading} 
+          handleSubmit={(values) => handleUpdate({ ...funcionario, ...values })}
+          dataFuncionario={funcionario}
+        />
+      ),
+    })
+  }
   
-  const handleAtivar = async (id: number) => {
-    try {
-      const response = await apiBackend.post(`/usuarios/${id}/ativar`);
-
-      if (response.status === 204) {
-        setUsuariosData((current) => current.filter((item) => item.id !== id));
-
-        notifications.show({
-          title: 'Sucesso!',
-          message: 'O funcionário foi reativado com sucesso.',
-          color: 'green',
-          icon: <IconCheck size={18} />
-        });
-      }
-    } catch (error) {
-      notifications.show({
-        title: 'Erro',
-        message: 'Não foi possível reativar o funcionário.',
-        color: 'red',
-        icon: <IconX size={18} />
-      });
-    }
-  };
-
-
-const openDeleteConfirmModal = (id: number, nome: string) => 
-  modals.openConfirmModal({
-    title: 'Confirmar inativação',
-    centered: true,
-    children: (
-      <Text size="sm">
-        Tem certeza que deseja inativar o funcionário <b>{nome}</b>? 
-        Ele perderá o acesso ao sistema imediatamente.
-      </Text>
-    ),
-    labels: { confirm: 'Inativar Funcionário', cancel: 'Voltar' },
-    confirmProps: { color: 'red' },
-    onConfirm: () => handleInativar(id), 
-  });
-
-  useEffect(() => {
-    getUsuarios();
-  }, [filtroStatus]);
+  const openDeleteConfirmModal = (id: number, nome: string) => 
+    modals.openConfirmModal({
+      title: 'Confirmar inativação',
+      centered: true,
+      children: (
+        <Text size="sm">
+          Tem certeza que deseja inativar o funcionário <b>{nome}</b>? 
+          Ele perderá o acesso ao sistema imediatamente.
+        </Text>
+      ),
+      labels: { confirm: 'Inativar Funcionário', cancel: 'Voltar' },
+      confirmProps: { color: 'red' },
+      onConfirm: () => handleInativar(id), 
+    });
 
   const rows = usuariosData.map((item) => (
-    <Table.Tr key={item.id}>
+    <Table.Tr key={item.matricula}>
       <Table.Td>
         <Group gap="sm">
           <Text fz="sm" fw={500}>{item.nome}</Text>
@@ -143,14 +118,19 @@ const openDeleteConfirmModal = (id: number, nome: string) =>
           
           {filtroStatus === 'true'? (
             <>
-              <ActionIcon variant="subtle" color="gray">
+              <ActionIcon 
+                variant="subtle" 
+                color="gray"
+                onClick={() => openUpdateModal(item)}
+              >
                 <IconPencil size={16} stroke={1.5} />
+                
               </ActionIcon>
               <ActionIcon 
                 variant="subtle" 
                 color="red" 
                 title="Inativar Funcionário"
-                onClick={() => openDeleteConfirmModal(item.id, item.nome)}
+                onClick={() => openDeleteConfirmModal(item.id!, item.nome)}
               >
                 <IconTrash size={16} stroke={1.5} />
               </ActionIcon>
@@ -161,7 +141,7 @@ const openDeleteConfirmModal = (id: number, nome: string) =>
               color="blue" 
               variant="filled"
               size="compact-md"
-              onClick={()=> handleAtivar(item.id)}
+              onClick={()=> handleAtivar(item.id!)}
             >
               Reativar
             </Button>

@@ -1,25 +1,34 @@
 import { Button } from "@mantine/core";
-import type IResponseItens from "../../interface/IResponseItens";
-import { IconBan, IconFileCertificate } from "@tabler/icons-react";
+import { IconFileCertificate } from "@tabler/icons-react";
 import ModalEdit from "../modal/ModalEdit";
 import ModalInspecao from "../modal/ModalInspecao";
+import InativarEmpresaButton from "./InativarEmpresaButtom";
+import { useUpdateEmpresaContext } from "../../hooks/useUpdateEmpresaContext";
 
-export type ActionButtonProps={
-    dataEmpresa:IResponseItens
-    loading:boolean;
-    isDisabled:boolean;
-    handleSubmit: ()=> void;
-    handleInativar: ()=> void;
-    handleAtivar: ()=> void
-}
-export default function EmpresaActionButton ({
-    dataEmpresa,
-    loading,
-    isDisabled,
-    handleSubmit,
-    handleInativar,
-    handleAtivar,
-}: ActionButtonProps){
+
+export default function EmpresaActionButton (){
+    const {dataEmpresa,handleDownloadPDF, loading, isDisabled, handleAtivar} = useUpdateEmpresaContext()
+
+    const ActionGroup = (
+         <>
+            <Button 
+                disabled={isDisabled}
+                loading={loading}
+                variant="filled" 
+                color="green" 
+                onClick={handleDownloadPDF}
+                leftSection={<IconFileCertificate size={18} />}
+            >
+                Gerar licença
+            </Button>
+
+            <ModalEdit
+                botaoDisable={loading}
+            />
+            
+            <InativarEmpresaButton loading={loading}/>
+        </>
+    );
 
     if(!dataEmpresa.ativo){
         return(
@@ -35,94 +44,20 @@ export default function EmpresaActionButton ({
     }else{
         if(dataEmpresa.cnae.risco ==="RISCO_I_BAIXO"){
             return(
-                <>
-                    <Button 
-                        disabled={isDisabled}
-                        loading={loading}
-                        variant="filled" 
-                        color="green" 
-                        onClick={handleSubmit}
-                        leftSection={<IconFileCertificate size={18} />}
-                    >
-                        Gerar licença
-                    </Button>
-
-                    <ModalEdit
-                        botaoDisable={loading}
-                    />
-                    
-                    <Button 
-                        disabled={loading}
-                        variant="filled" 
-                        color="red" 
-                        onClick={handleInativar}
-                        leftSection={<IconBan size={18} />}
-                    >
-                        Inativar cadastro
-                    </Button>
-                </>
+                ActionGroup
             );
         }
         if(dataEmpresa.cnae.risco ==="RISCO_II_MEDIO" || dataEmpresa.cnae.risco ==="RISCO_III_ALTO"){
             if(!dataEmpresa.inspecao){
                 return(
-                    <>  <ModalInspecao
-                            botaoDisable={loading}
-                        /> 
-                        <Button 
-                            disabled={isDisabled}
-                            loading={loading}
-                            variant="filled" 
-                            color="green" 
-                            onClick={handleSubmit}
-                            leftSection={<IconFileCertificate size={18} />}
-                        >
-                            Gerar licença
-                        </Button>
-
-                        <ModalEdit
-                            botaoDisable={loading}
-                        />
-                        
-                        <Button 
-                            disabled={loading}
-                            variant="filled" 
-                            color="red" 
-                            onClick={handleInativar}
-                            leftSection={<IconBan size={18} />}
-                        >
-                            Inativar cadastro
-                        </Button>
+                    <>  
+                        <ModalInspecao botaoDisable={loading}/> 
+                        {ActionGroup}
                     </>
                 );
             }
             return(
-                <>
-                    <Button 
-                        disabled={isDisabled}
-                        loading={loading}
-                        variant="filled" 
-                        color="green" 
-                        onClick={handleSubmit}
-                        leftSection={<IconFileCertificate size={18} />}
-                    >
-                        Gerar licença
-                    </Button>
-
-                    <ModalEdit
-                        botaoDisable={loading}
-                    />
-                    
-                    <Button 
-                        disabled={loading}
-                        variant="filled" 
-                        color="red" 
-                        onClick={handleInativar}
-                        leftSection={<IconBan size={18} />}
-                    >
-                        Inativar cadastro
-                    </Button>
-                </>
+               ActionGroup
             );
         }
     }
