@@ -73,6 +73,8 @@ export function UsersTable() {
           loading={loading} 
           handleSubmit={(values) => handleUpdate({ ...funcionario, ...values })}
           dataFuncionario={funcionario}
+          textBotao='Cancelar'
+          onCancel={() => modals.closeAll()}
         />
       ),
     })

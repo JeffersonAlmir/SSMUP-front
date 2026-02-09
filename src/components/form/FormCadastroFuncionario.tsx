@@ -22,13 +22,17 @@ type dataFuncionarioProps ={
   handleSubmit: (values: IUsuarioCreate, form:any) => void;
   dataFuncionario?: IUsuariosResponse;
   loading:boolean;
+  textBotao?:string;
+  onCancel?: () => void;
 }
 
 export default function FormCadastroFuncionario({
   textoTitulo, 
   handleSubmit, 
   dataFuncionario,
-  loading
+  loading,
+  textBotao= "Limpar",
+  onCancel,
 }:dataFuncionarioProps) {
   const form = useForm({
     initialValues: {
@@ -39,6 +43,14 @@ export default function FormCadastroFuncionario({
     },
     validate: yupResolver(funcionarioSchema)
   });
+
+  const handleBotao = () => {
+    if (onCancel) {
+      onCancel();
+    } else {
+      form.reset();
+    }
+  };
 
   return (
     <Paper shadow="sm" p="xl" radius="md" withBorder  maw={1100} mx="auto">
@@ -99,11 +111,12 @@ export default function FormCadastroFuncionario({
 
           <Group justify="flex-end">
             <Button 
+              disabled={loading}
               color="red" 
               size="md"
-              onClick={form.reset}
+              onClick={() => handleBotao()}
             >
-              Limpar
+              {textBotao}
             </Button>
             
             <Button 
