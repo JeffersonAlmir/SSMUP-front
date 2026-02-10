@@ -18,7 +18,7 @@ export default function ModalEdit({botaoDisable}: ModalEditProps) {
         onClose={close} 
         title={
           <Text fw={700} size="xl" mb="md" className="mantine-Modal-title"> 
-            Cadastro de Empresa
+            Atualizar Dados de Empresa
           </Text>
         }
         closeButtonProps={{
