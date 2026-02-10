@@ -109,19 +109,18 @@ export default function FormCadastroFuncionario({
 
           <Divider my="lg" />
 
-          <Group justify="flex-end">
+          <Group justify="flex-end"  mt="xl">
             <Button 
               disabled={loading}
+              variant="light"
               color="red" 
-              size="md"
               onClick={() => handleBotao()}
             >
               {textBotao}
             </Button>
             
             <Button 
-              type="submit" 
-              size="md" 
+              type="submit"                
               px="xl"
               bg="blue.6"
               loading={loading}
