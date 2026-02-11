@@ -104,7 +104,7 @@ export default function FormEmpresaWizard() {
         responsavel: formResponsavel.getValues(),
         endereco: formEndereco.getValues(),
     };
-    console.log(newEmpresa)
+
     setLoading(true);
 
     try {

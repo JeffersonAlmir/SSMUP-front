@@ -12,7 +12,7 @@ export type DetailsCreateEmpresaProps = {
 }
 export default function DetailsCreateEmpresa ({dataEmpresa, dataResponsavel, dataEndereco}:DetailsCreateEmpresaProps){
     
-    console.log("Dados da empresa recebidos no DetailsEmpresa:", dataEmpresa);
+
   return (
 
     <>

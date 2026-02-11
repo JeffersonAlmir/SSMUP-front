@@ -402,11 +402,11 @@ export default function FormEditEmpresa({ close}:FormProps) {
 
           {/* Botão de Submissão e cancelar */}
           <Group justify="flex-end" mt="xl">
-            <Button  size="md" variant="filled" color="red" onClick={close} disabled={isSubmitting}>
+            <Button variant="light" color="red" onClick={close} disabled={isSubmitting}>
               Cancelar
             </Button>
 
-            <Button type="submit" size="md"  bg="blue.6" loading={isSubmitting} disabled={isCepLoading} >
+            <Button type="submit"  bg="blue.6" loading={isSubmitting} disabled={isCepLoading} >
               Confirmar
             </Button>
           </Group>
