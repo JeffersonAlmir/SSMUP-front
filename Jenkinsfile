@@ -1,4 +1,6 @@
 pipeline {
+    agent any
+    
     environment{
         IMAGE_NAME = "sanimup/frontend"
         IMAGE_TAG = "latest"
