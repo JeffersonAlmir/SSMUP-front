@@ -16,7 +16,7 @@ pipeline {
         stage('Build Image'){
             steps {
                 echo 'Construindo imagem do React com Nginx'
-                sh 'docker build -f Dockerfile.prod -t ${IMAGE_NAME}:${IMAGE_TAG}'
+                sh 'docker build -f Dockerfile.prod -t ${IMAGE_NAME}:${IMAGE_TAG} .'
             }
         }
     }
