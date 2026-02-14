@@ -28,7 +28,7 @@ export function SearchableSelect() {
     };
 
     fetchEmpresas();
-  },[debounced,combobox])
+  },[debounced])
 
 
   return (

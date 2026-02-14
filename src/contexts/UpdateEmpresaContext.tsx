@@ -32,7 +32,8 @@ export default function UpdateEmpresaProvider({ children }: ChildrenProps){
 
     const handleInativar = async (justificativa:string) =>{
         try {
-            const response = await apiBackend.delete(`/empresas/${dataEmpresa.id}/inativar`);
+            console.log("Cheguei no log");
+            const response = await apiBackend.patch(`/empresas/${dataEmpresa.id}/inativar`,{motivo:justificativa});
             console.log("Enviando para o backend:", justificativa);
             if(response.status === 204){
                 setDataEmpresa({ ...dataEmpresa, ativo: false });
