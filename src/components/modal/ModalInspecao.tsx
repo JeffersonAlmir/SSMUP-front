@@ -4,7 +4,7 @@ import { IconCheckupList, IconXboxX } from '@tabler/icons-react';
 import FormInspecao from '../form/FormInspecao';
 
 export type ModalInspecaoProps = {
-  botaoDisable: boolean
+  botaoDisable?: boolean
 }
 
 
