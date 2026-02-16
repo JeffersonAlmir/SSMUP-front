@@ -2,7 +2,7 @@ export const tipoRisco = {
     RISCO_I_BAIXO: "Risco baixo", 
     RISCO_II_MEDIO: "Risco médio", 
     RISCO_III_ALTO: "Risco alto" 
-}
+} as const;
 
 export type tipoRiscoKey = keyof typeof tipoRisco;
 
