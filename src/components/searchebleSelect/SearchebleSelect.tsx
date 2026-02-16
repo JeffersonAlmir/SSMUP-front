@@ -10,25 +10,25 @@ export function SearchableSelect() {
   const [loading, setLoading] = useState(false);
   const [options, setOptions] = useState<string[]>([]);
 
-  useEffect(() =>{
-    if(debounced.trim.length < 3){
-      setOptions([]);
-      return;
-    }
-    const fetchEmpresas = async ()=>{
-      setLoading(true);
-      combobox.openDropdown();
-      try {
+  // useEffect(() =>{
+  //   if(debounced.trim.length < 3){
+  //     setOptions([]);
+  //     return;
+  //   }
+  //   const fetchEmpresas = async ()=>{
+  //     setLoading(true);
+  //     combobox.openDropdown();
+  //     try {
         
-      } catch (error) {
-        console.error('Erro na busca:', error);
-      } finally{
-        setLoading(false)
-      }
-    };
+  //     } catch (error) {
+  //       console.error('Erro na busca:', error);
+  //     } finally{
+  //       setLoading(false)
+  //     }
+  //   };
 
-    fetchEmpresas();
-  },[debounced,combobox])
+  //   fetchEmpresas();
+  // },[debounced,combobox])
 
 
   return (
