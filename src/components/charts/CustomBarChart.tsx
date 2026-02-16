@@ -1,17 +1,25 @@
-import { BarChart } from "@mantine/charts";
+import { BarChart, type BarChartProps } from "@mantine/charts";
 import { Group, Paper, Title } from "@mantine/core";
 
 export type TitleChartProps  = {
   title: string;
+  data?:BarChartProps[]
 }
 const data = [
-  { month: 'January', Smartphones: 120, Laptops: 90, Tablets: 200 },
-  { month: 'February', Smartphones: 190, Laptops: 120, Tablets: 40 },
-  { month: 'March', Smartphones: 40, Laptops: 100, Tablets: 200 },
-  { month: 'April', Smartphones: 100, Laptops: 200, Tablets: 80 },
-  { month: 'May', Smartphones: 80, Laptops: 140, Tablets: 120 },
-  { month: 'June', Smartphones: 75, Laptops: 60, Tablets: 100 },
+  { month: 'Jan', 'Empresas Cadastradas': 15 },
+  { month: 'Fev', 'Empresas Cadastradas': 2 },
+  { month: 'Mar', 'Empresas Cadastradas': 4 },
+  { month: 'Abr', 'Empresas Cadastradas': 1 },
+  { month: 'Mai', 'Empresas Cadastradas': 8 },
+  { month: 'Jun', 'Empresas Cadastradas': 6 },
+  { month: 'Jul', 'Empresas Cadastradas': 0 },
+  { month: 'Ago', 'Empresas Cadastradas': 7 },
+  { month: 'Set', 'Empresas Cadastradas': 5 },
+  { month: 'Out', 'Empresas Cadastradas': 7 },
+  { month: 'Nov', 'Empresas Cadastradas': 2 },
+  { month: 'Dez', 'Empresas Cadastradas': 7 },
 ];
+
 
 export default function CustomBarChart ({title}:TitleChartProps) {
   return(
@@ -25,9 +33,7 @@ export default function CustomBarChart ({title}:TitleChartProps) {
             withLegend
             legendProps={{ verticalAlign: 'bottom', height: 50 }}
             series={[
-              { name: 'Smartphones', color: 'violet.6' },
-              { name: 'Laptops', color: 'blue.6' },
-              { name: 'Tablets', color: 'teal.6' },
+              { name: 'Empresas Cadastradas', color: 'violet.6' },
             ]}
           />
         </Group>

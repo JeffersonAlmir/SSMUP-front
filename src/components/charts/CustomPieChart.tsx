@@ -1,17 +1,13 @@
-import { PieChart } from "@mantine/charts";
+import { PieChart, type PieChartCell } from "@mantine/charts";
 import { ColorSwatch, Group, Paper, Text, Title } from "@mantine/core";
 
 export type TitleChartProps  = {
     title: string;
+    data:PieChartCell[]
+    
 }
-const data = [
-  { name: 'USA', value: 400, color: 'indigo.6' },
-  { name: 'India', value: 300, color: 'yellow.6' },
-  { name: 'Japan', value: 300, color: 'teal.6' },
-  { name: 'Other', value: 200, color: 'gray.6' },
-];
 
-export default function CustomPieChart ({title}:TitleChartProps){
+export default function CustomPieChart ({title , data}:TitleChartProps){
     return(
         <Paper withBorder p="md" radius="md">
             <Title order={4} mb="lg">{title}</Title>
