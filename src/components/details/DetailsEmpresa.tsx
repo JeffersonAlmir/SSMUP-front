@@ -105,7 +105,7 @@ export default function DetailsEmpresa (){
                 </Grid.Col>
                 <Grid.Col span={{ base: 12, md: 4 }}>
                     <Text c="dimmed" size="xs" tt="uppercase" fw={700}>Município</Text>
-                    <Text>{dataEmpresa?.endereco?.municipio} - {dataEmpresa.endereco.uf}</Text>
+                    <Text>{dataEmpresa?.endereco?.municipio} - {dataEmpresa?.endereco?.uf}</Text>
                 </Grid.Col>
                 <Grid.Col span={{ base: 12, md: 4 }}>
                     <Text c="dimmed" size="xs" tt="uppercase" fw={700}>Telefone</Text>
