@@ -7,7 +7,7 @@ import LoadingScreen from "../components/loader/LoadingScreen";
 
 
 const Painel = () =>{
-    const {statusEmpresa, loading}= usePainelData()
+    const {statusEmpresa, loading,qtdEmpresaRisco}= usePainelData()
 
     if(loading){
         return(
@@ -19,8 +19,8 @@ const Painel = () =>{
         <SimpleGrid cols={{ base: 1, sm: 2, lg: 2 }} spacing="md" mb={40}>
 
             <CustomDonutChart title="Quantidade de empresas Ativas e Inativas" data={statusEmpresa}/>
-            <CustomBarChart title="Quantidade de empresas Ativas e Inativas"/>
-            <CustomPieChart title="Quantidade de empresas Ativas e Inativas"/>
+            <CustomBarChart title="Empresas Cadastradas Mensalmente"/>
+            <CustomPieChart title="Quantidade de empresas por Risco" data={qtdEmpresaRisco} />
         </SimpleGrid>
         </>
     );
