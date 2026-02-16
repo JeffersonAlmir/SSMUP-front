@@ -16,7 +16,7 @@ import type IResponseItens from '../../interface/IResponseItens';
 import apiBackend from '../../services/apiBackend';
 import { SearchableSelect } from '../searchebleSelect/SearchebleSelect';
 import ModalInspecao from '../modal/ModalInspecao';
-import { getTipoRisco, tipoRiscoOptions, type tipoRiscoKey } from '../../constants/tipoRisco';
+import { getRiscoColor, getTipoRisco, tipoRiscoOptions, type tipoRiscoKey } from '../../constants/tipoRisco';
 
 export default function InspecaoTable() {
   const [page, setPage] = useState(0);
@@ -62,14 +62,6 @@ export default function InspecaoTable() {
     setPage(0); 
   };
 
-  const getRiscoColor = (riscoValue: string | undefined) => {
-    switch (riscoValue) {
-      case 'RISCO_III_ALTO': return 'red';
-      case 'RISCO_II_MEDIO': return 'orange';
-      case 'RISCO_I_BAIXO': return 'blue';
-      default: return 'gray';
-    }
-  };
 
   const rows = data.map((item) => (
     <Table.Tr key={item.cnpj}>

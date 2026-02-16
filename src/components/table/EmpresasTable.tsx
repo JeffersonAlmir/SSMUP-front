@@ -6,7 +6,7 @@ import type IResponseItens from '../../interface/IResponseItens';
 import { useNavigate } from 'react-router-dom';
 import apiBackend from '../../services/apiBackend';
 import { SearchableSelect } from '../searchebleSelect/SearchebleSelect';
-import { getTipoRisco, type tipoRiscoKey } from '../../constants/tipoRisco';
+import { getRiscoColor, getTipoRisco, type tipoRiscoKey } from '../../constants/tipoRisco';
 
 
 export default function EmpresasTable() {
@@ -29,14 +29,6 @@ export default function EmpresasTable() {
     }
   };
 
-  const getRiscoColor = (riscoValue: string | undefined) => {
-    switch (riscoValue) {
-      case 'RISCO_III_ALTO': return 'red';
-      case 'RISCO_II_MEDIO': return 'orange';
-      case 'RISCO_I_BAIXO': return 'blue';
-      default: return 'gray';
-    }
-  };
     
   const rows = data.map((item) => (
     <Table.Tr key={item.cnpj}>
