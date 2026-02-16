@@ -2,8 +2,8 @@ import apiBackend from "../apiBackend"
 
 export  const getEmpresasStatusData = async () =>{
     const[empresaAtivas,empresaInativas] = await Promise.all([
-        apiBackend.get('empresas/ativas'),
-        apiBackend.get('empresas/inativas'),
+        apiBackend.get('/empresas/ativas'),
+        apiBackend.get('/empresas/inativas'),
         
     ]);
     return [
