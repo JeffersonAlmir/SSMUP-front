@@ -2,7 +2,6 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Inicio from "./src/pages/Inicio";
 import { Layout } from "./src/layout/Layout";
 import Painel from "./src/pages/Painel";
-import Alvara from "./src/pages/Alvara";
 import Configuracoes from "./src/pages/Configuracoes";
 import Cadastro from "./src/pages/Cadastro";
 import ListEmpresas from "./src/pages/ListEmpresa";
@@ -12,6 +11,7 @@ import UpdateEmpresaProvider from "./src/contexts/UpdateEmpresaContext";
 import { PrivateRoute } from "./src/components/login/PrivateRoute";
 import MembrosPage from "./src/pages/MembrosPage";
 import MembrosPageProvider from "./src/contexts/MembrosPageContext";
+import Inspecao from "./src/pages/Inspecao";
 
 export default function AppRoutes() {
   return (
@@ -24,7 +24,7 @@ export default function AppRoutes() {
               <Route path="/painel" element = {<Painel/>} />
               <Route path="/cadastro" element={<Cadastro/>} />
               <Route path="/lista" element={<ListEmpresas/>} />
-              <Route path="/alvara" element={<Alvara/>} />
+              <Route path="/inspecao" element={<Inspecao/>} />
               <Route path="/configuracoes" element={<Configuracoes/>} />        
               <Route 
                 path="/membros" 
