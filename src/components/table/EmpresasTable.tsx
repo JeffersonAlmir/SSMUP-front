@@ -6,6 +6,7 @@ import type IResponseItens from '../../interface/IResponseItens';
 import { useNavigate } from 'react-router-dom';
 import apiBackend from '../../services/apiBackend';
 import { SearchableSelect } from '../searchebleSelect/SearchebleSelect';
+import { getTipoRisco, type tipoRiscoKey } from '../../constants/tipoRisco';
 
 
 export default function EmpresasTable() {
@@ -27,6 +28,15 @@ export default function EmpresasTable() {
       console.error('Erro ao buscar empresas:', error);
     }
   };
+
+  const getRiscoColor = (riscoValue: string | undefined) => {
+    switch (riscoValue) {
+      case 'RISCO_III_ALTO': return 'red';
+      case 'RISCO_II_MEDIO': return 'orange';
+      case 'RISCO_I_BAIXO': return 'blue';
+      default: return 'gray';
+    }
+  };
     
   const rows = data.map((item) => (
     <Table.Tr key={item.cnpj}>
@@ -34,6 +44,14 @@ export default function EmpresasTable() {
       <Table.Td>{item.nomeFantasia}</Table.Td>
       <Table.Td>{item.cnpj}</Table.Td>
       <Table.Td>{item.endereco.municipio} - {item.endereco.uf}</Table.Td>
+      <Table.Td>
+        <Badge color={getRiscoColor(item.cnae?.risco)} variant="dot">
+          {item.cnae?.risco 
+          ? getTipoRisco(item.cnae.risco as tipoRiscoKey).replace(/risco/i, '').trim()
+          : 'N/A'
+          }
+        </Badge>
+      </Table.Td>
       <Table.Td>
         {item.ativo ? (
           <Badge color="green" variant="light" radius="sm">
@@ -86,6 +104,7 @@ export default function EmpresasTable() {
             <Table.Th>Nome Fantasia</Table.Th>
             <Table.Th>CNPJ</Table.Th>
             <Table.Th>Cidade/UF</Table.Th>
+             <Table.Th>Risco</Table.Th>
             <Table.Th>Ativo</Table.Th>
              <Table.Th><VisuallyHidden>Ações</VisuallyHidden></Table.Th>
           </Table.Tr>
