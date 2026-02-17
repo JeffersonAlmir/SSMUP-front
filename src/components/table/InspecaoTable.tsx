@@ -86,7 +86,7 @@ export default function InspecaoTable() {
         )}
       </Table.Td>
       <Table.Td>
-        <ModalInspecao />
+        <ModalInspecao empresaId={item.id ?? 0}  onSuccess={() => getEmpresasInspecoes(page, risco)}/>
       </Table.Td>
     </Table.Tr>
   ));

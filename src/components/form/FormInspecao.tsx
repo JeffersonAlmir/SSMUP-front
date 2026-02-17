@@ -4,12 +4,17 @@ import { useEffect, useState } from "react";
 import apiBackend from "../../services/apiBackend";
 import type IUsuariosResponse from "../../interface/IUsuariosResponse";
 import { StatusInspecaoOption } from "../../constants/statusInspecao";
+import { notifications } from "@mantine/notifications";
+import { IconCheck, IconX } from "@tabler/icons-react";
+
 
 export type FormProps = {
   close: () => void;
+  empresaId: number;
+  onSuccess: () => void;
 }
 
-export default function FormInspecao({ close }: FormProps) {
+export default function FormInspecao({ close, empresaId, onSuccess }: FormProps) {
   const [funcionarios, setFuncionarios] = useState<IUsuariosResponse[]>([]);
   const [loading, setLoading] = useState(false);
 
@@ -44,11 +49,40 @@ export default function FormInspecao({ close }: FormProps) {
 
   const handleSubmissao = async (values: typeof form.values) => {
     setLoading(true);
+    
+    const payload = {
+      objetivoInspecao : values.objetivo,
+      observacoes: values.observacoes.trim() === "" ? "Nenhuma observação informada." : values.observacoes,
+      statusInspecao : values.statusInspecao,
+      empresaId: empresaId,
+      usuariosId: values.participantes,
+      dataInspecao: new Date().toLocaleDateString('pt-BR')
+    };
     try {
-      console.log("Dados da Inspeção:", values);
-      // await apiBackend.post('/inspecoes', values);
-      close();
-    } finally {
+      
+      const response = await apiBackend.post('/inspecoes', payload)
+      console.log(response.status)
+      if(response.status ===201){
+
+        onSuccess();
+        notifications.show({
+          title: 'Sucesso!',
+          message: 'Inspeção realizada com sucesso.',
+          color: 'green',
+          icon: <IconCheck size={18} />
+        }); 
+        close();
+      }
+     
+    }catch (error) {
+      console.error("Erro ao salvar", error)
+      notifications.show({
+        title: 'Erro',
+        message: 'Não foi possível realizar a inspeçao. Tente novamente.',
+        color: 'red',
+        icon: <IconX size={18} />
+      }); 
+    }finally {
       setLoading(false);
     }
   };
@@ -70,7 +104,7 @@ export default function FormInspecao({ close }: FormProps) {
             required
             label="Equipe de Fiscais"
             placeholder="Selecione quem participou"
-            data={funcionarios.map(f => ({ value: f.matricula, label: f.nome }))}
+            data={funcionarios.map(funcionario => ({ value: String(funcionario.id), label: funcionario.nome }))}
             hidePickedOptions
             clearable
             searchable

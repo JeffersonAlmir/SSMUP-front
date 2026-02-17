@@ -4,11 +4,13 @@ import { IconCheckupList, IconXboxX } from '@tabler/icons-react';
 import FormInspecao from '../form/FormInspecao';
 
 export type ModalInspecaoProps = {
-  botaoDisable?: boolean
+  botaoDisable?: boolean;
+  empresaId: number;
+  onSuccess: () => void;
 }
 
 
-export default function ModalInspecao({botaoDisable}: ModalInspecaoProps) {
+export default function ModalInspecao({botaoDisable, empresaId, onSuccess}: ModalInspecaoProps) {
   const [opened, { open, close }] = useDisclosure(false);
 
   return (
@@ -26,7 +28,7 @@ export default function ModalInspecao({botaoDisable}: ModalInspecaoProps) {
           icon: <IconXboxX size={20} stroke={1.5} />,
         }}
       >
-        <FormInspecao close={close}/>
+        <FormInspecao close={close} empresaId={empresaId} onSuccess={onSuccess}/>
       </Modal>
       
       <Button 
