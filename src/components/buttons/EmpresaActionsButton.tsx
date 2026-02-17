@@ -6,8 +6,16 @@ import InativarEmpresaButton from "./InativarEmpresaButtom";
 import { useUpdateEmpresaContext } from "../../hooks/useUpdateEmpresaContext";
 
 
+
 export default function EmpresaActionButton (){
-    const {dataEmpresa,handleDownloadPDF, loading, isDisabled, handleAtivar} = useUpdateEmpresaContext()
+    const {
+        dataEmpresa, 
+        handleDownloadPDF, 
+        loading, 
+        isDisabled, 
+        handleAtivar, 
+        refreshData
+    } = useUpdateEmpresaContext();
 
     const ActionGroup = (
          <>
@@ -51,7 +59,7 @@ export default function EmpresaActionButton (){
             if(!dataEmpresa.inspecao){
                 return(
                     <>  
-                        <ModalInspecao botaoDisable={loading}/> 
+                        <ModalInspecao botaoDisable={loading} empresaId={dataEmpresa.id ?? 0} onSuccess={refreshData}/> 
                         {ActionGroup}
                     </>
                 );

@@ -1,4 +1,4 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useCallback, useEffect, useState } from "react";
 import type IResponseItens from "../interface/IResponseItens";
 import { useLocation } from "react-router-dom";
 import apiBackend from "../services/apiBackend";
@@ -13,6 +13,7 @@ type UpdateContextProps = {
     handleInativar: (justificativa: string) => Promise<void>;
     handleAtivar: () => Promise<void>;
     handleDownloadPDF: () => Promise<void>;
+    refreshData: () => Promise<void>;
 }
 
 export const UpdateEmpresaContext = createContext<UpdateContextProps>(
@@ -29,6 +30,19 @@ export default function UpdateEmpresaProvider({ children }: ChildrenProps){
     const [dataEmpresa, setDataEmpresa] = useState<IResponseItens>(item || {} as IResponseItens);
     const [loading, setLoading] = useState(false);
     const isDisabled = dataEmpresa?.cnae?.risco === "RISCO_III_ALTO" && !dataEmpresa.inspecao  ;
+
+    const refreshData = useCallback(async () => {
+        if (!dataEmpresa?.id) return;
+
+        try {
+            const response = await apiBackend.get(`/empresas/${dataEmpresa.id}`);
+            if (response.status === 200) {
+                setDataEmpresa(response.data);
+            }
+        } catch (error) {
+            console.error("Erro ao atualizar dados da empresa:", error);
+        }
+    }, [dataEmpresa?.id]);
 
     const handleInativar = async (justificativa:string) =>{
 
@@ -125,17 +139,9 @@ export default function UpdateEmpresaProvider({ children }: ChildrenProps){
     }
     useEffect(() => {
         if (item?.id) {
-            const fetchEmpresa = async () => {
-                try {
-                    const response = await apiBackend.get(`/empresas/${item.id}`);
-                    setDataEmpresa(response.data); 
-                } catch (error) {
-                    console.error("Erro ao buscar dados iniciais", error);
-                }
-            };
-            fetchEmpresa();
+            refreshData();
         }
-    }, [item?.id]);
+    }, [item?.id, refreshData]);
 
     return(
         <UpdateEmpresaContext.Provider value={{
@@ -146,6 +152,7 @@ export default function UpdateEmpresaProvider({ children }: ChildrenProps){
         handleInativar,
         handleAtivar,
         handleDownloadPDF,
+        refreshData,
       }}>
             {children}
         </UpdateEmpresaContext.Provider>

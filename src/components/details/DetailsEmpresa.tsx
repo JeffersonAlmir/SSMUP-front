@@ -1,4 +1,4 @@
-import { Grid, Group, Paper, Text } from "@mantine/core";
+import { Badge, Grid, Group, Paper, Text } from "@mantine/core";
 import { IconBuildingSkyscraper, IconMapPin, IconUser } from "@tabler/icons-react";
 import { useUpdateEmpresaContext } from "../../hooks/useUpdateEmpresaContext";
 import { getTipoRisco, type tipoRiscoKey} from "../../constants/tipoRisco";
@@ -66,14 +66,28 @@ export default function DetailsEmpresa (){
                 
                 <Grid.Col span={{ base: 12, md: 4 }}>
                     <Text c="dimmed" size="xs" tt="uppercase" fw={700}>Ativo</Text>
-                    <Text size="md">{dataEmpresa?.ativo ? "Sim" : "Não"}</Text>
+                    <Badge 
+                        color={dataEmpresa?.ativo ? "green" : "red"} 
+                        variant="light" 
+                        size="lg"
+                            mt={4}
+                    >
+                        {dataEmpresa?.inspecao ? "Sim" : "Não"}
+                    </Badge>
                 </Grid.Col>
-                {dataEmpresa.cnae.risco ==="RISCO_I_BAIXO"?
+                {dataEmpresa.cnae.risco ==="RISCO_I_BAIXO"  ?
                 (null):
                 (
                     <Grid.Col span={{ base: 12, md: 4 }}>
-                        <Text c="dimmed" size="xs" tt="uppercase" fw={700}>Inspecão Realizada</Text>
-                        <Text size="md">{dataEmpresa?.inspecao ? "Sim" : "Não"}</Text>
+                        <Text c="dimmed" size="xs" tt="uppercase" fw={700}>Inspeção</Text>
+                        <Badge 
+                            color={dataEmpresa?.inspecao ? "green" : "yellow"} 
+                            variant="light" 
+                            size="lg"
+                            mt={4}
+                        >
+                            {dataEmpresa?.inspecao ? "Concluída" : "Pendente"}
+                        </Badge>
                     </Grid.Col>
                 )
                 }
