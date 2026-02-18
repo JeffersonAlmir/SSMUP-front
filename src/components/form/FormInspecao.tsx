@@ -61,7 +61,7 @@ export default function FormInspecao({ close, empresaId, onSuccess }: FormProps)
     try {
       
       const response = await apiBackend.post('/inspecoes', payload)
-      console.log(response.status)
+
       if(response.status ===201){
 
         onSuccess();

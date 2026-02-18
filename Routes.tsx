@@ -12,6 +12,7 @@ import { PrivateRoute } from "./src/components/login/PrivateRoute";
 import MembrosPage from "./src/pages/MembrosPage";
 import MembrosPageProvider from "./src/contexts/MembrosPageContext";
 import Inspecao from "./src/pages/Inspecao";
+import { AdminRoute } from "./src/components/login/AdminRoute";
 
 export default function AppRoutes() {
   return (
@@ -25,15 +26,7 @@ export default function AppRoutes() {
               <Route path="/cadastro" element={<Cadastro/>} />
               <Route path="/lista" element={<ListEmpresas/>} />
               <Route path="/inspecao" element={<Inspecao/>} />
-              <Route path="/configuracoes" element={<Configuracoes/>} />        
-              <Route 
-                path="/membros" 
-                element={ 
-                  <MembrosPageProvider> 
-                    <MembrosPage/>
-                  </MembrosPageProvider> 
-                } 
-              />        
+              <Route path="/configuracoes" element={<Configuracoes/>} />   
               <Route 
                 path="/detalhes/:cnpj"
                 element={
@@ -41,7 +34,18 @@ export default function AppRoutes() {
                     <DetailsPage/> 
                   </UpdateEmpresaProvider>
                 } 
-              />        
+              />   
+              <Route element={<AdminRoute/>}>
+                <Route 
+                  path="/membros" 
+                  element={ 
+                    <MembrosPageProvider> 
+                      <MembrosPage/>
+                    </MembrosPageProvider> 
+                  } 
+                />        
+              </Route>
+                   
           </Route>
         </Route>
         <Route path="/login" element={<Login/>} />
