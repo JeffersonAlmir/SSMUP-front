@@ -53,9 +53,15 @@ const data: ItemDaNavegacao[] = [
 export function Navbar() {
 
   const { pathname } = useLocation();
-  const { logout } = useAuth();
+  const { logout, user } = useAuth();
 
-  const links = data.map((item) => {
+  const filteredData = data.filter((item)=>{
+    if(item.label === 'Membros'){
+      return user?.role === 'ADMIN';
+    }
+    return true;
+  })
+  const links = filteredData.map((item) => {
     if ('links' in item) {
       return <LinksGroup {...item} key={item.label} />;
     }
