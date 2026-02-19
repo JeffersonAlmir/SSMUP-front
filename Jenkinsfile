@@ -2,6 +2,7 @@ pipeline {
     agent any
     
     environment{
+        DOCKER_HUB_USER = "jeffersonalmir"
         IMAGE_NAME = "sanimup-frontend"
         IMAGE_TAG = "latest"
     }
