@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Combobox, useCombobox, Loader, Group, Text, InputBase } from '@mantine/core';
 import { IconSearch } from '@tabler/icons-react';
 import { useDebouncedValue } from '@mantine/hooks';
@@ -9,6 +9,9 @@ export function SearchableSelect() {
   const [debounced] = useDebouncedValue(value, 500);
   const [loading, setLoading] = useState(false);
   const [options, setOptions] = useState<string[]>([]);
+  console.log(debounced);
+  console.log(setLoading);
+  console.log(setOptions);
 
   // useEffect(() =>{
   //   if(debounced.trim.length < 3){
