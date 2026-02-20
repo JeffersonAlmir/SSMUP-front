@@ -70,9 +70,9 @@ export default function DetailsEmpresa (){
                         color={dataEmpresa?.ativo ? "green" : "red"} 
                         variant="light" 
                         size="lg"
-                            mt={4}
+                        mt={4}
                     >
-                        {dataEmpresa?.inspecao ? "Sim" : "Não"}
+                        {dataEmpresa?.ativo ? "Sim" : "Não"}
                     </Badge>
                 </Grid.Col>
                 {dataEmpresa.cnae.risco ==="RISCO_I_BAIXO"  ?
