@@ -14,9 +14,9 @@ import { useEffect, useState, useCallback } from 'react';
 import type IResponseEmpresa from '../../interface/IResponseEmpresa';
 import type IResponseItens from '../../interface/IResponseItens';
 import apiBackend from '../../services/apiBackend';
-import { SearchableSelect } from '../searchebleSelect/SearchebleSelect';
 import ModalInspecao from '../modal/ModalInspecao';
 import { getRiscoColor, getTipoRisco, tipoRiscoOptions, type tipoRiscoKey } from '../../constants/tipoRisco';
+import { SearchableSelectInspecao } from '../searchebleSelect/SerachableSelectInspecao';
 
 export default function InspecaoTable() {
   const [page, setPage] = useState(0);
@@ -49,6 +49,7 @@ export default function InspecaoTable() {
     }
   }, []);
 
+  
   useEffect(() => {
     getEmpresasInspecoes(page, risco);
   }, [page, risco, getEmpresasInspecoes]);
@@ -61,6 +62,15 @@ export default function InspecaoTable() {
     setRisco(value);
     setPage(0); 
   };
+
+  const handleClearSearch = useCallback(() => {
+  
+    if (page === 0) {
+      getEmpresasInspecoes(0, risco);
+    } else {
+      setPage(0);
+    }
+  }, [page, risco, getEmpresasInspecoes]);
 
 
   const rows = data.map((item) => (
@@ -95,7 +105,11 @@ export default function InspecaoTable() {
     <Card withBorder radius="md" p="xl" className={classes.card}>
       <Group className={classes.group} mb="xl" justify="space-between">
         <Group>
-          <SearchableSelect />
+          <SearchableSelectInspecao 
+            dataEmpresa={setData}
+            handleClear={handleClearSearch}
+          />
+          
           <Select
             placeholder="Grau de Risco"
             clearable
