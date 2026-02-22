@@ -37,9 +37,11 @@ export default function AppRoutes() {
               <Route 
                 path="/detalhes/:cnpj"
                 element={
-                  <UpdateEmpresaProvider> 
-                    <DetailsPage/> 
-                  </UpdateEmpresaProvider>
+                  <InspecaoPageProvider>
+                    <UpdateEmpresaProvider> 
+                      <DetailsPage/> 
+                    </UpdateEmpresaProvider>
+                  </InspecaoPageProvider>
                 } 
               />   
               <Route element={<AdminRoute/>}>
