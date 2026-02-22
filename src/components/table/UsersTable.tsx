@@ -10,8 +10,6 @@ import {
   SegmentedControl,
   Stack,
   Title,
-  Center,
-  
   Button,
   LoadingOverlay
 } from '@mantine/core';
