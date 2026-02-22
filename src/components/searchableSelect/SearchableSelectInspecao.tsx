@@ -5,17 +5,20 @@ import { useDebouncedValue } from '@mantine/hooks';
 import apiBackend from '../../services/apiBackend';
 import type IResponseEmpresa from '../../interface/IResponseEmpresa';
 import type IResponseItens from '../../interface/IResponseItens';
+import { useInspecaoPageContext } from '../../hooks/useInspecaoPageContext';
 
 
 
 type SearchableProps ={
-  dataEmpresa:(empresas:IResponseItens[] ) =>void;
+  setDataEmpresa:(empresas:IResponseItens[] ) =>void;
   handleClear: () => void;
 }
-export function SearchableSelectInspecao({dataEmpresa,handleClear}:SearchableProps) { 
-  const [value, setValue] = useState('');
+export function SearchableSelectInspecao({setDataEmpresa,handleClear}:SearchableProps) { 
+  const {value,setValue} = useInspecaoPageContext();
+  // const [value, setValue] = useState('');
   const [debounced] = useDebouncedValue(value, 500);
   const [loading, setLoading] = useState(false);
+ 
   
 
   const fetchEmpresas = async ()=>{
@@ -26,11 +29,10 @@ export function SearchableSelectInspecao({dataEmpresa,handleClear}:SearchablePro
       );
 
       if(response.status === 200){
-      
         const empresasFiltradas = response.data.content.filter(
         (empresa) => empresa.ativo && !empresa.inspecao
         );
-        dataEmpresa(empresasFiltradas);
+        setDataEmpresa(empresasFiltradas);
       }
     } catch (error) {
       console.error('Erro na busca:', error);
@@ -41,11 +43,11 @@ export function SearchableSelectInspecao({dataEmpresa,handleClear}:SearchablePro
 
   useEffect(() =>{
     if(debounced.trim().length === 0){
+      handleClear();
       return;
     }
     
     if(debounced.trim().length < 2){
-    
       return;
     }
     fetchEmpresas();
