@@ -7,47 +7,57 @@ import {
   Table, 
   VisuallyHidden, 
   Select, 
-  Text 
+  Text,
+  LoadingOverlay, 
 } from '@mantine/core';
 import classes from './Table.module.css';
 import { useEffect, useState, useCallback } from 'react';
-import type IResponseEmpresa from '../../interface/IResponseEmpresa';
-import type IResponseItens from '../../interface/IResponseItens';
-import apiBackend from '../../services/apiBackend';
+// import type IResponseEmpresa from '../../interface/IResponseEmpresa';
+// import type IResponseItens from '../../interface/IResponseItens';
+// import apiBackend from '../../services/apiBackend';
 import ModalInspecao from '../modal/ModalInspecao';
 import { getRiscoColor, getTipoRisco, tipoRiscoOptions, type tipoRiscoKey } from '../../constants/tipoRisco';
-import { SearchableSelectInspecao } from '../searchebleSelect/SerachableSelectInspecao';
+import { useInspecaoPageContext } from '../../hooks/useInspecaoPageContext';
+import { SearchableSelectInspecao } from '../searchableSelect/SearchableSelectInspecao';
+
 
 export default function InspecaoTable() {
   const [page, setPage] = useState(0);
-  const [totalPages, setTotalPages] = useState(1);
-  const [data, setData] = useState<IResponseItens[]>([]);
+  // const [totalPages, setTotalPages] = useState(1);
+  // const [data, setData] = useState<IResponseItens[]>([]);
   const [risco, setRisco] = useState<string | null>(null);
-  const [loading, setLoading] = useState(false);
+  // const [loading, setLoading] = useState(false);
+  const { 
+    data, 
+    setData, 
+    totalPages, 
+    loading, 
+    getEmpresasInspecoes 
+  } = useInspecaoPageContext();
 
-  const getEmpresasInspecoes = useCallback(async (pageNumber: number, riscoFilter: string | null) => {
-    setLoading(true);
-    try {
+  // const getEmpresasInspecoes = useCallback(async (pageNumber: number, riscoFilter: string | null) => {
+  //   setLoading(true);
+  //   try {
     
-      let url = `/empresas/pagination/filter?inspecao=false&page=${pageNumber}&size=6&ativo=true`;
+  //     let url = `/empresas/pagination/filter?inspecao=false&page=${pageNumber}&size=6&ativo=true`;
       
-      if (riscoFilter) {
-        url += `&risco=${riscoFilter}`;
-      }
+  //     if (riscoFilter) {
+  //       url += `&risco=${riscoFilter}`;
+  //     }
 
-      const response = await apiBackend.get<IResponseEmpresa>(url);
+  //     const response = await apiBackend.get<IResponseEmpresa>(url);
       
-      if (response.status === 200) {
-        const empresasData = response.data;
-        setData(empresasData.content);
-        setTotalPages(empresasData.totalPages);
-      }
-    } catch (error) {
-      console.error('Erro ao buscar empresas:', error);
-    } finally {
-      setLoading(false);
-    }
-  }, []);
+  //     if (response.status === 200) {
+  //       const empresasData = response.data;
+  //       setData(empresasData.content);
+  //       setTotalPages(empresasData.totalPages);
+  //     }
+  //   } catch (error) {
+  //     console.error('Erro ao buscar empresas:', error);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // }, []);
 
   
   useEffect(() => {
@@ -103,10 +113,16 @@ export default function InspecaoTable() {
 
   return (
     <Card withBorder radius="md" p="xl" className={classes.card}>
+
+      <LoadingOverlay 
+        visible={loading} 
+        overlayProps={{ radius: "sm", blur: 2 }} 
+        loaderProps={{ color: 'blue', type: 'dots' }}
+      />
       <Group className={classes.group} mb="xl" justify="space-between">
         <Group>
           <SearchableSelectInspecao 
-            dataEmpresa={setData}
+            setDataEmpresa={setData}
             handleClear={handleClearSearch}
           />
           

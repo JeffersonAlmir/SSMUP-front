@@ -6,6 +6,7 @@ import type IUsuariosResponse from "../../interface/IUsuariosResponse";
 import { StatusInspecaoOption } from "../../constants/statusInspecao";
 import { notifications } from "@mantine/notifications";
 import { IconCheck, IconX } from "@tabler/icons-react";
+import { useInspecaoPageContext } from "../../hooks/useInspecaoPageContext";
 
 
 export type FormProps = {
@@ -16,7 +17,8 @@ export type FormProps = {
 
 export default function FormInspecao({ close, empresaId, onSuccess }: FormProps) {
   const [funcionarios, setFuncionarios] = useState<IUsuariosResponse[]>([]);
-  const [loading, setLoading] = useState(false);
+  // const [loading, setLoading] = useState(false);
+  const {setValue,setLoading, loading} = useInspecaoPageContext();
 
   const form = useForm({
     initialValues: {
@@ -71,6 +73,7 @@ export default function FormInspecao({ close, empresaId, onSuccess }: FormProps)
           color: 'green',
           icon: <IconCheck size={18} />
         }); 
+        setValue("");
         close();
       }
      
@@ -179,7 +182,15 @@ export default function FormInspecao({ close, empresaId, onSuccess }: FormProps)
           />
 
           <Group justify="flex-end" mt="xl">
-            <Button variant="light" color="red" onClick={close}>
+            <Button 
+              variant="light" 
+              color="red" 
+              onClick={()=>{
+                setLoading(true),
+                setValue(""),
+                close()
+              }}
+            >
               Cancelar
             </Button>
             <Button type="submit" bg="blue.6" loading={loading}>
