@@ -35,10 +35,9 @@ export default function FormInspecao({ close, empresaId, onSuccess }: FormProps)
 
   const getFuncionario = async () => {
     try {
-      const response = await apiBackend.get<IUsuariosResponse[]>('/usuarios');
+      const response = await apiBackend.get<IUsuariosResponse[]>('/usuarios/filter?ativo=true');
       if (response.status === 200) {
-        const ativos = response.data.filter((item) => item.ativo);
-        setFuncionarios(ativos);
+        setFuncionarios(response.data);
       }
     } catch (error) {
       console.error("Erro ao buscar funcionários", error);
