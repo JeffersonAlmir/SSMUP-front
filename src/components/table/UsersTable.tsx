@@ -11,8 +11,9 @@ import {
   Stack,
   Title,
   Center,
-  Loader,
-  Button
+  
+  Button,
+  LoadingOverlay
 } from '@mantine/core';
 import { modals } from '@mantine/modals'; 
 import {  IconCheck, IconPencil, IconTrash, IconUsers, IconX } from '@tabler/icons-react';
@@ -174,9 +175,15 @@ export function UsersTable() {
         </Group>
 
         <Table.ScrollContainer minWidth={800}>
-          {loading ? (
-            <Center h={200}><Loader color="blue" /></Center>
-          ) : (
+          
+            
+              <LoadingOverlay 
+                visible={loading} 
+                overlayProps={{ radius: "sm", blur: 2 }} 
+                loaderProps={{ color: 'blue', type: 'dots' }}
+              />
+            
+          
             <Table verticalSpacing="sm">
               <Table.Thead>
                 <Table.Tr>
@@ -197,7 +204,7 @@ export function UsersTable() {
                 )}
               </Table.Tbody>
             </Table>
-          )}
+  
         </Table.ScrollContainer>
       </Stack>
     </Paper>
