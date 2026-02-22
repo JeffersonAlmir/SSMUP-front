@@ -13,6 +13,7 @@ import MembrosPage from "./src/pages/MembrosPage";
 import MembrosPageProvider from "./src/contexts/MembrosPageContext";
 import Inspecao from "./src/pages/Inspecao";
 import { AdminRoute } from "./src/components/login/AdminRoute";
+import InspecaoPageProvider from "./src/contexts/InspecaoPageContext";
 
 export default function AppRoutes() {
   return (
@@ -25,7 +26,13 @@ export default function AppRoutes() {
               <Route path="/painel" element = {<Painel/>} />
               <Route path="/cadastro" element={<Cadastro/>} />
               <Route path="/lista" element={<ListEmpresas/>} />
-              <Route path="/inspecao" element={<Inspecao/>} />
+              <Route path="/inspecao" 
+                element={
+                  <InspecaoPageProvider>
+                    <Inspecao/>
+                  </InspecaoPageProvider>
+                } 
+              />
               <Route path="/configuracoes" element={<Configuracoes/>} />   
               <Route 
                 path="/detalhes/:cnpj"
