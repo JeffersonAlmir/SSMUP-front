@@ -5,7 +5,7 @@ import type IResponseEmpresa from '../../interface/IResponseEmpresa';
 import type IResponseItens from '../../interface/IResponseItens';
 import { useNavigate } from 'react-router-dom';
 import apiBackend from '../../services/apiBackend';
-import { SearchableSelect } from '../searchebleSelect/SearchebleSelect';
+import { SearchableSelect } from '../searchableSelect/SearchebleSelect';
 import { getRiscoColor, getTipoRisco, type tipoRiscoKey } from '../../constants/tipoRisco';
 
 
