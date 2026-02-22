@@ -1,5 +1,5 @@
 const StatusInspecao = {
-    PEDENTE: "Pendente",
+    PENDENTE: "Pendente",
     APROVADA: "Aprovada",
     REPROVADA: "Reprovada",
 } as const;
