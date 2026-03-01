@@ -21,7 +21,7 @@ export const responsavelSchema = yup.object({
         ),
     rg: yup.string()
         .trim()
-        .length(9, 'O RG deve ter exatamente 9 caracteres') 
+        .length(7, 'O RG deve ter exatamente 7 caracteres') 
         .required('O campo RG é obrigatório'),
 
     escolaridade: yup.string()
