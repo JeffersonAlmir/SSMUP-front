@@ -161,6 +161,17 @@ export default function FormEmpresaWizard() {
     }
   };
 
+  const handleClear = () =>{
+    localStorage.removeItem("empresa");
+    localStorage.removeItem("endereco");
+    localStorage.removeItem("responsavel");
+
+    formEmpresa.reset();
+    formEndereco.reset();
+    formResponsavel.reset();
+
+    setActive(0);
+  }
   // const dataEmpresa = () => {
 
   //   const dateFormated = dayjs(formEmpresa.getValues().dataInicioFuncionamento).format('DD/MM/YYYY');
@@ -217,6 +228,14 @@ export default function FormEmpresaWizard() {
         </Stepper>
         {active < 3 && (
           <Group justify="flex-end" mt="xl">
+              {empresaStorage && 
+              <Button 
+                variant="light"
+                color="red"  
+                onClick={handleClear} 
+              >
+                Limpar
+              </Button>}
               <Button variant="default" onClick={handlePrevStep} disabled={active === 0}>
                   Voltar
               </Button>
