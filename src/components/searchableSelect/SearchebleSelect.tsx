@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Combobox, useCombobox, Loader, Group, Text, InputBase, Stack } from '@mantine/core';
 import { IconBuildingStore, IconSearch } from '@tabler/icons-react';
 import { useDebouncedValue } from '@mantine/hooks';
-import apiBackend from '../../services/apiBackend';
+import apiBackend from '../../config/apiBackend';
 import type IResponseEmpresa from '../../interface/IResponseEmpresa';
 import type IResponseItens from '../../interface/IResponseItens';
 import { useNavigate } from 'react-router-dom';

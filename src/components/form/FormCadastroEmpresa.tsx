@@ -18,7 +18,7 @@ import FormResponsavel from "./FormulaResponsavel";
 import type IEndereco from "../../interface/IEndereco";
 import type IResponsavel from "../../interface/IResponsavel";
 import type IEmpresa from "../../interface/IEmpresa";
-import apiBackend from "../../services/apiBackend";
+import apiBackend from "../../config/apiBackend";
 import type ICreateEmpresa from "../../interface/ICreateEmpresa";
 import DetailsCreateEmpresa from "../details/DetailsCreateEmpresa";
 import { IconCheck, IconX } from "@tabler/icons-react";

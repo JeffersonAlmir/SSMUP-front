@@ -1,4 +1,4 @@
-import apiBackend from "../apiBackend"
+import apiBackend from "../../config/apiBackend"
 
 export  const getEmpresasStatusData = async () =>{
     const[empresaAtivas,empresaInativas] = await Promise.all([

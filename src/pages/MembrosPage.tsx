@@ -3,7 +3,7 @@ import { UsersTable } from "../components/table/UsersTable";
 import FormCadastroFuncionario from "../components/form/FormCadastroFuncionario";
 import { IconCheck, IconFileText, IconUser, IconX } from "@tabler/icons-react";
 import { useState } from "react";
-import apiBackend from "../services/apiBackend";
+import apiBackend from "../config/apiBackend";
 import type IUsuarioCreate from "../interface/IUsuarioCreate";
 import { Role } from "../constants/roles";
 import { notifications } from "@mantine/notifications";

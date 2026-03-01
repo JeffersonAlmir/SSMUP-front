@@ -19,7 +19,7 @@ import { notifications } from '@mantine/notifications';
 import { useMembrosPageContext } from '../../hooks/useMembrosPageContext';
 import FormCadastroFuncionario from '../form/FormCadastroFuncionario';
 import type IUsuariosResponse from '../../interface/IUsuariosResponse';
-import apiBackend from '../../services/apiBackend';
+import apiBackend from '../../config/apiBackend';
 
 const jobColors: Record<string, string> = {
   coordenador: 'cyan',

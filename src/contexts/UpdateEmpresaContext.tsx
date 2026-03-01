@@ -1,7 +1,7 @@
 import { createContext, useCallback, useEffect, useState } from "react";
 import type IResponseItens from "../interface/IResponseItens";
 import { useLocation } from "react-router-dom";
-import apiBackend from "../services/apiBackend";
+import apiBackend from "../config/apiBackend";
 import { notifications } from "@mantine/notifications";
 import { IconCheck, IconX } from "@tabler/icons-react";
 

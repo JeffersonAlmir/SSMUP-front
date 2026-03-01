@@ -1,6 +1,6 @@
 import { createContext, useEffect, useState } from "react";
 import type IUsuariosResponse from "../interface/IUsuariosResponse";
-import apiBackend from "../services/apiBackend";
+import apiBackend from "../config/apiBackend";
 import { notifications } from "@mantine/notifications";
 import { IconCheck, IconX } from "@tabler/icons-react";
 

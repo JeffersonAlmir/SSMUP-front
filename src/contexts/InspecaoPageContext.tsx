@@ -1,5 +1,5 @@
 import { createContext, useCallback, useState, type Dispatch, type ReactNode, type SetStateAction } from "react"
-import apiBackend from "../services/apiBackend";
+import apiBackend from "../config/apiBackend";
 import type IResponseEmpresa from "../interface/IResponseEmpresa";
 import type IResponseItens from "../interface/IResponseItens";
 

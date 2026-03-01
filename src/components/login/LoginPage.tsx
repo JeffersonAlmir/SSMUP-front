@@ -21,7 +21,7 @@ import {
 import {useState} from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
-import apiBackend from '../../services/apiBackend';
+import apiBackend from '../../config/apiBackend';
 import type IAuthResponse from '../../interface/IAuthResponse'
 import { notifications } from '@mantine/notifications';
 import { GoogleLogin } from '@react-oauth/google';

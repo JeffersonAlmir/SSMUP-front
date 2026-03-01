@@ -22,7 +22,7 @@ import { getCepInfo } from '../../services/cepService';
 import { escolaridadeOptions } from '../../constants/escolaridade';
 import { empresaUpdateSchema } from '../../validations/empresaUpdateSchema';
 import { useUpdateEmpresaContext } from '../../hooks/useUpdateEmpresaContext';
-import apiBackend from '../../services/apiBackend';
+import apiBackend from '../../config/apiBackend';
 
 
 

@@ -1,7 +1,7 @@
 import { Button, Checkbox, Group, MultiSelect, Paper, Stack, Textarea, Select, SimpleGrid, Divider, Text } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { useEffect, useState } from "react";
-import apiBackend from "../../services/apiBackend";
+import apiBackend from "../../config/apiBackend";
 import type IUsuariosResponse from "../../interface/IUsuariosResponse";
 import { StatusInspecaoOption } from "../../constants/statusInspecao";
 import { notifications } from "@mantine/notifications";
