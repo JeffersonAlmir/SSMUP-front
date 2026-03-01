@@ -17,12 +17,12 @@ import {
 import { IMaskInput } from 'react-imask';
 import { IconCheck, IconChevronDown, IconX } from '@tabler/icons-react';
 import { useState, type FocusEvent } from 'react';
-import dayjs from 'dayjs';
 import { getCepInfo } from '../../services/cepService';
 import { escolaridadeOptions } from '../../constants/escolaridade';
 import { empresaUpdateSchema } from '../../validations/empresaUpdateSchema';
 import { useUpdateEmpresaContext } from '../../hooks/useUpdateEmpresaContext';
 import apiBackend from '../../config/apiBackend';
+import dayjs from '../../config/dayjsConfig'
 
 
 
@@ -36,12 +36,23 @@ export default function FormEditEmpresa({ close}:FormProps) {
   const {dataEmpresa, setDataEmpresa} = useUpdateEmpresaContext();
   
   
-
   const form = useForm({
-    mode: 'controlled',
     initialValues: {
       ...dataEmpresa,
-      cnaeCodigo: dataEmpresa?.cnae?.codigo
+      dataInicioFuncionamento: dayjs(dataEmpresa.dataInicioFuncionamento, 'DD/MM/YYYY').toDate() 
+        ? dayjs(dataEmpresa.dataInicioFuncionamento, 'DD/MM/YYYY').toDate() 
+        : null,
+      cnaeCodigo: dataEmpresa?.cnae?.codigo,
+      responsavel: {
+        nome: dataEmpresa.responsavel.nome,
+        cpf: dataEmpresa.responsavel.cpf,
+        rg: dataEmpresa.responsavel.rg,
+        escolaridade: dataEmpresa.responsavel.escolaridade,
+        formacao: dataEmpresa.responsavel.formacao || '',
+        especialidade: dataEmpresa.responsavel.especialidade || '',
+        registroConselho: dataEmpresa.responsavel.registroConselho || '',
+      },
+      
     },
     validate: yupResolver(empresaUpdateSchema),
   });
@@ -129,6 +140,7 @@ export default function FormEditEmpresa({ close}:FormProps) {
             risco: values.cnae.risco,
           },
           ativo,
+          inspecao:dataEmpresa.inspecao,
           endereco: values.endereco,
           responsavel: values.responsavel
         });
