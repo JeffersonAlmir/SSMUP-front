@@ -28,23 +28,33 @@ export default function FormEmpresaWizard() {
   const [active, setActive] = useState<number>(0);
   const [loading, setLoading] = useState(false);
 
+  const empresaStorage = localStorage.getItem("empresa");
   const formEmpresa = useForm<IEmpresa>({
-    initialValues: {
-      razaoSocial: '',
-      nomeFantasia: '',
-      cnpj: '',
-      inscricaoEstadual: '',
-      atividadeFirma: '',
-      subAtividade: '',
-      dataInicioFuncionamento:undefined as unknown as Date,
-      email:'',
-      cnaeCodigo:''
-    },
+    initialValues: empresaStorage
+    ?
+    {
+      ...JSON.parse(empresaStorage)
+    }:{
+    razaoSocial: '',
+    nomeFantasia: '',
+    cnpj: '',
+    inscricaoEstadual: '',
+    atividadeFirma: '',
+    subAtividade: '',
+    dataInicioFuncionamento:undefined as unknown as Date,
+    email:'',
+    cnaeCodigo:''
+  },
     validate: yupResolver(empresaSchema),
   });
 
+  const enderecoStorage = localStorage.getItem("endereco")
   const formEndereco = useForm<IEndereco>({
-    initialValues: {
+    initialValues: enderecoStorage
+    ?
+    {
+      ...JSON.parse(enderecoStorage)
+    }:{
       rua: '',
       numero: '',
       bairro: '',
@@ -55,9 +65,12 @@ export default function FormEmpresaWizard() {
     },
     validate: yupResolver(enderecoSchema),
   });
-
+  const responsavelStorage = localStorage.getItem("responsavel")
   const formResponsavel = useForm<IResponsavel>({ 
-    initialValues: {
+    initialValues: responsavelStorage
+    ?{
+      ...JSON.parse(responsavelStorage)
+    }: {
       nome: '',
       cpf: '',
       rg: '',
@@ -76,16 +89,19 @@ export default function FormEmpresaWizard() {
       const validation = formEmpresa.validate();
       if (validation.hasErrors) return; 
       setActive(1);
+      localStorage.setItem("empresa",JSON.stringify(formEmpresa.values));
     }
     else if (active === 1) {
       const validation = formEndereco.validate();
       if (validation.hasErrors) return;
       setActive(2);
+      localStorage.setItem("endereco",JSON.stringify(formEndereco.values));
     }
     else if (active === 2) {
       const validation = formResponsavel.validate();
       if (validation.hasErrors) return;
       setActive(3); 
+      localStorage.setItem("responsavel",JSON.stringify(formResponsavel.values));
     }
   };
   
@@ -111,6 +127,11 @@ export default function FormEmpresaWizard() {
       const response = await apiBackend.post('/empresas',newEmpresa)
       
       if(response.status == 201){
+
+        localStorage.removeItem("empresa");
+        localStorage.removeItem("endereco");
+        localStorage.removeItem("responsavel");
+
         formEmpresa.reset();
         formEndereco.reset();
         formResponsavel.reset();
