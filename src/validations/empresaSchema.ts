@@ -1,5 +1,5 @@
 import * as yup from 'yup';
-import { checkValidCnpj } from '../services/checkValidCnpj';
+import { checkValidCnpj } from '../utils/checkValidCnpj';
 
 
 export const empresaSchema = yup.object({

@@ -1,5 +1,5 @@
 import * as yup from 'yup';
-import { checkValidCpf } from '../services/checkValidCpf';
+import { checkValidCpf } from '../utils/checkValidCpf';
 
 export const responsavelSchema = yup.object({
     nome: yup.string()
