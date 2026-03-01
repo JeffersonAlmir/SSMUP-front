@@ -1,4 +1,4 @@
-import { createContext, useCallback, useEffect, useState } from "react";
+import { createContext, useCallback, useEffect, useState, type ReactNode } from "react";
 import type IResponseItens from "../interface/IResponseItens";
 import { useLocation } from "react-router-dom";
 import apiBackend from "../config/apiBackend";
@@ -16,13 +16,13 @@ type UpdateContextProps = {
     refreshData: () => Promise<void>;
 }
 
-export const UpdateEmpresaContext = createContext<UpdateContextProps>(
-    {} as UpdateContextProps
-)
+export const UpdateEmpresaContext = createContext<UpdateContextProps| undefined>(undefined)
+    
+
   
-export type ChildrenProps = {
-  children: React.ReactNode;
-};
+type ChildrenProps = {
+    children:ReactNode
+}
 
 export default function UpdateEmpresaProvider({ children }: ChildrenProps){
     const location = useLocation();
