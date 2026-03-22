@@ -7,5 +7,6 @@ export default interface IUsuariosResponse{
     cargo: string;
     matricula: string;
     role: Role;
-    ativo?: boolean;  
+    ativo?: boolean;
+    emailVerificado?: boolean;
 }

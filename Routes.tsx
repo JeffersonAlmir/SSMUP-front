@@ -14,6 +14,7 @@ import MembrosPageProvider from "./src/contexts/MembrosPageContext";
 import Inspecao from "./src/pages/Inspecao";
 import { AdminRoute } from "./src/components/login/AdminRoute";
 import InspecaoPageProvider from "./src/contexts/InspecaoPageContext";
+import AtivarContaPage from "./src/components/ativacaoConta/AtivarContaPage";
 
 export default function AppRoutes() {
   return (
@@ -58,6 +59,7 @@ export default function AppRoutes() {
           </Route>
         </Route>
         <Route path="/login" element={<Login/>} />
+        <Route path="/ativar-conta" element={<AtivarContaPage/>} />
       </Routes>
     </BrowserRouter>
   );

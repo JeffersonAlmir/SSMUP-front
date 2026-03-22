@@ -11,10 +11,11 @@ import {
   Stack,
   Title,
   Button,
-  LoadingOverlay
+  LoadingOverlay,
+  Tooltip
 } from '@mantine/core';
 import { modals } from '@mantine/modals'; 
-import {  IconCheck, IconPencil, IconTrash, IconUsers, IconX } from '@tabler/icons-react';
+import {  IconCheck, IconMailForward, IconPencil, IconTrash, IconUsers, IconX } from '@tabler/icons-react';
 import { notifications } from '@mantine/notifications';
 import { useMembrosPageContext } from '../../hooks/useMembrosPageContext';
 import FormCadastroFuncionario from '../form/FormCadastroFuncionario';
@@ -94,6 +95,23 @@ export function UsersTable() {
       onConfirm: () => handleInativar(id), 
     });
 
+  const reenviarAtivacao = async (userId: number) => {
+    try {
+      await apiBackend.post(`/usuarios/${userId}/reenviar-ativacao`);
+      notifications.show({
+        title: 'E-mail reenviado!',
+        message: 'O e-mail de ativação foi reenviado com sucesso.',
+        color: 'green',
+      });
+    } catch (error: any) {
+      notifications.show({
+        title: 'Erro',
+        message: error?.response?.data?.message || 'Não foi possível reenviar o e-mail.',
+        color: 'red',
+      });
+    }
+  };
+
   const rows = usuariosData.map((item) => (
     <Table.Tr key={item.matricula}>
       <Table.Td>
@@ -117,6 +135,7 @@ export function UsersTable() {
       <Table.Td>
         <Group gap={0} justify="flex-end">
           
+          
           {filtroStatus === 'true'? (
             <>
               <ActionIcon 
@@ -138,6 +157,13 @@ export function UsersTable() {
             </>
           ):
           (
+            !item.emailVerificado ? (
+              <Tooltip label="Reenviar e-mail de ativação">
+                <ActionIcon variant="light" color="blue" onClick={() => reenviarAtivacao(Number(item.id))}>
+                  <IconMailForward size={18} />
+                </ActionIcon>
+              </Tooltip>
+            ):
             <Button
               color="blue" 
               variant="filled"
@@ -146,7 +172,11 @@ export function UsersTable() {
             >
               Reativar
             </Button>
+            
           )}
+
+          
+          
         </Group>
       </Table.Td>
     </Table.Tr>
